@@ -13,9 +13,11 @@ class Ticket {
 	
 	MenuItem[] getFoodOrders(){
 		
+		return foodItems;
 	}
 	
 	MenuItem[] getDrinkOrders(){
 		
+		return drinkItems;
 	}
 }

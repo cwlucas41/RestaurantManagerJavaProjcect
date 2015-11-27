@@ -1,23 +1,27 @@
 package com.chriswlucas.restaurant;
 
+import java.util.List;
+
 class Ticket {
-	MenuItem[] foodItems;
-	int[] customerFood;
-	MenuItem[] drinkItems;
-	int[] customerDrinks;
-	// parallel lists might be good way to save ticket and corresponding cutomer
 	
-	Ticket(){
-		
+	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, int UUID){
+		this.food = foodItems;
+		this.drink = drinkItems;
+		this.tNum = ticketNum;
+		this.tUUID = UUID;
 	}
 	
-	MenuItem[] getFoodOrders(){
+	List<Order> getFoodOrders(){
 		
-		return foodItems;
+		return food;
 	}
 	
-	MenuItem[] getDrinkOrders(){
+	List<Order> getDrinkOrders(){
 		
-		return drinkItems;
+		return drink;
 	}
+	
+	private List<Order>food;
+	private List<Order>drink;
+	private int tNum, tUUID;
 }

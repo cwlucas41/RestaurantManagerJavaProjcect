@@ -1,15 +1,16 @@
 package com.chriswlucas.restaurant;
 
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 class PartyManager {
-	Worker waiter;
-	MenuItem[] tempDrinks;
-	MenuItem[] tempFood;
-	Ticket[] orders;
-	String[]custNames;
-	PartyManager(){
-		
+	//Ticket[] orders;
+
+	PartyManager(Worker waiter){
+		this.workName=waiter.getName();
+		this.UUID = waiter.getUUID();
+		jobs = new JobManager(waiter);
 	}
 	
 	void getNames(){
@@ -30,18 +31,59 @@ class PartyManager {
 	void addItem(MenuItem item, int customer){
 		// from temp
 		if (item.isFood()){
-			
+			tempFood.add(new Order(item,customer));
+		}
+		else{
+			tempDrinks.add(new Order(item,customer));
 		}
 	}
 	
 	void removeItem(MenuItem item, int customer){
-		// from temp
+		if(item.isFood){
+			ListIterator<Order> iterator = tempFood.listIterator();
+			while (iterator.hasNext()){
+				Order current = iterator.next();
+				if((item==current.getItem())&&(customer==current.getCust())){
+					tempFood.remove(iterator.next());
+				}
+			}
+		}
+		else{
+			ListIterator<Order> iterator = tempDrinks.listIterator();
+			while (iterator.hasNext()){
+				Order current = iterator.next();
+				if((item==current.getItem())&&(customer==current.getCust())){
+					tempDrinks.remove(iterator.next());
+				}
+			}
+		}		
+	}
+	
+	void emptyTemp(){
+		tempFood.removeAll(null);
+		tempDrinks.removeAll(null);
 	}
 	
 	void makeTicket() {
 		// empty temps, create, and store ticket
+		Ticket temp = new Ticket(tempFood, tempDrinks, Restaurant.getTicket(), UUID);
+		tickets.add(temp);
+		jobs.assignProducingJob(temp);
+		emptyTemp();
 	}
+	
+	void takeOrder(){
+		
+	}
+	
 
+	String[]custNames;
+	JobManager jobs;
+	List<Order> tempDrinks;
+	List<Order> tempFood;
+	List<Ticket> tickets;
+	String workName;
+	int UUID;
 	public int count = 0;
 }
 

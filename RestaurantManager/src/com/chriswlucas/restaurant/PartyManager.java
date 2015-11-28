@@ -75,10 +75,15 @@ class PartyManager {
 	void takeOrder(){
 		
 	}
+    
+    void pay(){
+        payments = new PaymentManager(waiter);
+    }
 	
 
 	String[]custNames;
 	JobManager jobs;
+    PaymentManager payments;
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;

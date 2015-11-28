@@ -83,7 +83,7 @@ class PartyManager {
 
 	String[]custNames;
 	JobManager jobs;
-    PaymentManager payments;
+        PaymentManager payments;
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;

@@ -1,7 +1,12 @@
 package com.chriswlucas.restaurant;
 
 class Table {
-
+	
+	Table(int size, int number) {
+		this.size = size;
+		this.number = number;
+	}
+	
 	int getTableNum(){
 		return tableNum;
 	}
@@ -15,5 +20,7 @@ class Table {
     }
 	
 	int tableNum;
+	int size;
+	int number;
     public boolean isOccupied = false; //set to true if table becomes occupied
 }

@@ -1,6 +1,12 @@
 package com.chriswlucas.restaurant;
 
 class Receipt {
-    String
+    
+    Receipt(){
+        
+        
+    }
+    
+    public int Total;
 
 }

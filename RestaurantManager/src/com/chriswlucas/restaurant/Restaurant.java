@@ -21,30 +21,31 @@ class Restaurant {
 	private int ticket = 0;
 	
 	
-	List<MenuItem> getMenuItems(){
+	public List<MenuItem> getMenuItems(){
 		return menu.getMenu();
 	}
-	void assignJobToWaiter(PartyManager partyManager, Job job){
+	
+	public Worker getWaiter(PartyManager partyManager){
 		
 	}
 	
-	void assignJobToKitchen(PartyManager partyManager, Job job){
+	public Worker getKitchen(PartyManager partyManager){
 	
 	}
 	
-	void assignJobToBar(PartyManager partyManager, Job job){
+	public Worker getBar(PartyManager partyManager){
 		
 	}
 	
-	void assignJobToBusser(PartyManager partyManager, Job job){
+	public Worker getBusser(PartyManager partyManager){
 		
 	}
 	
-	void collectTickets(List<Ticket>tickets){
+	public void collectTickets(List<Ticket>tickets){
 		
 	}
 	
-	List<Table> getTables(PartyManager partyManager){
+	public List<Table> getTables(PartyManager partyManager){
 		return;
 	}
 	

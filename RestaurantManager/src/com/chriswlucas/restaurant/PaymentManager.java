@@ -2,6 +2,9 @@ package com.chriswlucas.restaurant;
 
 import java.util.Scanner;
 import java.util.List;
+import java.io.InputStream;
+import java.awt.FlowLayout;
+import javax.swing.JFrame;
 
 class PaymentManager {
     
@@ -12,14 +15,21 @@ class PaymentManager {
     
     
     void checkout(int split){
-        for (int = 0; i<split; i++)
-            String output = "Enter customers for first ticket separated by a space:";
-            System.out.print(output);
-            Scanner in = new Scanner(System.in);
-            String input = sc.nextLine()
-            checkNames[] = input.split(" ");
-            this.createReceipt(i, checkNames);
-            in.close();
+    	this.split = split;
+        Object Scanner;
+		for (int i = 0; i<split; i++){
+			Scanner scanner = new Scanner(System.in);
+            System.out.println("How many people in party" + i + "?:");
+            numPeople = scanner.nextInt();
+    		checkNames = new String[numPeople];
+		
+    		for (int i = 0; i<numPeople; i++){
+    			System.out.println("Enter the next name:");
+    			checkNames[i]=scanner.next();
+    		}
+    			
+            this.createReceipt(int i, this.checkNames);
+            scanner.close();
         
                           
         
@@ -27,13 +37,17 @@ class PaymentManager {
     }
     
     
-    void createReceipt(int i, list checkNames){
+    void createReceipt(int i, List<checkNames>checkNames){
         Receipt receipt = new Receipt();
         partyManager.jobManager.assignCollectingJob();
         
     }
     
     private PartyManager partyManager;
+    public String[]checkNames;
+    private int split;
+    private int numPeople;
+    
                    
     
                    

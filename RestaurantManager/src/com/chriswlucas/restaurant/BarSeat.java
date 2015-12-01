@@ -6,15 +6,15 @@ class BarSeat extends Table {
 		super(size, number);
 	}
     int getTableNum(){
-        return tableNum;
+        return super.tableNum;
     }
     
     Boolean isOccupied(){
-        return isOccupied;
+        return super.isOccupied;
     }
     
     public void toggle() {
-        this.isOccupied = !this.isOccupied;
+        super.isOccupied = !super.isOccupied;
     }
     
     int tableNum;

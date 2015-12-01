@@ -5,9 +5,8 @@ import java.util.List;
 
 class PaymentManager {
     
-    PaymentManager(Worker waiter){
-        this.workName = waiter.getName();
-        this.UUID = waiter.getUUID();
+    PaymentManager(PartyManager partyManager){
+        this.partyManager = partyManager;
         
     }
     
@@ -27,15 +26,14 @@ class PaymentManager {
             
     }
     
-    void alertJobManager(){
-        
-    }
     
     void createReceipt(int i, list checkNames){
         Receipt receipt = new Receipt();
-        JobManager.assignCollectingJob(this.UUID);
+        partyManager.jobManager.assignCollectingJob();
         
     }
+    
+    private PartyManager partyManager;
                    
     
                    

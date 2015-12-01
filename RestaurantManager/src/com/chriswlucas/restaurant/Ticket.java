@@ -5,19 +5,14 @@ import java.util.UUID;
 
 class Ticket {
 	
-	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, UUID ID){
+	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum){
 		this.food = foodItems;
 		this.drink = drinkItems;
 		this.tNum = ticketNum;
-		this.id = ID;
 	}
 	
 	int getTickNum(){
 		return this.tNum;
-	}
-	
-	UUID getID(){
-		return this.id;
 	}
 	
 	List<Order> getFoodOrders(){
@@ -39,5 +34,4 @@ class Ticket {
 	private List<Order>food;
 	private List<Order>drink;
 	private int tNum;
-	private UUID id;
 }

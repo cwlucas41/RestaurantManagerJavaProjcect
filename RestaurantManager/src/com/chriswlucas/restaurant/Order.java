@@ -9,6 +9,7 @@ class Order{
 	MenuItem getItem(){
 		return it;
 	}
+	
 	int getCust(){
 		return cust;
 	}
@@ -16,6 +17,7 @@ class Order{
 	public String toString(){
 		return it.getItemName();
 	}
+	
 	private MenuItem it;
 	private int cust;
 }

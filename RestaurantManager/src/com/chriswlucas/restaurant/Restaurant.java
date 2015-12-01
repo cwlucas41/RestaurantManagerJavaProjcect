@@ -8,35 +8,54 @@ class Restaurant {
 
 	private List<Table> tableList = new ArrayList<Table>();
 	
-	public List<PartyManager> partyManagerList = new ArrayList<PartyManager>();
+	private List<PartyManager> partyManagerList = new ArrayList<PartyManager>();
 	
-	public Menu menu;
+	private Menu menu;
 	
-	public Manager manager;
-	public Host host;
-	public List<Worker> waiterList;
-	public List<Worker> busserList;
-	public Worker kitchen;
-	public Worker bar;
-	public int ticket = 0;
+	private Manager manager;
+	private Host host;
+	private List<Worker> waiterList;
+	private List<Worker> busserList;
+	private Worker kitchen;
+	private Worker bar;
+	private int ticket = 0;
 	
 	
-	static Worker getKitchen(){
-		return kitchen;
-	};
+	List<MenuItem> getMenuItems(){
+		return menu.getMenu();
+	}
+	void assignJobToWaiter(PartyManager partyManager, Job job){
+		
+	}
 	
-	Worker getBar() {
-		return bar;
-	};
+	void assignJobToKitchen(PartyManager partyManager, Job job){
 	
-	int getTicket () {
+	}
+	
+	void assignJobToBar(PartyManager partyManager, Job job){
+		
+	}
+	
+	void assignJobToBusser(PartyManager partyManager, Job job){
+		
+	}
+	
+	void collectTickets(List<Ticket>tickets){
+		
+	}
+	
+	List<Table> getTables(PartyManager partyManager){
+		return;
+	}
+	
+	int getTicket () {       
 		ticket++;
 		return ticket;
 	}; //has to return a ticket number
 	// are you sure, does Restaurant need to know about tickets?
 	
 	List<Table> findTables(int partySize) {
-		
+		return;
 	}
 	
 	void freeTables(List<Table> emptyTables) {

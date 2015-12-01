@@ -1,5 +1,11 @@
 package com.chriswlucas.restaurant;
 
-class Menu {
+import java.util.List;
 
+class Menu {
+	
+	List<MenuItem> getMenu(){
+		return items;
+	}
+	List<MenuItem> items;
 }

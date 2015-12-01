@@ -1,6 +1,7 @@
 package com.chriswlucas.restaurant;
 
 import java.awt.FlowLayout;
+import java.io.InputStream;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -14,11 +15,9 @@ class PartyManager {
 	 * Handles everything needed to run a party, from start to finish
 	 * @param waiter
 	 */
-	PartyManager(Worker waiter){
-		this.wait = waiter;
-		this.workName=waiter.getName();
-		this.id = waiter.getUUID();
-		jobs = new JobManager(waiter);
+	PartyManager(Restaurant restaurant){
+		this.restaurant = restaurant;
+		jobs = new JobManager(this);
 	}
 	
 	/**
@@ -27,7 +26,7 @@ class PartyManager {
 	void getNames(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
-		int numPeople = scanner.nextInt();
+		numPeople = scanner.nextInt();
 		custNames = new String[numPeople];
 		
 		for (int i = 0; i<numPeople; i++){
@@ -93,20 +92,42 @@ class PartyManager {
 	 */
 	void makeTicket() {
 		// empty temps, create, and store ticket
-		Ticket temp = new Ticket(tempFood, tempDrinks, Restaurant.getTicket(), id);
+		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicket());
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
 	}
-	
+	int getIntegerFromUser(){
+		return 0;
+	}
 	/**
 	 * Takes an order from the customers.
 	 */
 	void takeOrder(){
-		JFrame frame = new JFrame();
-		final int FIELD_WIDTH = 20;
-		frame.setLayout(new FlowLayout());
-		//Need a string of all the menu item names.
+		addingItems = true;
+		List<MenuItem> menu = restaurant.getMenuItems();
+		ListIterator<MenuItem> iterator = menu.listIterator();
+		
+		int i = 0;
+		while(addingItems){
+			while(iterator.hasNext()){
+				String temp = i + iterator.next().toString();
+				System.out.println(temp);
+				i++;
+			}
+			System.out.println();
+			System.out.println("Choose the number of the item you want (-1 to finish):");
+			int orderVal = getIntegerFromUser();
+			
+			System.out.println();
+			for(i = 0; i<//size ; i++){
+		
+			}
+			if((orderVal==-1)||(customerNumber == -1)){
+				addingItems = false;
+			}
+		}
+		
 	}
     
 	/**
@@ -114,9 +135,13 @@ class PartyManager {
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
     void pay(){
-        payments = new PaymentManager(this.wait);
+        payments = new PaymentManager(this);
+        restaurant.collectTickets(tickets);
     }
 	
+    List<Ticket>getTickets(){
+    	return tickets;
+    }
 
 	String[]custNames;
 	JobManager jobs;
@@ -124,9 +149,9 @@ class PartyManager {
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;
-	String workName;
-	UUID id;
-	Worker wait;
+	boolean addingItems;
+	Restaurant restaurant;
+	private int numPeople;
 }
 
 

@@ -8,15 +8,21 @@ class Job{
 	//String message;
 	// save time of creation
 	// save type of job
-	public Job(List<Object>inItems, int aType){
-		this.items=inItems;
+	public Job(List<Object>inItems, int aType, JobManager jobManager){
+		this.jobManager = jobManager;
+		this.items= (List<Object>)inItems;
 		this.type=aType;
 		this.current=new Time(0);
 	}
 	
 	void markAsDone(){
 		// depends on type of job
-		isDone=true;
+		switch (type) {
+		case 1: jobManager.assignServingJob(items); break; //Is a producing job becomes a serving job.
+		case 3: jobManager.assignBussingJob(items); break; //Is a collecting job becomes a bussing job.
+		default: break;
+		}
+		
 	}
 	private String getHeader(){
 		switch (type) {
@@ -40,9 +46,9 @@ class Job{
 	Time getCurrent(){
 		return current;
 	}
-		
-	boolean isDone;
-	Time current;
-	int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
-	List<Object>items;
+	
+	private JobManager jobManager;
+	private Time current;
+	private int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
+	private List<Object>items;
 }

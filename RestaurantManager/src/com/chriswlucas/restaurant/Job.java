@@ -3,7 +3,7 @@ package com.chriswlucas.restaurant;
 import java.sql.Time;
 import java.util.List;
 
-class Job {
+class Job implements Comparable<Job>{
 	//String message;
 	// save time of creation
 	// save type of job
@@ -40,4 +40,8 @@ class Job {
 	String type;
 	boolean isDone=false;
 	boolean isSub = false;
+
+	public Time getCurrent() {
+		return current;
+	}
 }

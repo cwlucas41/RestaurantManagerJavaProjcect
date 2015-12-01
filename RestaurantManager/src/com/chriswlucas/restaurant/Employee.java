@@ -1,18 +1,24 @@
 package com.chriswlucas.restaurant;
 
-abstract class Employee implements Employable {
+import java.util.UUID;
+
+abstract class Employee implements Nameable, Identifiable {
 	
-	String name = "";
-	int uuid = 0;
+	private String name = "";
+	private UUID id = UUID.randomUUID();
+	
+	public Employee(String name) {
+		this.name = name;
+	}
 	
 	public String getName(){
-		return "";
+		return name;
 	}
-	public void setName(){
-		
+	public void setName(String name){
+		this.name = name;
 	}
 	
-	public int getUUID(){
-		return 0;
+	public UUID getUUID(){
+		return id;
 	}
 }

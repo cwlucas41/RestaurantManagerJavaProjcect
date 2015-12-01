@@ -1,9 +1,41 @@
 package com.chriswlucas.restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Restaurant {
 
+
+	private List<Table> tableList = new ArrayList<Table>();
 	
-	static Worker getKitchen(){return;}; //needs to return the kitchen
-	static Worker getBar() {return;}; //needs to return the bar.
-	static int getTicket () {return;}; //has to return a ticket number
+	public List<PartyManager> partyManagerList = new ArrayList<PartyManager>();
+	
+	public Menu menu;
+	
+	public Manager manager;
+	public Host host;
+	public List<Worker> waiterList;
+	public List<Worker> busserList;
+	public Worker kitchen;
+	public Worker bar;
+	
+	
+	static Worker getKitchen(){
+		return kitchen;
+	};
+	
+	Worker getBar() {
+		return bar;
+	};
+	
+	int getTicket () {return;}; //has to return a ticket number
+	// are you sure, does Restaurant need to know about tickets?
+	
+	List<Table> findTables(int partySize) {
+		
+	}
+	
+	void freeTables(List<Table> emptyTables) {
+		
+	}
 }

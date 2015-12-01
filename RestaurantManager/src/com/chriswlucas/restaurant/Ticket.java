@@ -1,27 +1,35 @@
 package com.chriswlucas.restaurant;
 
 import java.util.List;
+import java.util.UUID;
 
 class Ticket {
 	
-	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, int UUID){
+	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, UUID ID){
 		this.food = foodItems;
 		this.drink = drinkItems;
 		this.tNum = ticketNum;
-		this.tUUID = UUID;
+		this.id = ID;
+	}
+	
+	int getTickNum(){
+		return this.tNum;
+	}
+	
+	UUID getID(){
+		return this.id;
 	}
 	
 	List<Order> getFoodOrders(){
-		
 		return food;
 	}
 	
-	List<Order> getDrinkOrders(){
-		
+	List<Order> getDrinkOrders(){	
 		return drink;
 	}
 	
 	private List<Order>food;
 	private List<Order>drink;
-	private int tNum, tUUID;
+	private int tNum;
+	private UUID id;
 }

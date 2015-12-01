@@ -20,11 +20,12 @@ class JobManager {
 		
 		if(!tempDrinks.isEmpty()){
 			drinkSize = tempDrinks.size();
-			Worker cook = Restaurant.getKitchen();
+			Worker bar = Restaurant.getBar();
 			//find cook, bar, create temp employee and add the work to their queue.
 		}
 		if(!tempFood.isEmpty()){
 			foodSize = tempFood.size();
+			Worker cook = Restaurant.getKitchen();
 		}
 	}
 	

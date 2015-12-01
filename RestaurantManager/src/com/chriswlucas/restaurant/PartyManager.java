@@ -3,13 +3,14 @@ package com.chriswlucas.restaurant;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
+import java.util.UUID;
 
 class PartyManager {
 	//Ticket[] orders;
 
 	PartyManager(Worker waiter){
 		this.workName=waiter.getName();
-		this.UUID = waiter.getUUID();
+		this.id = waiter.getUUID();
 		jobs = new JobManager(waiter);
 	}
 	
@@ -66,7 +67,7 @@ class PartyManager {
 	
 	void makeTicket() {
 		// empty temps, create, and store ticket
-		Ticket temp = new Ticket(tempFood, tempDrinks, Restaurant.getTicket(), UUID);
+		Ticket temp = new Ticket(tempFood, tempDrinks, Restaurant.getTicket(), id);
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
@@ -88,7 +89,7 @@ class PartyManager {
 	List<Order> tempFood;
 	List<Ticket> tickets;
 	String workName;
-	int UUID;
+	UUID id;
 	public int count = 0;
 }
 

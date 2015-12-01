@@ -12,6 +12,10 @@ class Order{
 	int getCust(){
 		return cust;
 	}
+	
+	public String toString(){
+		return it.getItemName();
+	}
 	private MenuItem it;
 	private int cust;
 }

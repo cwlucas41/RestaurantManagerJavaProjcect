@@ -18,6 +18,7 @@ class Restaurant {
 	public List<Worker> busserList;
 	public Worker kitchen;
 	public Worker bar;
+	public int ticket = 0;
 	
 	
 	static Worker getKitchen(){
@@ -28,7 +29,10 @@ class Restaurant {
 		return bar;
 	};
 	
-	int getTicket () {return;}; //has to return a ticket number
+	int getTicket () {
+		ticket++;
+		return ticket;
+	}; //has to return a ticket number
 	// are you sure, does Restaurant need to know about tickets?
 	
 	List<Table> findTables(int partySize) {

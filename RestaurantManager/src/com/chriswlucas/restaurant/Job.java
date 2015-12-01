@@ -2,46 +2,47 @@ package com.chriswlucas.restaurant;
 
 import java.sql.Time;
 import java.util.List;
+import java.util.ListIterator;
 
-class Job implements Comparable<Job>{
+class Job{
 	//String message;
 	// save time of creation
 	// save type of job
-	public Job(List<Order>inItems, String aType, int tNum, boolean sub){
-		this.isSub=sub;
+	public Job(List<Object>inItems, int aType){
+		this.items=inItems;
 		this.type=aType;
 		this.current=new Time(0);
-		this.ticketNum=tNum;
 	}
 	
 	void markAsDone(){
 		// depends on type of job
 		isDone=true;
 	}
-	
-	String getType(){
-		return type;
+	private String getHeader(){
+		switch (type) {
+		case 1: return "Produce the following items:\n";
+		case 2: return "Serve the following items:\n";
+		case 3: return "Collect from these tables:\n";
+		case 4: return "Buss the following tables:\n";
+		default: return "Invalid Job type:\n";
+		}
 	}
 	
-	Time getTime(){
+	void displayJob(){
+		System.out.println(getHeader());
+		System.out.println();
+		ListIterator<Object> iterator = items.listIterator();
+		while(iterator.hasNext()){
+			System.out.println(iterator.next().toString());
+		}
+	}
+	
+	Time getCurrent(){
 		return current;
 	}
-	
-	int getTicketNum(){
-		return ticketNum;
-	}
-	
-	boolean checkSub(){
-		return isSub;
-	}
-	
-	int ticketNum;
+		
+	boolean isDone;
 	Time current;
-	String type;
-	boolean isDone=false;
-	boolean isSub = false;
-
-	public Time getCurrent() {
-		return current;
-	}
+	int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
+	List<Object>items;
 }

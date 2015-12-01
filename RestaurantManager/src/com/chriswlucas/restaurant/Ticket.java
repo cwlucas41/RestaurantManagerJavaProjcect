@@ -28,6 +28,14 @@ class Ticket {
 		return drink;
 	}
 	
+	int getFoodSize(){
+		return food.size();
+	}
+	
+	int getDrinkSize(){
+		return drink.size();
+	}
+
 	private List<Order>food;
 	private List<Order>drink;
 	private int tNum;

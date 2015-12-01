@@ -1,6 +1,7 @@
 package com.chriswlucas.restaurant;
 
 import java.util.List;
+import java.util.UUID;
 
 class JobManager {
 	
@@ -15,6 +16,9 @@ class JobManager {
 	// when collecting is done, assign bussing, then free table
 	
 	void assignProducingJob(Ticket tick){
+		type = 1;
+		tickets.add(tick);
+		int drinkSize, foodSize;
 		tempDrinks = tick.getDrinkOrders();
 		tempFood = tick.getFoodOrders();
 		
@@ -30,20 +34,21 @@ class JobManager {
 	}
 	
 	void assignServingJob(){
-		
+		type = 2;
 	}
 	
 	void assignCollectingJob(){
-		
+		type = 3;
 	}
 	
 	void assignBussingJob(){
-		
+		type = 4;
 	}
 	
 	Worker server;
-	int UUID;
-	int drinkSize, foodSize;
+	UUID id;
+	int type = 0;
+	List<Ticket> tickets;
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 }

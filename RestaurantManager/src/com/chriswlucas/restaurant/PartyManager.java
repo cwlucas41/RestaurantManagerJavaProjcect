@@ -5,7 +5,6 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 class PartyManager {
-	//Ticket[] orders;
 	/**
 	 * Handles everything needed to run a party, from start to finish
 	 * @param waiter
@@ -45,6 +44,7 @@ class PartyManager {
 		else{
 			tempDrinks.add(new Order(item,customer));
 		}
+		total+= item.getPrice();
 	}
 	
 	/**
@@ -70,7 +70,8 @@ class PartyManager {
 					tempDrinks.remove(iterator.next());
 				}
 			}
-		}		
+		}
+		total -= item.getPrice();
 	}
 	
 	/**
@@ -79,13 +80,14 @@ class PartyManager {
 	void emptyTemp(){
 		tempFood.removeAll(null);
 		tempDrinks.removeAll(null);
+		total = 0;
 	}
 	
 	/**
 	 * Creates a ticket for the current order and sends out the job.
 	 */
 	void makeTicket() {
-		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicket());
+		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicket(), total);
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
@@ -204,6 +206,7 @@ class PartyManager {
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;
+	int total=0;
 	boolean addingItems;
 	Restaurant restaurant;
 	private int numPeople;

@@ -39,8 +39,7 @@ class PaymentManager {
     
     void createReceipt(int i, List<checkNames>checkNames){
         Receipt receipt = new Receipt();
-        partyManager.jobManager.assignCollectingJob();
-        
+        partyManager.jobManager.assignCollectingJob();    
     }
     
     private PartyManager partyManager;

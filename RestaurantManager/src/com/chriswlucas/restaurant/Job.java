@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.ListIterator;
 
 class Job{
-	//String message;
-	// save time of creation
-	// save type of job
+	/**
+	 * Holds a list of items/tables that need to be produced,
+	 * served, paid, or cleaned.
+	 * @param inItems list of items to be produced or tables that need to be taken care of.
+	 * @param aType type of job. 
+	 * @param jobManager reference back to the containing class.
+	 */
 	public Job(List<Object>inItems, int aType, JobManager jobManager){
 		this.jobManager = jobManager;
 		this.items= (List<Object>)inItems;
@@ -15,15 +19,22 @@ class Job{
 		this.current=new Time(0);
 	}
 	
+	/**
+	 * If the job is a producing job it needs to be changed over to a serving job.
+	 * If the job is a collecting job(payment) it needs to be changed over to a bussing job.
+	 */
 	void markAsDone(){
-		// depends on type of job
 		switch (type) {
-		case 1: jobManager.assignServingJob(items); break; //Is a producing job becomes a serving job.
-		case 3: jobManager.assignBussingJob(items); break; //Is a collecting job becomes a bussing job.
+		case 1: jobManager.assignServingJob(items); break; 
+		case 3: jobManager.assignBussingJob(items); break; 
 		default: break;
 		}
 		
 	}
+	/**
+	 * 
+	 * @return a header string for output based on the type of job.
+	 */
 	private String getHeader(){
 		switch (type) {
 		case 1: return "Produce the following items:\n";
@@ -34,6 +45,9 @@ class Job{
 		}
 	}
 	
+	/**
+	 * Displays the current list of items in the job.
+	 */
 	void displayJob(){
 		System.out.println(getHeader());
 		System.out.println();
@@ -43,6 +57,10 @@ class Job{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return the time this job was created.
+	 */
 	Time getCurrent(){
 		return current;
 	}

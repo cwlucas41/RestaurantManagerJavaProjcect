@@ -19,6 +19,10 @@ class MenuItem {
 	int getPrice(){
 		return price;
 	}
+	
+	public String toString(){
+		return getItemName() + " $" + getPrice();
+	}
 	public int price;
 	public String Name;
 	public boolean isFood = false; //set to true if a food item, leave false if drink.

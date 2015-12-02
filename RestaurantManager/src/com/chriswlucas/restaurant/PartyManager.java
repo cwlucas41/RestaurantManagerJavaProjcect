@@ -1,13 +1,8 @@
 package com.chriswlucas.restaurant;
 
-import java.awt.FlowLayout;
-import java.io.InputStream;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
-import java.util.UUID;
-
-import javax.swing.JFrame;
 
 class PartyManager {
 	//Ticket[] orders;
@@ -27,13 +22,12 @@ class PartyManager {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
 		numPeople = scanner.nextInt();
-		custNames = new String[numPeople];
 		
 		for (int i = 0; i<numPeople; i++){
 			int temp = i + 1;
 			String output = "Enter customer "+temp+"(FirstName and first letter of last name without spaces): ";
 			System.out.print(output);
-			custNames[i]=scanner.next();
+			custNames.add(scanner.next());
 		}
 		scanner.close();
 	}
@@ -80,7 +74,7 @@ class PartyManager {
 	}
 	
 	/**
-	 * Empty's everything from the temp lists.
+	 * Empty's everything from the temporary lists.
 	 */
 	void emptyTemp(){
 		tempFood.removeAll(null);
@@ -91,43 +85,104 @@ class PartyManager {
 	 * Creates a ticket for the current order and sends out the job.
 	 */
 	void makeTicket() {
-		// empty temps, create, and store ticket
 		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicket());
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
 	}
+	
 	int getIntegerFromUser(){
-		return 0;
+		Scanner scanner = new Scanner(System.in);
+		int data = scanner.nextInt();
+		scanner.close();
+		return data;
+	}
+	
+	void displayAddItem(){
+		List<MenuItem> menu = restaurant.getMenuItems();
+		ListIterator<MenuItem> iterator = menu.listIterator();
+		
+		int i = 0;
+		while(iterator.hasNext()){
+			String temp = i + iterator.next().toString();
+			System.out.println(temp);
+			i++;
+		}
+		System.out.println();
+		System.out.println("Choose the number of the item you want:");
+		int orderVal = getIntegerFromUser();
+		
+		System.out.println();
+		ListIterator<String> it = custNames.listIterator();
+		int j = 0;
+		while(it.hasNext()){
+			String name = j + it.next();
+			System.out.println(name);
+			j++;
+		}
+		System.out.println();
+		System.out.println("Choose the number of the customer you want:");
+		int customerNumber = getIntegerFromUser();
+		addItem(menu.get(orderVal), customerNumber);
+	}
+	
+	void displayRemoveItem(){
+		System.out.println("Choose 1 or 2 for the following choices.");
+		System.out.println("1) Remove a drink item");
+		System.out.println("2) Remove a food item");
+		int choice = getIntegerFromUser();
+		if (choice == 1){
+			ListIterator<Order> iterator = tempDrinks.listIterator();
+			int i = 0;
+			while (iterator.hasNext()){
+				String out = i+") "+custNames.get(iterator.next().getCust()) + ": " + iterator.next().toString();
+				System.out.println(out);
+				i++;
+			}
+			Order drink = tempDrinks.get(getIntegerFromUser());
+			removeItem(drink.getItem(), drink.getCust());
+		}
+		else if (choice == 2){
+			ListIterator<Order> iterator = tempFood.listIterator();
+			int i = 0;
+			while (iterator.hasNext()){
+				String out = i+") "+custNames.get(iterator.next().getCust()) + ": " + iterator.next().toString();
+				System.out.println(out);
+				i++;
+			}
+			Order food = tempFood.get(getIntegerFromUser());
+			removeItem(food.getItem(), food.getCust());
+		}
+		else{
+			System.out.println("Invalid option.");
+		}
 	}
 	/**
 	 * Takes an order from the customers.
 	 */
 	void takeOrder(){
-		addingItems = true;
-		List<MenuItem> menu = restaurant.getMenuItems();
-		ListIterator<MenuItem> iterator = menu.listIterator();
-		
-		int i = 0;
-		while(addingItems){
-			while(iterator.hasNext()){
-				String temp = i + iterator.next().toString();
-				System.out.println(temp);
-				i++;
+		boolean makeTick = false;
+		while(!makeTick){
+			System.out.println("Choose 1, 2, 3, or 4 for the following choices.");
+			System.out.println("1) Add item to ticket.");
+			System.out.println("2) Remove item from ticket.");
+			System.out.println("3) Submit order");
+			System.out.println("4) Cancel order");
+			int choice = getIntegerFromUser();
+			switch(choice){
+			case 1: displayAddItem();
+			case 2: displayRemoveItem();
+			case 3: {
+				makeTick = true;
+				makeTicket();
 			}
-			System.out.println();
-			System.out.println("Choose the number of the item you want (-1 to finish):");
-			int orderVal = getIntegerFromUser();
-			
-			System.out.println();
-			for(i = 0; i<//size ; i++){
-		
+			case 4: {
+				makeTick = true;
+				emptyTemp();
 			}
-			if((orderVal==-1)||(customerNumber == -1)){
-				addingItems = false;
+			default: System.out.println("Invalid option");
 			}
 		}
-		
 	}
     
 	/**
@@ -143,7 +198,7 @@ class PartyManager {
     	return tickets;
     }
 
-	String[]custNames;
+	List<String>custNames;
 	JobManager jobs;
     PaymentManager payments;
 	List<Order> tempDrinks;

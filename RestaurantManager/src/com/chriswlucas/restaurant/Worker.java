@@ -8,8 +8,8 @@ import java.util.List;
 class Worker extends Employee {
 	private List<Job> jobs = new LinkedList<Job>();
 	
-	public Worker(String name){
-		super(name);
+	public Worker(String name, Restaurant restaurant){
+		super(name, restaurant);
 	}
 	
 	private Comparator<Job> comp = new Comparator<Job>() {
@@ -18,14 +18,18 @@ class Worker extends Employee {
 		}
 	};
 	
-	void assignJob(Job job) {
+	public void assignJob(Job job) {
 		jobs.add(job);
 		Collections.sort(jobs, comp);
 	}
 	
-	void doJob(int index) {
+	public void doJob(int index) {
 		jobs.get(index).markAsDone();
 		jobs.remove(index);
 		Collections.sort(jobs, comp);
+	}
+	
+	public List<Job> getJobs() {
+		return jobs;
 	}
 }

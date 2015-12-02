@@ -5,7 +5,6 @@ import java.util.List;
 
 class Restaurant {
 
-
 	private List<Table> tableList = new ArrayList<Table>();
 	
 	private List<PartyManager> partyManagerList = new ArrayList<PartyManager>();
@@ -20,9 +19,23 @@ class Restaurant {
 	private Worker bar;
 	private int ticket = 0;
 	
+	private UserInterface workerInterface;
+	
+	public Restaurant() {
+		this.workerInterface = new WorkerCLI(this);
+	}
+	
 	
 	public List<MenuItem> getMenuItems(){
 		return menu.getMenu();
+	}
+	
+	public Worker getWorker(int employeeID) {
+		
+	}
+	
+	public Host getHost() {
+		
 	}
 	
 	public Worker getWaiter(PartyManager partyManager){
@@ -30,11 +43,11 @@ class Restaurant {
 	}
 	
 	public Worker getKitchen(PartyManager partyManager){
-	
+		return kitchen;
 	}
 	
 	public Worker getBar(PartyManager partyManager){
-		
+		return bar;
 	}
 	
 	public Worker getBusser(PartyManager partyManager){
@@ -42,6 +55,10 @@ class Restaurant {
 	}
 	
 	public void collectTickets(List<Ticket>tickets){
+		
+	}
+	
+	public void addToWaitlist(int partySize) {
 		
 	}
 	

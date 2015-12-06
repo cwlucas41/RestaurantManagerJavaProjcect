@@ -2,9 +2,7 @@ package com.chriswlucas.restaurant;
 
 import java.util.Scanner;
 import java.util.List;
-import java.io.InputStream;
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
+import java.util.ListIterator;
 
 class PaymentManager {
     
@@ -16,23 +14,28 @@ class PaymentManager {
     
     void checkout(int split){
     	this.split = split;
-        Object Scanner;
 		for (int i = 0; i<split; i++){
 			Scanner scanner = new Scanner(System.in);
-            System.out.println("How many people in party" + i + "?:");
+            System.out.println("How many people in party " + i+1 + "?:");
             numPeople = scanner.nextInt();
-    		checkNames = new String[numPeople];
-		
-    		for (int i = 0; i<numPeople; i++){
-    			System.out.println("Enter the next name:");
-    			checkNames[i]=scanner.next();
-    		}
-    			
+    		checkNames = new int[numPeople];
+            System.out.println();
+            ListIterator<String> names = custNames.listIterator();
+            int k = 0;
+            while(it.hasNext()){
+                String customer = k +name.next();
+                System.out.println(name);
+                k++;
+            }
+            for (int = 0; i<numPeople; i++){
+                System.out.println();
+                System.out.println("Choose the number of the customer to add to this receipt:");
+                int custNumber = scanner.nextInt();
+                checkNames.add(custNumber);
+            }
             this.createReceipt(int i, this.checkNames);
+            this.checkNames.clear();
             scanner.close();
-        
-                          
-        
             
     }
     
@@ -42,8 +45,8 @@ class PaymentManager {
         partyManager.jobManager.assignCollectingJob();    
     }
     
-    private PartyManager partyManager;
-    public String[]checkNames;
+    PartyManager partyManager;
+    List<int> checkNames;
     private int split;
     private int numPeople;
     

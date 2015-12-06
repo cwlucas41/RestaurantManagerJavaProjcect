@@ -10,8 +10,9 @@ class PaymentManager {
         this.partyManager = partyManager;
         
     }
-    
-    
+    /**
+     * Controls how people would like to pay for the bill
+     */
     void checkout(int split){
     	this.split = split;
 		for (int i = 0; i<split; i++){
@@ -39,7 +40,9 @@ class PaymentManager {
             
     }
     
-    
+    /**
+     * Creates a receipt based on who is included in that check
+     */
     void createReceipt(int i, List<checkNames>checkNames){
         Receipt receipt = new Receipt();
         partyManager.jobManager.assignCollectingJob();    

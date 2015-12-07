@@ -14,6 +14,7 @@ class Receipt {
         
     }
     
+    PartyManager partymanager
     public int Total;
     List<int> checkNames;
     public static int CheckNumber;

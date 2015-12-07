@@ -24,8 +24,8 @@ class PaymentManager {
             ListIterator<String> names = custNames.listIterator();
             int k = 0;
             while(it.hasNext()){
-                String customer = k +name.next();
-                System.out.println(name);
+                String customer = k + " " + name.next();
+                System.out.println(customer);
                 k++;
             }
             for (int = 0; i<numPeople; i++){
@@ -34,7 +34,7 @@ class PaymentManager {
                 int custNumber = scanner.nextInt();
                 checkNames.add(custNumber);
             }
-            this.createReceipt(int i, this.checkNames);
+            this.createReceipt(int i+1, this.checkNames);
             this.checkNames.clear();
             scanner.close();
             
@@ -44,7 +44,7 @@ class PaymentManager {
      * Creates a receipt based on who is included in that check
      */
     void createReceipt(int i, List<checkNames>checkNames){
-        Receipt receipt = new Receipt();
+        Receipt receipt = new Receipt(this.i+1, this.checkNames);
         partyManager.jobManager.assignCollectingJob();    
     }
     

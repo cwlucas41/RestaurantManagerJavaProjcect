@@ -1,82 +1,169 @@
 package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Queue;
+import java.util.Set;
 
 class Restaurant {
 
-	private List<Table> tableList = new ArrayList<Table>();
+	private Hashtable<Integer, Table> tables;
 	
-	private List<PartyManager> partyManagerList = new ArrayList<PartyManager>();
-	
-	private Menu menu;
-	
+	private Hashtable<Integer, PartyManager> partyManagers;
+
 	private Manager manager;
 	private Host host;
-	private List<Worker> waiterList;
-	private List<Worker> busserList;
+	private Hashtable<Integer, Worker> waiters;
+	private Hashtable<Integer, Worker> bussers;
+	
+	private int kitchenID;
 	private Worker kitchen;
+	private int barID;
 	private Worker bar;
-	private int ticket = 0;
 	
-	private UserInterface workerInterface;
-	
+	private int ticket;
+	private Menu menu;
+	private Queue<Integer> waitlist;
+	private List<Ticket> tickets;
+	private int partyID;
+
 	public Restaurant() {
-		this.workerInterface = new WorkerCLI(this);
+		this.waiters = new Hashtable<Integer, Worker>();
+		this.bussers = new Hashtable<Integer, Worker>();
+		this.partyManagers = new Hashtable<Integer, PartyManager>();
+		this.tables = new Hashtable<Integer, Table>();
+		this.ticket = 0;
+		this.partyID = 0;
+		this.waitlist = new LinkedList<Integer>();
+		this.tickets = new ArrayList<Ticket>();
 	}
 	
+	private int nextPartyID(){
+		return partyID++;
+	}
 	
 	public List<MenuItem> getMenuItems(){
 		return menu.getMenu();
-	}
-	
-	public Worker getWorker(int employeeID) {
-		
-	}
+	}		
 	
 	public Host getHost() {
-		
+		 return host;
 	}
 	
-	public Worker getWaiter(PartyManager partyManager){
-		
+	public Manager getManager() {
+		return this.manager;
 	}
 	
-	public Worker getKitchen(PartyManager partyManager){
+	public Worker getKitchen(){
 		return kitchen;
 	}
 	
-	public Worker getBar(PartyManager partyManager){
+	public Worker getBar(){
 		return bar;
 	}
 	
-	public Worker getBusser(PartyManager partyManager){
-		
+	public Worker getWaiter(PartyManager partyManager){
+		return this.getWorker(partyManager.getWaiterID());
+	}
+	
+	public Worker getBusser(){
+		return bussers.get(getLeastBusy(bussers));
+	}
+	
+	public int getLeastBusy(Hashtable<Integer, Worker> table) {
+		Set<Integer> keys = table.keySet();
+		double leastToDoSoFar = Double.POSITIVE_INFINITY;
+		int workerID = 0;
+		for (Integer key : keys) {
+			Worker worker = table.get(key);
+			int numberOfJobs = worker.getNumberOfJobs();
+			if (numberOfJobs < leastToDoSoFar) {
+				workerID = key;
+				leastToDoSoFar = numberOfJobs;
+			}
+		}
+		return workerID;
+	}
+	
+	public Worker getWorker(int employeeID) {	
+		if (employeeID == kitchenID) {
+			return kitchen;
+		} else if (employeeID == barID) {
+			return bar;
+		} else if (waiters.containsKey(employeeID)) {
+			return waiters.get(employeeID);
+		} else if (bussers.contains(employeeID)){
+			return waiters.get(employeeID);
+		} else {
+			return null;
+		}
 	}
 	
 	public void collectTickets(List<Ticket>tickets){
-		
+		this.tickets.addAll(tickets);
 	}
 	
 	public void addToWaitlist(int partySize) {
-		
+		this.waitlist.add(partySize);
+		createParty();
 	}
 	
-	public List<Table> getTables(PartyManager partyManager){
-		return;
+	public List<Table> convertTableNumbersToTables(List<Integer> tableNumbers){
+		List<Table> tablesList = new ArrayList<Table>();
+		ListIterator<Integer> iterator = tableNumbers.listIterator();
+		while (iterator.hasNext()) {
+			int curr = iterator.next();
+			if (this.tables.containsKey(curr)) {
+				tablesList.add(this.tables.get(curr));
+			}
+		}
+		return tablesList;
 	}
 	
-	int getTicket () {       
+	public int getTicketNumber () {       
 		ticket++;
 		return ticket;
-	}; //has to return a ticket number
-	// are you sure, does Restaurant need to know about tickets?
+	};
 	
-	List<Table> findTables(int partySize) {
-		return;
+	public List<Ticket> getTickets() {
+		return tickets;
 	}
 	
-	void freeTables(List<Table> emptyTables) {
+	public void createParty() {
+		int waiterID = getLeastBusy(waiters);
+		List<Integer> tableNumbers = new ArrayList<Integer>(); 
+		// TODO get all tables greater than or equal to party size
+		//		if free table big enough exists, choose smallest
+		//		else if smaller free table exists choose largest and repeat with difference
+		//		else break with message can't seat party
 		
+		// TODO mark tables as occupied
+		partyManagers.put(this.nextPartyID(), new PartyManager(this, waiterID, tableNumbers));
+		
+		if (!waitlist.isEmpty()) {
+			createParty();
+		}
+	}
+	
+	public List<Integer> getUnoccupiedTables() {
+		List<Integer> unoccupiedTableKeys = new ArrayList<Integer>();
+		Set<Integer> keys = tables.keySet();
+		for (int key : keys) {
+			if (!tables.get(key).isOccupied()) {
+				unoccupiedTableKeys.add(key);
+			}
+		}
+		return unoccupiedTableKeys;
+	}
+	
+	public void freeTables(List<Integer> emptyTables) {
+		ListIterator<Integer> iterator = emptyTables.listIterator();
+		while (iterator.hasNext()) {
+			this.tables.get(iterator.next()).setNotOccupied();
+		}
+		createParty();
 	}
 }

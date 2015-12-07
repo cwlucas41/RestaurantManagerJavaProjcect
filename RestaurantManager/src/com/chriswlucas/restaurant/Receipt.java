@@ -1,8 +1,10 @@
 package com.chriswlucas.restaurant;
 
+import java.util.List;
+
 class Receipt {
     
-    Receipt(int checkNumber, List<checkNames>checkNames){
+    Receipt(int checkNumber, List<Integer>checkNames){
         this.checkNumber = checkNumber;
         this.checkNames = checkNames;
         
@@ -14,9 +16,9 @@ class Receipt {
         
     }
     
-    PartyManager partymanager
-    public int Total;
-    List<int> checkNames;
-    public static int CheckNumber;
+    public int total;
+    public List<Integer> checkNames;
+    public int checkNumber;
+
 
 }

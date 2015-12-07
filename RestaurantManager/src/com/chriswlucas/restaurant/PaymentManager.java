@@ -6,25 +6,26 @@ import java.util.ListIterator;
 
 class PaymentManager {
     
-    PaymentManager(PartyManager partyManager){
+    PaymentManager(PartyManager partyManager, List<String> customerNames){
         this.partyManager = partyManager;
-        
+        this.customerNames = customerNames;
     }
+    
     /**
      * Controls how people would like to pay for the bill
      */
-    void checkout(int split){
-    	this.split = split;
+    void checkout(){
+    	// get split details
 		for (int i = 0; i<split; i++){
 			Scanner scanner = new Scanner(System.in);
             System.out.println("How many people in party " + i+1 + "?:");
             numPeople = scanner.nextInt();
     		checkNames = new int[numPeople];
             System.out.println();
-            ListIterator<String> names = custNames.listIterator();
+            ListIterator<String> names = customerNames.listIterator();
             int k = 0;
-            while(it.hasNext()){
-                String customer = k + " " + name.next();
+            while(names.hasNext()){
+                String customer = k + " " + names.next();
                 System.out.println(customer);
                 k++;
             }
@@ -48,8 +49,9 @@ class PaymentManager {
         partyManager.jobManager.assignCollectingJob();    
     }
     
-    PartyManager partyManager;
-    List<int> checkNames;
+    private List<String> customerNames;
+    private PartyManager partyManager;
+    private int[] checkNames;
     private int split;
     private int numPeople;
     

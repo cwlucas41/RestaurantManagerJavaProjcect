@@ -14,7 +14,7 @@ class JobManager {
 	}
 	
 	/**
-	 * Creates a broducing job for the bar or kitchen.
+	 * Creates a producing job for the bar or kitchen.
 	 * @param tick the ticket for the current order.
 	 */
 	void assignProducingJob(Ticket tick){
@@ -24,12 +24,12 @@ class JobManager {
 		
 		if(!tempDrinks.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempDrinks);
-			partyManager.restaurant.getBar(this.partyManager).assignJob(new Job (temp, type, this));
+			partyManager.restaurant.getBar().assignJob(new Job (temp, type, this));
 		}
 		
 		if(!tempFood.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempFood);
-			partyManager.restaurant.getKitchen(this.partyManager).assignJob(new Job (temp, type, this));		}
+			partyManager.restaurant.getKitchen().assignJob(new Job (temp, type, this));		}
 	}
 
 	/**
@@ -47,7 +47,7 @@ class JobManager {
 	 */
 	void assignCollectingJob(){
 		type = 3;
-		List<Object>temp = new ArrayList<Object>(partyManager.restaurant.getTables(this.partyManager));
+		List<Object>temp = new ArrayList<Object>(partyManager.restaurant.convertTableNumbersToTables(this.partyManager.getTableNumbers()));
 		partyManager.restaurant.getWaiter(this.partyManager).assignJob(new Job (temp, type, this));	
 	}
 	
@@ -58,11 +58,16 @@ class JobManager {
 	 */
 	void assignBussingJob(List<Object> tables){
 		type = 4;
-		partyManager.restaurant.getBusser(this.partyManager).assignJob(new Job (tables, type, this));	
+		partyManager.restaurant.getBusser().assignJob(new Job (tables, type, this));	
+	}
+	
+	public PartyManager getPartyManager() {
+		return partyManager;
 	}
 	
 	private int type = 0;
 	private List<Order> tempDrinks;
 	private List<Order> tempFood;
 	private PartyManager partyManager;
+
 }

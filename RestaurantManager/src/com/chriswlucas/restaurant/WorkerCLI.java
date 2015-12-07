@@ -5,7 +5,7 @@ import java.util.ListIterator;
 
 class WorkerCLI extends UserInterface implements WorkerUI {
 	
-	public WorkerCLI(Restaurant restaurant) {
+	public WorkerCLI(Restaurant restaurant){
 		super(restaurant);
 	}
 

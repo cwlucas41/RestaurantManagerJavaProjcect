@@ -29,6 +29,10 @@ class Worker extends Employee {
 		Collections.sort(jobs, comp);
 	}
 	
+	public int getNumberOfJobs() {
+		return jobs.size();
+	}
+	
 	public List<Job> getJobs() {
 		return jobs;
 	}

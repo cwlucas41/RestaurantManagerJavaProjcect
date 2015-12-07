@@ -9,9 +9,11 @@ class PartyManager {
 	 * Handles everything needed to run a party, from start to finish
 	 * @param waiter
 	 */
-	PartyManager(Restaurant restaurant){
+	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers){
 		this.restaurant = restaurant;
-		jobs = new JobManager(this);
+		this.waiterID = waiterID;
+		this.tableNumbers = tableNumbers;
+		this.jobs = new JobManager(this);
 	}
 	
 	/**
@@ -87,7 +89,7 @@ class PartyManager {
 	 * Creates a ticket for the current order and sends out the job.
 	 */
 	void makeTicket() {
-		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicket(), total);
+		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicketNumber(), total);
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
@@ -192,13 +194,26 @@ class PartyManager {
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
     void pay(){
-        payments = new PaymentManager(this);
-        restaurant.collectTickets(tickets);
+        this.payments = new PaymentManager(this, custNames);
+        this.payments.checkout();
+        this.restaurant.collectTickets(tickets);
     }
 	
     List<Ticket>getTickets(){
     	return tickets;
     }
+    
+	public List<Integer> getTableNumbers() {
+		return tableNumbers;
+	}
+
+	public int getWaiterID() {
+		return waiterID;
+	}
+	
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
 
 	List<String>custNames;
 	JobManager jobs;
@@ -210,6 +225,9 @@ class PartyManager {
 	boolean addingItems;
 	Restaurant restaurant;
 	private int numPeople;
+	private int waiterID;
+	private List<Integer> tableNumbers;
+
 }
 
 

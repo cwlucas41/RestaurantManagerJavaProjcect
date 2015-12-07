@@ -1,14 +1,12 @@
 package com.chriswlucas.restaurant;
 
-class HostCLI implements HostUI {
-	
-	private Restaurant restaurant;
-	
+class HostCLI extends UserInterface implements HostUI {
+		
 	public HostCLI(Restaurant restaurant){
-		this.restaurant = restaurant;
+		super(restaurant);
 	}
 	
 	public void addNewPartyToWaitlist(int partySize) {
-		this.restaurant.getHost().addNewPartyToWaitlist(partySize);
+		this.getRestaurant().getHost().addNewPartyToWaitlist(partySize);
 	}
 }

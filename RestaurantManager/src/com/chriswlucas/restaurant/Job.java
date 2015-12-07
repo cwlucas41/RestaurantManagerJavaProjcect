@@ -50,6 +50,8 @@ class Job{
 	 * Displays the current list of items in the job.
 	 */
 	void displayJob(){
+		
+		// make string here and print string in interface
 		System.out.println(getHeader());
 		System.out.println();
 		ListIterator<Object> iterator = items.listIterator();

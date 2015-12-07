@@ -19,7 +19,7 @@ class PartyManager {
 	/**
 	 * Gets the customer names from the customers.
 	 */
-	void getNames(){
+	void setCustomerNames(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
 		numPeople = scanner.nextInt();
@@ -55,6 +55,7 @@ class PartyManager {
 	 * @param customer
 	 */
 	void removeItem(MenuItem item, int customer){
+		//TODO remove based on item not customer
 		if(item.isFood){
 			ListIterator<Order> iterator = tempFood.listIterator();
 			while (iterator.hasNext()){
@@ -139,7 +140,8 @@ class PartyManager {
 			ListIterator<Order> iterator = tempDrinks.listIterator();
 			int i = 0;
 			while (iterator.hasNext()){
-				String out = i+") "+custNames.get(iterator.next().getCust()) + ": " + iterator.next().toString();
+				Order temp = iterator.next();
+				String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
 				System.out.println(out);
 				i++;
 			}
@@ -150,7 +152,8 @@ class PartyManager {
 			ListIterator<Order> iterator = tempFood.listIterator();
 			int i = 0;
 			while (iterator.hasNext()){
-				String out = i+") "+custNames.get(iterator.next().getCust()) + ": " + iterator.next().toString();
+				Order temp = iterator.next();
+				String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
 				System.out.println(out);
 				i++;
 			}
@@ -161,6 +164,7 @@ class PartyManager {
 			System.out.println("Invalid option.");
 		}
 	}
+	
 	/**
 	 * Takes an order from the customers.
 	 */

@@ -2,6 +2,7 @@ package com.chriswlucas.restaurant;
 
 import java.util.Scanner;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 class PaymentManager {
@@ -9,18 +10,20 @@ class PaymentManager {
     PaymentManager(PartyManager partyManager, List<String> customerNames){
         this.partyManager = partyManager;
         this.customerNames = customerNames;
+        this.jobs = new JobManager(this.partyManager);
     }
     
     /**
      * Controls how people would like to pay for the bill
      */
     void checkout(){
-    	// get split details
+    	Scanner scanner = new Scanner(System.in);
+    	System.out.println("How many ways would you like to split the check?: ");
+    	split = scanner.nextInt();
 		for (int i = 0; i<split; i++){
-			Scanner scanner = new Scanner(System.in);
+			List<Integer> checkNames = new ArrayList<Integer>();
             System.out.println("How many people in party " + i+1 + "?:");
             numPeople = scanner.nextInt();
-    		checkNames = new int[numPeople];
             System.out.println();
             ListIterator<String> names = customerNames.listIterator();
             int k = 0;
@@ -29,31 +32,33 @@ class PaymentManager {
                 System.out.println(customer);
                 k++;
             }
-            for (int = 0; i<numPeople; i++){
+            for (int j = 0; j<numPeople; j++){
                 System.out.println();
                 System.out.println("Choose the number of the customer to add to this receipt:");
                 int custNumber = scanner.nextInt();
                 checkNames.add(custNumber);
             }
-            this.createReceipt(int i+1, this.checkNames);
+            this.createReceipt(i, checkNames);
             this.checkNames.clear();
             scanner.close();
-            
+		}
     }
     
     /**
      * Creates a receipt based on who is included in that check
      */
-    void createReceipt(int i, List<checkNames>checkNames){
-        Receipt receipt = new Receipt(this.i+1, this.checkNames);
-        partyManager.jobManager.assignCollectingJob();    
+    void createReceipt(int n, List<Integer>checkNames){
+        Receipt receipt = new Receipt(n , this.checkNames);
+        partyManager.jobs.assignCollectingJob();    
     }
     
     private List<String> customerNames;
     private PartyManager partyManager;
-    private int[] checkNames;
+    private List<Integer> checkNames;
     private int split;
     private int numPeople;
+    Receipt receipt;
+    JobManager jobs;
     
                    
     

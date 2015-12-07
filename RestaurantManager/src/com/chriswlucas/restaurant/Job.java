@@ -25,8 +25,8 @@ class Job{
 	 */
 	void markAsDone(){
 		switch (type) {
-		case 1: jobManager.assignServingJob(items); break; 
-		case 3: jobManager.assignBussingJob(items); break; 
+		case 1: jobManager.assignServingJob(this); break; 
+		case 3: jobManager.assignBussingJob(this); break; 
 		case 4: this.jobManager.getPartyManager().getRestaurant().freeTables(this.jobManager.getPartyManager().getTableNumbers()); break;
 		default: break;
 		}
@@ -50,6 +50,8 @@ class Job{
 	 * Displays the current list of items in the job.
 	 */
 	void displayJob(){
+		
+		// make string here and print string in interface
 		System.out.println(getHeader());
 		System.out.println();
 		ListIterator<Object> iterator = items.listIterator();
@@ -64,6 +66,10 @@ class Job{
 	 */
 	Time getCurrent(){
 		return current;
+	}
+	
+	public void setType(int type) {
+		this.type = type;
 	}
 	
 	private JobManager jobManager;

@@ -36,9 +36,10 @@ class JobManager {
 	 * Places the items on the waiters list of jobs to be served.
 	 * @param items list of items that have been produced by the bar or kitchen.
 	 */
-	void assignServingJob(List<Object> items){
+	void assignServingJob(Job job){
 		type = 2;
-		partyManager.restaurant.getWaiter(this.partyManager).assignJob(new Job (items, type, this));
+		job.setType(type);
+		partyManager.restaurant.getWaiter(this.partyManager).assignJob(job);
 	}
 	
 	/**
@@ -56,9 +57,10 @@ class JobManager {
 	 * of jobs to be cleaned. (Can be added to a waiter if the busser is busy.)
 	 * @param tables list of tables that need to be cleaned.
 	 */
-	void assignBussingJob(List<Object> tables){
+	void assignBussingJob(Job job){
 		type = 4;
-		partyManager.restaurant.getBusser().assignJob(new Job (tables, type, this));	
+		job.setType(type);
+		partyManager.restaurant.getBusser().assignJob(job);	
 	}
 	
 	public PartyManager getPartyManager() {

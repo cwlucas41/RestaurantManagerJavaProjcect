@@ -6,23 +6,43 @@ class Manager extends Employee {
 		super(name, restaurant);
 	}
 	
-	public void newWaiter(String name) {
+	public void hireNewWaiter(String name) {
 		
 	}
 	
-	public void newBusser(String name) {
+	public void hireNewBusser(String name) {
 		
 	}
 	
-	public void newKitchen(String name) {
+	public void hireNewKitchen(String name) {
 		
 	}
 	
-	public void newBar(String name) {
+	public void hereNewBar(String name) {
 		
 	}
 	
-	public void fireWaiter(String name) {
+	public void fireWaiter(int employeeID) {
+		
+	}
+	
+	public void fireBusser(int employeeID) {
+		
+	}
+	
+	public void fireKitchen(int employeeID) {
+		
+	}
+	
+	public void fireBar(int employeeID) {
+		
+	}
+	
+	public void addTable(int numberOfSeats) {
+		
+	}
+	
+	public void removeTable(int tableNumber) {
 		
 	}
 	

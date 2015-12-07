@@ -5,6 +5,7 @@ class MenuItem {
 	MenuItem(String name, int price, Boolean isFood){
 		this.Name = name;
 		this.price = price;
+		this.isFood = isFood;
 		//set isFood here when you create the item.
 	}
 	

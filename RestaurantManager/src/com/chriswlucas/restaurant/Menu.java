@@ -7,5 +7,6 @@ class Menu {
 	List<MenuItem> getMenu(){
 		return items;
 	}
+	
 	List<MenuItem> items;
 }

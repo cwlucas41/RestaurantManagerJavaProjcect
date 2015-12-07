@@ -2,25 +2,27 @@ package com.chriswlucas.restaurant;
 
 class Table {
 	
-	Table(int size, int number) {
+	Table(int size) {
 		this.size = size;
-		this.number = number;
+		this.isOccupied = false;
 	}
 	
-	int getTableNum(){
-		return tableNum;
+	public int getsize(){
+		return size;
 	}
     
-    Boolean isOccupied(){
+    public Boolean isOccupied(){
         return isOccupied;
     }
     
-    public void toggle() {
-        this.isOccupied = !this.isOccupied;
+    public void setOccupied() {
+        this.isOccupied = true;
+    }
+    
+    public void setNotOccupied() {
+    	this.isOccupied = false;
     }
 	
-	int tableNum;
-	int size;
-	int number;
-    public boolean isOccupied = false; //set to true if table becomes occupied
+	private int size;
+    private boolean isOccupied; //set to true if table becomes occupied
 }

@@ -27,6 +27,7 @@ class Job{
 		switch (type) {
 		case 1: jobManager.assignServingJob(items); break; 
 		case 3: jobManager.assignBussingJob(items); break; 
+		case 4: this.jobManager.getPartyManager().getRestaurant().freeTables(this.jobManager.getPartyManager().getTableNumbers()); break;
 		default: break;
 		}
 		

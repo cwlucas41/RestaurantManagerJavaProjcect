@@ -16,7 +16,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 * Gets the customer names from the customers.
 	 */
 	public List<String> setCustomerNames(){
-		List<String>people = new ArrayList();
+		List<String>people = new ArrayList<String>();
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
 		int numPeople = scanner.nextInt();

@@ -12,7 +12,12 @@ class Receipt {
     Receipt(int checkNumber, List<Integer>checkNames){
         this.checkNumber = checkNumber;
         this.checkNames = checkNames;
+<<<<<<< HEAD
         this.sumTotal();     
+=======
+        
+        this.sumTotal();
+>>>>>>> 6730a8a0c7f7a5ede42fa7a11c04a9802ff88453
     }
     /**
      * Iterates through all tickets and orders associated with a table
@@ -20,6 +25,7 @@ class Receipt {
      * Sums the total of the receipt for all customers involved
      */
     void sumTotal(){
+    	total = 0;
     	ListIterator<Ticket> allticks = this.partyManager.getTickets().listIterator();
         for (int i = 0; i<this.checkNames.size(); i++){
         	currName = checkNames.get(i);
@@ -43,6 +49,12 @@ class Receipt {
      */
     int getTotal(){
     	return total;
+    }
+    /**
+     * Outputs the total of the bill for the customers to see
+     */
+    void displayTotal(){
+    	System.out.println("The total for receipt " + checkNumber + " is " + total);
     }
     /**
      * returns the check number

@@ -29,6 +29,8 @@ class Restaurant {
 	private Queue<Integer> waitlist;
 	private List<Ticket> tickets;
 	private int partyID;
+	
+	private RestaurantInterface restaurantInterface;
 
 	public Restaurant() {
 		this.waiters = new Hashtable<Integer, Worker>();
@@ -39,6 +41,7 @@ class Restaurant {
 		this.partyID = 0;
 		this.waitlist = new LinkedList<Integer>();
 		this.tickets = new ArrayList<Ticket>();
+		this.restaurantInterface = new CLInterface(this);
 	}
 	
 	private int nextPartyID(){
@@ -75,7 +78,7 @@ class Restaurant {
 	
 	public int getLeastBusy(Hashtable<Integer, Worker> table) {
 		Set<Integer> keys = table.keySet();
-		double leastToDoSoFar = Double.POSITIVE_INFINITY;
+		int leastToDoSoFar = Integer.MAX_VALUE;
 		int workerID = 0;
 		for (Integer key : keys) {
 			Worker worker = table.get(key);
@@ -165,5 +168,9 @@ class Restaurant {
 			this.tables.get(iterator.next()).setNotOccupied();
 		}
 		createParty();
+	}
+	
+	public RestaurantInterface getRestaurantInterface() {
+		return restaurantInterface;
 	}
 }

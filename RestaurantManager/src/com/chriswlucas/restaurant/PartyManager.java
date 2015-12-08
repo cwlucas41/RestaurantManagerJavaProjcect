@@ -13,16 +13,21 @@ class PartyManager {
 		this.restaurant = restaurant;
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
+		this.custNames.addAll(this.restaurant.getRestaurantInterface().getCustomerInterface().setCustomerNames());
 		this.jobs = new JobManager(this);
 	}
 	
+	/*
+	void addCustomer(String customer){
+		custNames.add(customer);
+	}*/
 	/**
 	 * Gets the customer names from the customers.
 	 */
-	void setCustomerNames(){
+/*	void setCustomerNames(){
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
-		numPeople = scanner.nextInt();
+		int numPeople = scanner.nextInt();
 		
 		for (int i = 0; i<numPeople; i++){
 			int temp = i + 1;
@@ -32,14 +37,13 @@ class PartyManager {
 		}
 		scanner.close();
 	}
-	
+*/
 	/**
 	 * Adds an item to the appropriate list(food or drink).
 	 * @param item
 	 * @param customer
 	 */
 	void addItem(MenuItem item, int customer){
-		// from temp
 		if (item.isFood()){
 			tempFood.add(new Order(item,customer));
 		}
@@ -219,16 +223,21 @@ class PartyManager {
 		return restaurant;
 	}
 
-	List<String>custNames;
+	public List<String> getCustNames() {
+		return custNames;
+	}
+	
+	private List<String>custNames;
 	JobManager jobs;
     PaymentManager payments;
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;
+
+
 	int total=0;
 	boolean addingItems;
 	Restaurant restaurant;
-	private int numPeople;
 	private int waiterID;
 	private List<Integer> tableNumbers;
 

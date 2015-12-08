@@ -12,11 +12,7 @@ class Receipt {
     Receipt(int checkNumber, List<Integer>checkNames){
         this.checkNumber = checkNumber;
         this.checkNames = checkNames;
-        
-        this.sumTotal();
-        
-        
-        
+        this.sumTotal();     
     }
     /**
      * Iterates through all tickets and orders associated with a table

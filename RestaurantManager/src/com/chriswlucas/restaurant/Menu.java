@@ -12,6 +12,7 @@ class Menu {
 	public List<MenuItem> getDrinkItems(){
 		return drinkItems;
 	}
+	
 	public String toString(List<MenuItem> items){
 		ListIterator<MenuItem> iterator = items.listIterator();
 		String menuString=null;
@@ -30,6 +31,23 @@ class Menu {
 		}
 		else{
 			return toString(drinkItems);
+		}
+	}
+	
+	public void addMenuItem(String name, int price, boolean isFood){
+		MenuItem item = new MenuItem(name, price, isFood);
+		if (isFood) {
+			foodItems.add(item);
+		} else {
+			drinkItems.add(item);
+		}
+	}
+	
+	public MenuItem removeMenuItem(int itemNumber, boolean isFood) {
+		if(isFood){
+			return foodItems.remove(itemNumber);
+		} else {
+			return drinkItems.remove(itemNumber);
 		}
 	}
 	

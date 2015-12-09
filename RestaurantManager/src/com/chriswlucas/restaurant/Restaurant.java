@@ -136,12 +136,12 @@ class Restaurant {
 		return null;
 	}
 	
-	public boolean addMenuItem(int itemNumber){
-		
+	public void addMenuItem(String name, int price, boolean isFood) {
+		this.menu.addMenuItem(name, price, isFood);
 	}
 	
-	public MenuItem removeMenuItem(int itemNumber) {
-		
+	public MenuItem removeMenuItem(int itemNumber, boolean isFood) {
+		return this.menu.removeMenuItem(itemNumber, isFood);
 	}
 	
 	private int nextPartyID(){
@@ -153,11 +153,11 @@ class Restaurant {
 	}
 	
 	public Worker getKitchen(){
-		return kitchen;
+		return this.allWorkers.get(this.kitchenID);
 	}
 	
 	public Worker getBar(){
-		return bar;
+		return this.allWorkers.get(this.barID);
 	}
 	
 	public Worker getWaiter(PartyManager partyManager){

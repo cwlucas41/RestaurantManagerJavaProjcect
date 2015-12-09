@@ -2,14 +2,13 @@ package com.chriswlucas.restaurant;
 
 class MenuItem {
 
-	MenuItem(String name, int price, Boolean isFood){
+	MenuItem(String name, int price, boolean isFood){
 		this.Name = name;
 		this.price = price;
 		this.isFood = isFood;
-		//set isFood here when you create the item.
 	}
 	
-	Boolean isFood(){
+	boolean isFood(){
 		return isFood;
 	}
 	

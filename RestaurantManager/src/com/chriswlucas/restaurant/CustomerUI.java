@@ -47,4 +47,17 @@ interface CustomerUI {
 	 * Display invalid option.
 	 */
 	public void displayInvalidOption();
+	/**
+	 * Displays the option for patrons to checkout
+	 * @param paymentManager
+	 */
+	public void displayCheckout(PaymentManager paymentManager);
+	/**
+	 * Displays the total for a receipt
+	 */
+	public void displayTotal(Receipt receipt);
+	/**
+	 * Displays the total receipts for a table
+	 */
+	public void displayTickets(List<Receipt>receipts);
 }

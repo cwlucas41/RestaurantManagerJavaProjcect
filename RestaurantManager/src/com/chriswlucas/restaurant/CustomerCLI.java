@@ -109,4 +109,35 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	public void displayInvalidOption(){
 		System.out.println("Invalid option.");
 	}
+	/**
+	 * Displays the process for patrons to checkout
+	 */
+	public void displayCheckout(PaymentManager paymentManager) {
+		System.out.println("Would you like to checkout?");
+		System.out.println("Choose 1 for yes or 2 for no: ");
+		if (this.getIntegerFromUser() == 1){
+			paymentManager.checkout();
+		}
+		else {
+			System.out.println("Please pay when you are ready.");
+		}
+		
+	}
+	/**
+	 * Displays the total of a receipt
+	 */
+	public void displayTotal(Receipt receipt) {
+		System.out.println("The total for receipt " + receipt.getCheckNumber() + " is " + receipt.getTotal());
+	}
+	/**
+	 * Displays the total amount of receipts for a table and their associated check number and total
+	 */
+	public void displayTickets(List<Receipt> receipts) {
+		ListIterator<Receipt> receiptit = receipts.listIterator();
+		while (receiptit.hasNext()){
+			System.out.println("The total amount of receipts and their check numbers are: ");
+			System.out.println(receipts.size());
+			System.out.println("Receipt " + receiptit.next().getCheckNumber() + " has total " + receiptit.next().getTotal());
+		}
+	}
 }

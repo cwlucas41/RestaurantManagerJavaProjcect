@@ -46,12 +46,6 @@ class Receipt {
     	return total;
     }
     /**
-     * Outputs the total of the bill for the customers to see
-     */
-    void displayTotal(){
-    	System.out.println("The total for receipt " + checkNumber + " is " + total);
-    }
-    /**
      * returns the check number
      * @return
      */
@@ -65,6 +59,8 @@ class Receipt {
     public int total;
     private int checkNumber;
     private int currName;
+    private CustomerUI customerUI;
+	private Restaurant restaurant;
     
 
 

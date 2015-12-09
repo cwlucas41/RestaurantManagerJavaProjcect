@@ -31,29 +31,30 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		return people;
 	}
 	
-	int getIntegerFromUser(){
+	private int getIntegerFromUser(){
 		Scanner scanner = new Scanner(System.in);
 		int data = scanner.nextInt();
 		scanner.close();
 		return data;
 	}
 	
-	void displayAddItem(){
-		List<MenuItem> menu = this.getRestaurant().getMenuItems();
-		ListIterator<MenuItem> iterator = menu.listIterator();
-		
-		int i = 0;
-		while(iterator.hasNext()){
-			String temp = i + iterator.next().toString();
-			System.out.println(temp);
-			i++;
-		}
-		System.out.println();
+	public int displayCustomerChoices(){
+		System.out.println("Choose 1, 2, 3, or 4 for the following choices.");
+		System.out.println("1) Add item to ticket.");
+		System.out.println("2) Remove item from ticket.");
+		System.out.println("3) Submit order");
+		System.out.println("4) Cancel order");
+		return getIntegerFromUser();
+	}
+	
+	public void displayAddItem(){
 		System.out.println("Choose the number of the item you want:");
-		int orderVal = getIntegerFromUser();
-		
-		System.out.println();
-		ListIterator<String> it = this.getRestaurant().getParty().getCustNames().listIterator();
+		System.out.println(super.getRestaurant().getMenu().toString());
+	}
+	
+	public void displayCustomers(List<String>custNames){
+		System.out.println("Choose the number of the customer you want:");
+		ListIterator<String> it = custNames.listIterator() ;
 		int j = 0;
 		while(it.hasNext()){
 			String name = j + it.next();
@@ -61,8 +62,30 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 			j++;
 		}
 		System.out.println();
-		System.out.println("Choose the number of the customer you want:");
-		int customerNumber = getIntegerFromUser();
-		addItem(menu.get(orderVal), customerNumber); // where does this go.
+	}
+	public int getChoice(){
+		return getIntegerFromUser();
+	}
+	
+	public void displayItemsInList(List<Order>items, List<String>custNames){
+		ListIterator<Order> iterator = items.listIterator();
+		int i = 0;
+		System.out.println("Choose the number of the item you want to remove:");
+		while (iterator.hasNext()){
+			Order temp = iterator.next();
+			String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
+			System.out.println(out);
+			i++;
+		}
+	}
+	
+	public void displayRemoveItemMenu(){
+		System.out.println("Choose 1 or 2 for the following choices.");
+		System.out.println("1) Remove a drink item");
+		System.out.println("2) Remove a food item");
+	}
+		
+	public void displayInvalidOption(){
+		System.out.println("Invalid option.");
 	}
 }

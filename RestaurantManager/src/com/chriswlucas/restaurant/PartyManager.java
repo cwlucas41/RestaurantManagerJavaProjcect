@@ -5,21 +5,24 @@ import java.util.ListIterator;
 
 class PartyManager {
 	/**
-	 * Handles everything needed to run a party, from start to finish
-	 * @param waiter
+	 * Handles everything needed to run a party, from start to finish.
+	 * @param restaurant - reference to the current restaurant.
+	 * @param waiterID - waiter assigned to this party.
+	 * @param tableNumbers - table numbers assigned to this party.
 	 */
 	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers){
 		this.restaurant = restaurant;
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
-		this.custNames.addAll(this.restaurant.getRestaurantInterface().getCustomerInterface().setCustomerNames());
+		this.customerUI = restaurant.getRestaurantInterface().getCustomerInterface();
+		this.custNames.addAll(customerUI.setCustomerNames());
 		this.jobs = new JobManager(this);
 	}
 	
 	/**
 	 * Adds an item to the appropriate list(food or drink).
-	 * @param item
-	 * @param customer
+	 * @param item - a menu item.
+	 * @param customer - customer who ordered the item.
 	 */
 	void addItem(MenuItem item, int customer){
 		if (item.isFood()){
@@ -33,8 +36,8 @@ class PartyManager {
 	
 	/**
 	 * Removes an item from the appropriate list (food or drink).
-	 * @param item
-	 * @param customer
+	 * @param item - a menu item.
+	 * @param customer - customer who wants the item removed.
 	 */
 	void removeItem(MenuItem item, int customer){
 		//TODO remove based on item not customer
@@ -84,34 +87,35 @@ class PartyManager {
 	void takeOrder(){
 		boolean makeTick = false;
 		while(!makeTick){
-			int choice = restaurant.getRestaurantInterface().getCustomerInterface().displayCustomerChoices();
+			customerUI.displayCustomerChoices();
+			int choice = customerUI.getIntegerFromUser();
 			switch(choice){
 			case 1: {
-				restaurant.getRestaurantInterface().getCustomerInterface().displayAddItem();
-				int itemNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
-				restaurant.getRestaurantInterface().getCustomerInterface().displayCustomers(custNames);
-				int customerNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+				customerUI.displayAddItem();
+				int itemNumber = customerUI.getIntegerFromUser();
+				customerUI.displayCustomers(custNames);
+				int customerNumber = customerUI.getIntegerFromUser();
 				addItem(restaurant.getMenu().getMenuItems().get(itemNumber), customerNumber);
 			}
 			case 2: {
-				restaurant.getRestaurantInterface().getCustomerInterface().displayRemoveItemMenu();
-				int foodDrinkChoice = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+				customerUI.displayRemoveItemMenu();
+				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
 				Order removal;
 				if(foodDrinkChoice == 1){
-					restaurant.getRestaurantInterface().getCustomerInterface().displayItemsInList(tempFood, custNames);
-					itemToRemove = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+					customerUI.displayItemsInList(tempFood, custNames);
+					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempFood.get(itemToRemove);
 					removeItem(removal.getItem(), removal.getCust());
 				}
 				else if(foodDrinkChoice==2){
-					restaurant.getRestaurantInterface().getCustomerInterface().displayItemsInList(tempDrinks, custNames);
-					itemToRemove = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+					customerUI.displayItemsInList(tempDrinks, custNames);
+					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempDrinks.get(itemToRemove);
 					removeItem(removal.getItem(), removal.getCust());
 				}
 				else{
-					restaurant.getRestaurantInterface().getCustomerInterface().displayInvalidOption();
+					customerUI.displayInvalidOption();
 				}	
 			}
 			case 3: {
@@ -122,7 +126,7 @@ class PartyManager {
 				makeTick = true;
 				emptyTemp();
 			}
-			default: restaurant.getRestaurantInterface().getCustomerInterface().displayInvalidOption();
+			default: customerUI.displayInvalidOption();
 			}
 		}
 	}
@@ -137,37 +141,55 @@ class PartyManager {
         this.restaurant.collectTickets(tickets);
     }
 	
+    /**
+     * Returns the all the tickets this party manager has handled.
+     * @return tickets
+     */
     List<Ticket>getTickets(){
     	return tickets;
     }
     
+    /**
+     * Returns the tables associated with this party manager.
+     * @return - tableNumbers.
+     */
 	public List<Integer> getTableNumbers() {
 		return tableNumbers;
 	}
 
+	/**
+	 * Returns the waiterID for this table.
+	 * @return - waiterID.
+	 */
 	public int getWaiterID() {
 		return waiterID;
 	}
 	
+	/**
+	 * Returns the restaurant.
+	 * @return restaurant.
+	 */
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
 
+	/**
+	 * Returns the list of customer names in this party.
+	 * @return custNames.
+	 */
 	public List<String> getCustNames() {
 		return custNames;
 	}
 	
 	private List<String>custNames;
-	JobManager jobs;
-    PaymentManager payments;
-	List<Order> tempDrinks;
-	List<Order> tempFood;
-	List<Ticket> tickets;
-
-
-	int total=0;
-	boolean addingItems;
-	Restaurant restaurant;
+	private JobManager jobs;
+    private PaymentManager payments;
+	private List<Order> tempDrinks;
+	private List<Order> tempFood;
+	private List<Ticket> tickets;
+	private CustomerUI customerUI;
+	private int total=0;
+	private Restaurant restaurant;
 	private int waiterID;
 	private List<Integer> tableNumbers;
 

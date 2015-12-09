@@ -7,6 +7,10 @@ class UserInterface {
 		this.restaurant = restaurant;
 	}
 	
+	/**
+	 * Returns the restaurant to the customer interface.
+	 * @return restaurant.
+	 */
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}

@@ -23,6 +23,7 @@ class WorkerCLI extends UserInterface implements WorkerUI {
 			System.out.println("Job " + i);
 			System.out.println(jobIterator.next().toString());
 			System.out.println();
+			i++;
 		}
 	}
 }

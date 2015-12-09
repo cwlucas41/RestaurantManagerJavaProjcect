@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 class PaymentManager {
-    
+    /**
+     * Handles all aspects of payments including if the customer would like to split into multiple receipts
+     * @param partyManager - reference to current partyManager
+     * @param customerNames - reference to list of customer names
+     */
     PaymentManager(PartyManager partyManager, List<String> customerNames){
         this.partyManager = partyManager;
         this.customerNames = customerNames;
@@ -70,10 +74,7 @@ class PaymentManager {
     private List<Integer> checkNames;
     private int split;
     private int numPeople;
-    Receipt receipt;
     private JobManager jobs;
-	private CustomerUI customerUI;
-	private Restaurant restaurant;
 
     
                    

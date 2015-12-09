@@ -59,9 +59,6 @@ class Receipt {
     public int total;
     private int checkNumber;
     private int currName;
-    private CustomerUI customerUI;
-	private Restaurant restaurant;
-    
 
 
 }

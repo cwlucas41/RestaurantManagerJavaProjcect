@@ -24,12 +24,12 @@ class JobManager {
 		
 		if(!tempDrinks.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempDrinks);
-			partyManager.restaurant.getBar().assignJob(new Job (temp, type, this));
+			partyManager.getRestaurant().getBar().assignJob(new Job (temp, type, this));
 		}
 		
 		if(!tempFood.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempFood);
-			partyManager.restaurant.getKitchen().assignJob(new Job (temp, type, this));		}
+			partyManager.getRestaurant().getKitchen().assignJob(new Job (temp, type, this));		}
 	}
 
 	/**
@@ -39,7 +39,7 @@ class JobManager {
 	void assignServingJob(Job job){
 		type = 2;
 		job.setType(type);
-		partyManager.restaurant.getWaiter(this.partyManager).assignJob(job);
+		partyManager.getRestaurant().getWaiter(this.partyManager).assignJob(job);
 	}
 	
 	/**
@@ -48,8 +48,8 @@ class JobManager {
 	 */
 	void assignCollectingJob(){
 		type = 3;
-		List<Object>temp = new ArrayList<Object>(partyManager.restaurant.convertTableNumbersToTables(this.partyManager.getTableNumbers()));
-		partyManager.restaurant.getWaiter(this.partyManager).assignJob(new Job (temp, type, this));	
+		List<Object>temp = new ArrayList<Object>(partyManager.getRestaurant().convertTableNumbersToTables(this.partyManager.getTableNumbers()));
+		partyManager.getRestaurant().getWaiter(this.partyManager).assignJob(new Job (temp, type, this));	
 	}
 	
 	/**
@@ -60,7 +60,7 @@ class JobManager {
 	void assignBussingJob(Job job){
 		type = 4;
 		job.setType(type);
-		partyManager.restaurant.getBusser().assignJob(job);	
+		partyManager.getRestaurant().getBusser().assignJob(job);	
 	}
 	
 	public PartyManager getPartyManager() {

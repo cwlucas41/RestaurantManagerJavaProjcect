@@ -31,7 +31,6 @@ class PaymentManager {
     		}
     		this.createReceipt(split - 1, checkNames);
     		this.checkNames.clear();
-    		scanner.close();
     	}
     	else {
     		for (int i = 0; i<split; i++){
@@ -54,7 +53,6 @@ class PaymentManager {
     			}
     			this.createReceipt(i, checkNames);
     			this.checkNames.clear();
-    			scanner.close();
     		}
     	}
     }

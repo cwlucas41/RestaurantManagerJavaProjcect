@@ -1,5 +1,6 @@
 package com.chriswlucas.restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -15,8 +16,16 @@ class PartyManager {
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
 		this.customerUI = restaurant.getRestaurantInterface().getCustomerInterface();
-		this.custNames.addAll(customerUI.setCustomerNames());
+		this.custNames = new ArrayList<String>(customerUI.setCustomerNames());
+		this.tempDrinks = new ArrayList<Order>();
+		this.tempFood = new ArrayList<Order>();
+		this.tickets = new ArrayList<Ticket>();
 		this.jobs = new JobManager(this);
+		this.payments = new PaymentManager(this, custNames);
+	}
+	
+	public PaymentManager getPaymentManager() {
+		return this.payments;
 	}
 	
 	/**
@@ -46,7 +55,7 @@ class PartyManager {
 			while (iterator.hasNext()){
 				Order current = iterator.next();
 				if((item==current.getItem())&&(customer==current.getCust())){
-					tempFood.remove(iterator.next());
+					tempFood.remove(current);
 				}
 			}
 		}
@@ -55,7 +64,7 @@ class PartyManager {
 			while (iterator.hasNext()){
 				Order current = iterator.next();
 				if((item==current.getItem())&&(customer==current.getCust())){
-					tempDrinks.remove(iterator.next());
+					tempDrinks.remove(current);
 				}
 			}
 		}
@@ -66,8 +75,8 @@ class PartyManager {
 	 * Empty's everything from the temporary lists.
 	 */
 	void emptyTemp(){
-		tempFood.removeAll(null);
-		tempDrinks.removeAll(null);
+		tempFood.clear();
+		tempDrinks.clear();
 		total = 0;
 	}
 	
@@ -75,7 +84,17 @@ class PartyManager {
 	 * Creates a ticket for the current order and sends out the job.
 	 */
 	void makeTicket() {
-		Ticket temp = new Ticket(tempFood, tempDrinks, restaurant.getTicketNumber(), total);
+		List<Order> tempTempFood = new ArrayList<Order>();
+		for (Order order : tempFood){
+			tempTempFood.add(new Order(order));
+		}
+		
+		List<Order> tempTempDrinks = new ArrayList<Order>();
+		for (Order order : tempDrinks){
+			tempTempDrinks.add(new Order(order));
+		}
+		
+		Ticket temp = new Ticket(tempTempFood, tempTempDrinks, restaurant.getTicketNumber(), total);
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
 		emptyTemp();
@@ -112,6 +131,7 @@ class PartyManager {
 				customerUI.displayCustomers(custNames);
 				int customerNumber = customerUI.getIntegerFromUser();
 				addItem(item, customerNumber);
+				break;
 			}
 			case 2: {
 				customerUI.displayItemMenu();
@@ -132,17 +152,20 @@ class PartyManager {
 				}
 				else{
 					customerUI.displayInvalidOption();
-				}	
+				}
+				break;
 			}
 			case 3: {
 				makeTick = true;
 				makeTicket();
+				break;
 			}
 			case 4: {
 				makeTick = true;
 				emptyTemp();
+				break;
 			}
-			default: customerUI.displayInvalidOption();
+			default: customerUI.displayInvalidOption(); break;
 			}
 		}
 	}
@@ -152,7 +175,6 @@ class PartyManager {
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
     void pay(){
-        this.payments = new PaymentManager(this, custNames);
         this.payments.checkout();
         this.restaurant.collectTickets(tickets);
     }

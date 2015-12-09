@@ -1,9 +1,15 @@
 package com.chriswlucas.restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 class Menu {
+	
+	public Menu() {
+		this.foodItems = new ArrayList<MenuItem>();
+		this.drinkItems = new ArrayList<MenuItem>();
+	}
 	
 	public List<MenuItem> getFoodItems(){
 		return foodItems;

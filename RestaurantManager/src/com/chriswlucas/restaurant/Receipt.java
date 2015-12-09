@@ -26,14 +26,21 @@ class Receipt {
         	currName = checkNames.get(i);
         	while (allticks.hasNext()){
         		currTick = allticks.next();
-        		ListIterator<Order> allfood = currTick.getFoodOrders().listIterator();
-        		ListIterator<Order> alldrinks = currTick.getDrinkOrders().listIterator();
         		
-        		if (currName == alldrinks.next().getCust()){
-        			total += alldrinks.next().getItem().getPrice();
+        		ListIterator<Order> alldrinks = currTick.getDrinkOrders().listIterator();
+        		while(alldrinks.hasNext()){
+        			Order next = alldrinks.next();
+		    		if (currName == next.getCust()){
+		    			total += next.getItem().getPrice();
+		    		}
         		}
-        		if (currName == allfood.next().getCust()){
-        			total += allfood.next().getItem().getPrice();
+        		
+        		ListIterator<Order> allfood = currTick.getFoodOrders().listIterator();
+        		while(allfood.hasNext()){
+        			Order next = allfood.next();
+		    		if (currName == next.getCust()){
+		    			total += next.getItem().getPrice();
+		    		}
         		}
         	}
         }

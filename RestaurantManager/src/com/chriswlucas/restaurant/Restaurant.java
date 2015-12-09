@@ -39,17 +39,22 @@ class Restaurant {
 		this.partyID = 0;
 		this.waitlist = new LinkedList<Integer>();
 		this.tickets = new ArrayList<Ticket>();
+		this.menu = new Menu();
 		
 		Worker kitchen = new Worker("Kitchen", this);
-		this.kitchenID = 1;
+		this.kitchenID = 0;
 		Worker bar = new Worker("Bar", this);
-		this.barID = 2;
+		this.barID = 1;
 		this.allWorkers.put(this.kitchenID, kitchen);
 		this.allWorkers.put(this.barID, kitchen);
 		this.waiters.put(this.barID, bar);
 		this.bussers.put(this.barID, bar);
 		
 		this.restaurantInterface = new CLInterface(this);
+	}
+	
+	public PartyManager getPartyManager(int partyID) {
+		return this.partyManagers.get(partyID);
 	}
 	
 	private boolean isKitchenOrBar(int employeeID){
@@ -228,9 +233,9 @@ class Restaurant {
 		// TODO mark tables as occupied
 		partyManagers.put(this.nextPartyID(), new PartyManager(this, waiterID, tableNumbers));
 		
-		if (!waitlist.isEmpty()) {
-			createParty();
-		}
+//		if (!waitlist.isEmpty()) {
+//			createParty();
+//		}
 	}
 	
 	public List<Integer> getUnoccupiedTables() {

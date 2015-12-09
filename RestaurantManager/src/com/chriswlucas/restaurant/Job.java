@@ -49,15 +49,16 @@ class Job{
 	/**
 	 * Displays the current list of items in the job.
 	 */
-	void displayJob(){
-		
+	public String toString(){
+		String temp;
 		// make string here and print string in interface
-		System.out.println(getHeader());
-		System.out.println();
+		temp = getHeader();
+	
 		ListIterator<Object> iterator = items.listIterator();
 		while(iterator.hasNext()){
-			System.out.println(iterator.next().toString());
+			temp += "\t" + iterator.next().toString();
 		}
+		return temp;
 	}
 	
 	/**

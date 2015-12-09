@@ -6,9 +6,14 @@ class Order{
 	 * @param item
 	 * @param customer
 	 */
-	Order(MenuItem item, int customer){
+	public Order(MenuItem item, int customer){
 		this.it = item;
 		this.cust=customer;
+	}
+	
+	public Order(Order order) {
+		this.it = order.getItem();
+		this.cust = order.getCust();
 	}
 	
 	/**

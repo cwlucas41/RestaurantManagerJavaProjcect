@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 class CustomerCLI extends UserInterface implements CustomerUI {
 
+	Scanner scanner;
 	
 	public CustomerCLI(Restaurant restaurant){
 		super(restaurant);
+		this.scanner = new Scanner(System.in);
 	}
 	
 	/**
@@ -17,7 +19,6 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 */
 	public List<String> setCustomerNames(){
 		List<String>people = new ArrayList<String>();
-		Scanner scanner = new Scanner(System.in);
 		System.out.print("How many people in your party: ");
 		int numPeople = scanner.nextInt();
 		
@@ -27,7 +28,6 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 			System.out.print(output);
 			people.add(scanner.next());
 		}
-		scanner.close();
 		return people;
 	}
 	
@@ -36,9 +36,8 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 * @return data - the user's choice.
 	 */
 	public int getIntegerFromUser(){
-		Scanner scanner = new Scanner(System.in);
+		System.out.println("Here:");
 		int data = scanner.nextInt();
-		scanner.close();
 		return data;
 	}
 	
@@ -51,6 +50,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		System.out.println("2) Remove item from ticket.");
 		System.out.println("3) Submit order");
 		System.out.println("4) Cancel order");
+		return;
 	}
 	
 	/**
@@ -113,11 +113,12 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	/**
 	 * Displays the process for patrons to checkout
 	 */
-	public void displayCheckout(PaymentManager paymentManager) {
+	public void displayCheckout(int partyID) {
+		PartyManager partyManager = this.getRestaurant().getPartyManager(partyID);
 		System.out.println("Would you like to checkout?");
 		System.out.println("Choose 1 for yes or 2 for no: ");
 		if (this.getIntegerFromUser() == 1){
-			paymentManager.checkout();
+			partyManager.getPaymentManager().checkout();
 		}
 		else {
 			System.out.println("Please pay when you are ready.");

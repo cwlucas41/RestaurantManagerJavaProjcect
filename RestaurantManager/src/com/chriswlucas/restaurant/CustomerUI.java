@@ -50,9 +50,9 @@ interface CustomerUI {
 	public void displayInvalidOption();
 	/**
 	 * Displays the option for patrons to checkout
-	 * @param paymentManager
+	 * @param partyID
 	 */
-	public void displayCheckout(PaymentManager paymentManager);
+	public void displayCheckout(int partyID);
 	/**
 	 * Displays the total for a receipt
 	 */

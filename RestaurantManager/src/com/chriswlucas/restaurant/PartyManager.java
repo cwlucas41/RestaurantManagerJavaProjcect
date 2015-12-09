@@ -2,7 +2,6 @@ package com.chriswlucas.restaurant;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Scanner;
 
 class PartyManager {
 	/**
@@ -92,7 +91,7 @@ class PartyManager {
 				int itemNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
 				restaurant.getRestaurantInterface().getCustomerInterface().displayCustomers(custNames);
 				int customerNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
-				addItem(restaurant.getMenuItems().get(itemNumber), customerNumber);
+				addItem(restaurant.getMenu().getMenuItems().get(itemNumber), customerNumber);
 			}
 			case 2: {
 				restaurant.getRestaurantInterface().getCustomerInterface().displayRemoveItemMenu();

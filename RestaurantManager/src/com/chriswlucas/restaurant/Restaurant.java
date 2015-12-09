@@ -46,11 +46,7 @@ class Restaurant {
 	
 	private int nextPartyID(){
 		return partyID++;
-	}
-	
-	public List<MenuItem> getMenuItems(){
-		return menu.getMenuItems();
-	}		
+	}	
 	
 	public Menu getMenu(){
 		return menu;

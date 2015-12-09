@@ -9,10 +9,10 @@ class Receipt {
      * @param checkNumber
      * @param checkNames
      */
-    Receipt(int checkNumber, List<Integer>checkNames){
+    Receipt(int checkNumber, List<Integer>checkNames, List<Ticket>tickets){
         this.checkNumber = checkNumber;
         this.checkNames = checkNames;
-        this.sumTotal();     
+        this.tickets = tickets;    
     }
     /**
      * Iterates through all tickets and orders associated with a table
@@ -21,9 +21,10 @@ class Receipt {
      */
     void sumTotal(){
     	total = 0;
-    	ListIterator<Ticket> allticks = this.partyManager.getTickets().listIterator();
-        for (int i = 0; i<this.checkNames.size(); i++){
-        	currName = checkNames.get(i);
+    	ListIterator<Ticket> allticks = tickets.listIterator();
+    	ListIterator<Integer>names = checkNames.listIterator();
+    	while(names.hasNext()){
+        	currName = names.next();
         	while (allticks.hasNext()){
         		currTick = allticks.next();
         		
@@ -60,7 +61,8 @@ class Receipt {
     	return checkNumber;
     }
     
-    private PartyManager partyManager;
+    private List<Ticket> tickets;
+ //   private PartyManager partyManager;
     private List<Integer> checkNames;
     private Ticket currTick;
     public int total;

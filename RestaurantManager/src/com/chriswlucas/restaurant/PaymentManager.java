@@ -15,12 +15,13 @@ class PaymentManager {
         this.partyManager = partyManager;
         this.customerNames = customerNames;
         this.jobs = new JobManager(this.partyManager);
+        this.receipts = new ArrayList<Receipt>();
     }
     
     /**
      * Controls how people would like to pay for the bill
      */
-    void checkout(){
+    void checkout(List<Ticket>tickets){
     	Scanner scanner = new Scanner(System.in);
     	System.out.println("How many ways would you like to split the check?: ");
     	split = scanner.nextInt();
@@ -29,8 +30,8 @@ class PaymentManager {
     		for (int i = 0; i<customerNames.size(); i++){
     			checkNames.add(i);
     		}
-    		this.createReceipt(split - 1, checkNames);
-    		this.checkNames.clear();
+    		createReceipt(split - 1, checkNames, tickets);
+    		//this.checkNames.clear();
     	}
     	else {
     		for (int i = 0; i<split; i++){
@@ -51,8 +52,8 @@ class PaymentManager {
     				int custNumber = scanner.nextInt();
     				checkNames.add(custNumber);
     			}
-    			this.createReceipt(i, checkNames);
-    			this.checkNames.clear();
+    			createReceipt(i, checkNames,tickets);
+    			//this.checkNames.clear();
     		}
     	}
     }
@@ -60,10 +61,12 @@ class PaymentManager {
     /**
      * Creates a receipt based on who is included in that check
      */
-    void createReceipt(int n, List<Integer>checkNames){
-        Receipt receipt = new Receipt(n , this.checkNames);
+    void createReceipt(int n, List<Integer>checkNames, List<Ticket> ticks){
+        Receipt receipt = new Receipt(n ,checkNames, ticks);
+        receipt.sumTotal();
         receipts.add(receipt);
-        jobs.assignCollectingJob();    
+        jobs.assignCollectingJob();   
+        checkNames.clear();
     }
     
     private List<Receipt> receipts;

@@ -110,15 +110,15 @@ class PartyManager {
 			customerUI.displayCustomerChoices();
 			int choice = customerUI.getIntegerFromUser();
 			switch(choice){
-			case 1: {
+			case 0: {
 				customerUI.displayItemMenu();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
-				if(foodDrinkChoice == 1){
+				if(foodDrinkChoice == 0){
 					customerUI.displayAddItem(true);
 					int itemNumber = customerUI.getIntegerFromUser();
 					item = restaurant.getMenu().getFoodItems().get(itemNumber);
 				}
-				else if(foodDrinkChoice == 2){
+				else if(foodDrinkChoice == 1){
 					customerUI.displayAddItem(false);
 					int itemNumber = customerUI.getIntegerFromUser();
 					item = restaurant.getMenu().getDrinkItems().get(itemNumber);
@@ -133,18 +133,19 @@ class PartyManager {
 				addItem(item, customerNumber);
 				break;
 			}
-			case 2: {
+			case 1: {
 				customerUI.displayItemMenu();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
 				Order removal;
-				if(foodDrinkChoice == 1){
+				customerUI.displayInstruction();
+				if(foodDrinkChoice == 0){
 					customerUI.displayItemsInList(tempFood, custNames);
 					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempFood.get(itemToRemove);
 					removeItem(removal.getItem(), removal.getCust());
 				}
-				else if(foodDrinkChoice==2){
+				else if(foodDrinkChoice==1){
 					customerUI.displayItemsInList(tempDrinks, custNames);
 					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempDrinks.get(itemToRemove);
@@ -153,6 +154,11 @@ class PartyManager {
 				else{
 					customerUI.displayInvalidOption();
 				}
+				break;
+			}
+			case 2: {
+				customerUI.displayItemsInList(tempDrinks, custNames);
+				customerUI.displayItemsInList(tempFood, custNames);
 				break;
 			}
 			case 3: {
@@ -175,8 +181,8 @@ class PartyManager {
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
     void pay(){
-        this.payments.checkout();
         this.restaurant.collectTickets(tickets);
+        this.payments.checkout(tickets);
     }
 	
     /**

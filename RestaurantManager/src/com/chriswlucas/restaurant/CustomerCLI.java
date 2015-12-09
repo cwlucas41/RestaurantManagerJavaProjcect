@@ -45,9 +45,10 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 * Display the options a user has to choose from.
 	 */
 	public void displayCustomerChoices(){
-		System.out.println("Choose 1, 2, 3, or 4 for the following choices.");
-		System.out.println("1) Add item to ticket.");
-		System.out.println("2) Remove item from ticket.");
+		System.out.println("Choose 0, 1, 2, 3, or 4 for the following choices.");
+		System.out.println("0) Add item to ticket.");
+		System.out.println("1) Remove item from ticket.");
+		System.out.println("2) View your ticket.");
 		System.out.println("3) Submit order");
 		System.out.println("4) Cancel order");
 		return;
@@ -62,6 +63,9 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		System.out.println(super.getRestaurant().getMenu().printMenu(isFood));
 	}
 	
+	public void displayInstruction(){
+		System.out.println("Choose the number of the item you want to remove:");
+	}
 	/**
 	 * Displays the customer to be chosen.
 	 * @param custNames - list of customer names.
@@ -71,7 +75,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		ListIterator<String> it = custNames.listIterator() ;
 		int j = 0;
 		while(it.hasNext()){
-			String name = j + it.next();
+			String name = j +") " + it.next();
 			System.out.println(name);
 			j++;
 		}
@@ -86,22 +90,22 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	public void displayItemsInList(List<Order>items, List<String>custNames){
 		ListIterator<Order> iterator = items.listIterator();
 		int i = 0;
-		System.out.println("Choose the number of the item you want to remove:");
 		while (iterator.hasNext()){
 			Order temp = iterator.next();
 			String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
 			System.out.println(out);
 			i++;
 		}
+		System.out.println();
 	}
 	
 	/**
-	 * Display choices to remove an item (1 for food, 2 for drink).
+	 * Display choices to remove an item (0 for food, 1 for drink).
 	 */
 	public void displayItemMenu(){
-		System.out.println("Choose 1 or 2 for the following choices.");
-		System.out.println("1) A food item");
-		System.out.println("2) A drink item");
+		System.out.println("Choose 0 or 1 for the following choices.");
+		System.out.println("0) A food item");
+		System.out.println("1) A drink item");
 	}
 	
 	/**
@@ -118,7 +122,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		System.out.println("Would you like to checkout?");
 		System.out.println("Choose 1 for yes or 2 for no: ");
 		if (this.getIntegerFromUser() == 1){
-			partyManager.getPaymentManager().checkout();
+			partyManager.pay();
 		}
 		else {
 			System.out.println("Please pay when you are ready.");

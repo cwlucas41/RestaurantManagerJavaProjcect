@@ -21,10 +21,10 @@ class Menu {
 	
 	public String toString(List<MenuItem> items){
 		ListIterator<MenuItem> iterator = items.listIterator();
-		String menuString=null;
+		String menuString="Item\t\tPrice\n";
 		int i = 0;
 		while(iterator.hasNext()){
-			String temp = i + iterator.next().toString();
+			String temp = i +") " + iterator.next().toString();
 			menuString+=(temp +"\n");
 			i++;
 		}

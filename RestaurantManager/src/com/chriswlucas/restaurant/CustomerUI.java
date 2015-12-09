@@ -32,8 +32,9 @@ interface CustomerUI {
 	 */
 	public int getIntegerFromUser();
 	
+	public void displayInstruction();
 	/**
-	 * Display choices for items (1 for food, 2 for drink).
+	 * Display choices for items (0 for food, 1 for drink).
 	 */
 	public void displayItemMenu();
 	

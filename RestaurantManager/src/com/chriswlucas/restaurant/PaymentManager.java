@@ -60,16 +60,21 @@ class PaymentManager {
      */
     void createReceipt(int n, List<Integer>checkNames){
         Receipt receipt = new Receipt(n , this.checkNames);
-        partyManager.jobs.assignCollectingJob();    
+        receipts.add(receipt);
+        jobs.assignCollectingJob();    
     }
     
+    private List<Receipt> receipts;
     private List<String> customerNames;
     private PartyManager partyManager;
     private List<Integer> checkNames;
     private int split;
     private int numPeople;
     Receipt receipt;
-    JobManager jobs;
+    private JobManager jobs;
+	private CustomerUI customerUI;
+	private Restaurant restaurant;
+
     
                    
     

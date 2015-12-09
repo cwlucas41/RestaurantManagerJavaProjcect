@@ -16,8 +16,9 @@ interface CustomerUI {
 	
 	/**
 	 * Display the menu to the user.
+	 * @param isFood - true for food, false for drinks.
 	 */
-	public void displayAddItem();
+	public void displayAddItem(boolean isFood);
 	
 	/**
 	 * Displays the customer to be chosen.
@@ -32,9 +33,9 @@ interface CustomerUI {
 	public int getIntegerFromUser();
 	
 	/**
-	 * Display choices to remove an item (1 for food, 2 for drink).
+	 * Display choices for items (1 for food, 2 for drink).
 	 */
-	public void displayRemoveItemMenu();
+	public void displayItemMenu();
 	
 	/**
 	 * Displays the items that are in the ticket currently being made.
@@ -60,4 +61,5 @@ interface CustomerUI {
 	 * Displays the total receipts for a table
 	 */
 	public void displayTickets(List<Receipt>receipts);
+	
 }

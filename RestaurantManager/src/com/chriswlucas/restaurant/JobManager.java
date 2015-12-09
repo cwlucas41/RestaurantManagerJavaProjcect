@@ -29,7 +29,8 @@ class JobManager {
 		
 		if(!tempFood.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempFood);
-			partyManager.getRestaurant().getKitchen().assignJob(new Job (temp, type, this));		}
+			partyManager.getRestaurant().getKitchen().assignJob(new Job (temp, type, this));		
+		}
 	}
 
 	/**

@@ -2,7 +2,6 @@ package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 class PartyManager {
 	/**
@@ -48,27 +47,15 @@ class PartyManager {
 	 * @param item - a menu item.
 	 * @param customer - customer who wants the item removed.
 	 */
-	void removeItem(MenuItem item, int customer){
+	void removeItem(Order removal){
 		//TODO remove based on item not customer
-		if(item.isFood){
-			ListIterator<Order> iterator = tempFood.listIterator();
-			while (iterator.hasNext()){
-				Order current = iterator.next();
-				if((item==current.getItem())&&(customer==current.getCust())){
-					tempFood.remove(current);
-				}
-			}
+		if(removal.getItem().isFood()){
+			tempFood.remove(removal);
 		}
 		else{
-			ListIterator<Order> iterator = tempDrinks.listIterator();
-			while (iterator.hasNext()){
-				Order current = iterator.next();
-				if((item==current.getItem())&&(customer==current.getCust())){
-					tempDrinks.remove(current);
-				}
-			}
+			tempDrinks.remove(removal);
 		}
-		total -= item.getPrice();
+		total -= removal.getItem().getPrice();
 	}
 	
 	/**
@@ -116,11 +103,19 @@ class PartyManager {
 				if(foodDrinkChoice == 0){
 					customerUI.displayAddItem(true);
 					int itemNumber = customerUI.getIntegerFromUser();
+					if(itemNumber>restaurant.getMenu().getFoodItems().size()){
+						customerUI.displayInvalidOption();
+						break;
+					}
 					item = restaurant.getMenu().getFoodItems().get(itemNumber);
 				}
 				else if(foodDrinkChoice == 1){
 					customerUI.displayAddItem(false);
 					int itemNumber = customerUI.getIntegerFromUser();
+					if(itemNumber>restaurant.getMenu().getFoodItems().size()){
+						customerUI.displayInvalidOption();
+						break;
+					}
 					item = restaurant.getMenu().getDrinkItems().get(itemNumber);
 				}
 				else {
@@ -143,13 +138,13 @@ class PartyManager {
 					customerUI.displayItemsInList(tempFood, custNames);
 					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempFood.get(itemToRemove);
-					removeItem(removal.getItem(), removal.getCust());
+					removeItem(removal);
 				}
 				else if(foodDrinkChoice==1){
 					customerUI.displayItemsInList(tempDrinks, custNames);
 					itemToRemove = customerUI.getIntegerFromUser();
 					removal = tempDrinks.get(itemToRemove);
-					removeItem(removal.getItem(), removal.getCust());
+					removeItem(removal);
 				}
 				else{
 					customerUI.displayInvalidOption();

@@ -28,6 +28,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 			System.out.print(output);
 			people.add(scanner.next());
 		}
+		System.out.println();
 		return people;
 	}
 	
@@ -36,8 +37,9 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 * @return data - the user's choice.
 	 */
 	public int getIntegerFromUser(){
-		System.out.println("Here:");
+		System.out.print(">>");
 		int data = scanner.nextInt();
+		System.out.println();
 		return data;
 	}
 	
@@ -51,6 +53,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		System.out.println("2) View your ticket.");
 		System.out.println("3) Submit order");
 		System.out.println("4) Cancel order");
+		System.out.println();
 		return;
 	}
 	
@@ -113,6 +116,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	 */
 	public void displayInvalidOption(){
 		System.out.println("Invalid option.");
+		System.out.println();
 	}
 	/**
 	 * Displays the process for patrons to checkout

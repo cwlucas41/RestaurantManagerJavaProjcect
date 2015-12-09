@@ -55,10 +55,11 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	
 	/**
 	 * Display the menu to the user.
+	 * @param isFood - true for food, false for drinks.
 	 */
-	public void displayAddItem(){
+	public void displayAddItem(boolean isFood){
 		System.out.println("Choose the number of the item you want:");
-		System.out.println(super.getRestaurant().getMenu().toString());
+		System.out.println(super.getRestaurant().getMenu().printMenu(isFood));
 	}
 	
 	/**
@@ -97,10 +98,10 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 	/**
 	 * Display choices to remove an item (1 for food, 2 for drink).
 	 */
-	public void displayRemoveItemMenu(){
+	public void displayItemMenu(){
 		System.out.println("Choose 1 or 2 for the following choices.");
-		System.out.println("1) Remove a food item");
-		System.out.println("2) Remove a drink item");
+		System.out.println("1) A food item");
+		System.out.println("2) A drink item");
 	}
 	
 	/**
@@ -140,4 +141,5 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 			System.out.println("Receipt " + receiptit.next().getCheckNumber() + " has total " + receiptit.next().getTotal());
 		}
 	}
+
 }

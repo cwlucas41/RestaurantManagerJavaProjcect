@@ -5,11 +5,14 @@ import java.util.ListIterator;
 
 class Menu {
 	
-	List<MenuItem> getMenuItems(){
-		return items;
+	public List<MenuItem> getFoodItems(){
+		return foodItems;
 	}
 	
-	public String toString(){
+	public List<MenuItem> getDrinkItems(){
+		return drinkItems;
+	}
+	public String toString(List<MenuItem> items){
 		ListIterator<MenuItem> iterator = items.listIterator();
 		String menuString=null;
 		int i = 0;
@@ -21,5 +24,16 @@ class Menu {
 		return menuString;
 	}
 	
-	private List<MenuItem> items;
+	public String printMenu(boolean isFood){
+		if(isFood){
+			return toString(foodItems);
+		}
+		else{
+			return toString(drinkItems);
+		}
+	}
+	
+	private List<MenuItem> foodItems;
+	private List<MenuItem> drinkItems;
+
 }

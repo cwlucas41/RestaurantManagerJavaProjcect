@@ -87,18 +87,34 @@ class PartyManager {
 	void takeOrder(){
 		boolean makeTick = false;
 		while(!makeTick){
+			MenuItem item;
 			customerUI.displayCustomerChoices();
 			int choice = customerUI.getIntegerFromUser();
 			switch(choice){
 			case 1: {
-				customerUI.displayAddItem();
-				int itemNumber = customerUI.getIntegerFromUser();
+				customerUI.displayItemMenu();
+				int foodDrinkChoice = customerUI.getIntegerFromUser();
+				if(foodDrinkChoice == 1){
+					customerUI.displayAddItem(true);
+					int itemNumber = customerUI.getIntegerFromUser();
+					item = restaurant.getMenu().getFoodItems().get(itemNumber);
+				}
+				else if(foodDrinkChoice == 2){
+					customerUI.displayAddItem(false);
+					int itemNumber = customerUI.getIntegerFromUser();
+					item = restaurant.getMenu().getDrinkItems().get(itemNumber);
+				}
+				else {
+					customerUI.displayInvalidOption();
+					break;
+				}
+	
 				customerUI.displayCustomers(custNames);
 				int customerNumber = customerUI.getIntegerFromUser();
-				addItem(restaurant.getMenu().getMenuItems().get(itemNumber), customerNumber);
+				addItem(item, customerNumber);
 			}
 			case 2: {
-				customerUI.displayRemoveItemMenu();
+				customerUI.displayItemMenu();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
 				Order removal;

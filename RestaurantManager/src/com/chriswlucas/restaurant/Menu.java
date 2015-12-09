@@ -20,5 +20,6 @@ class Menu {
 		}
 		return menuString;
 	}
-	List<MenuItem> items;
+	
+	private List<MenuItem> items;
 }

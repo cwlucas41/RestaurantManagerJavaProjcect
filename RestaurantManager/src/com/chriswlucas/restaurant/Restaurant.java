@@ -11,18 +11,16 @@ import java.util.Set;
 class Restaurant {
 
 	private Hashtable<Integer, Table> tables;
-	
 	private Hashtable<Integer, PartyManager> partyManagers;
-
+	
 	private Hashtable<Integer, Worker> waiters;
 	private Hashtable<Integer, Worker> bussers;
+	private Hashtable<Integer, Worker> allWorkers;
 	
 	private int kitchenID;
-	private Worker kitchen;
 	private int barID;
-	private Worker bar;
 	
-	private int ticket;
+	private int ticketNumber;
 	private Menu menu;
 	private Queue<Integer> waitlist;
 	private List<Ticket> tickets;
@@ -33,13 +31,32 @@ class Restaurant {
 	public Restaurant() {
 		this.waiters = new Hashtable<Integer, Worker>();
 		this.bussers = new Hashtable<Integer, Worker>();
+		this.allWorkers = new Hashtable<Integer, Worker>();
 		this.partyManagers = new Hashtable<Integer, PartyManager>();
 		this.tables = new Hashtable<Integer, Table>();
-		this.ticket = 0;
+		
+		this.ticketNumber = 0;
 		this.partyID = 0;
 		this.waitlist = new LinkedList<Integer>();
 		this.tickets = new ArrayList<Ticket>();
+		
+		Worker kitchen = new Worker("Kitchen", this);
+		this.kitchenID = 1;
+		Worker bar = new Worker("Bar", this);
+		this.barID = 2;
+		this.allWorkers.put(this.kitchenID, kitchen);
+		this.allWorkers.put(this.barID, kitchen);
+		this.waiters.put(this.barID, bar);
+		this.bussers.put(this.barID, bar);
+		
 		this.restaurantInterface = new CLInterface(this);
+	}
+	
+	private boolean isKitchenOrBar(int employeeID){
+		if ((employeeID == this.kitchenID) || (employeeID == this.barID)) {
+			return true;
+		}
+		return false;
 	}
 	
 	private boolean WorkerIsWaiterForAParty(int employeeID) {
@@ -52,44 +69,74 @@ class Restaurant {
 		return false;
 	}
 	
-	public void hireNewWaiter(int employeeID, String name) {
-		Worker newWaiter = new Worker(name, this);
-		this.waiters.put(employeeID, newWaiter);
-		this.bussers.put(employeeID, newWaiter);
+	public boolean hireNewWaiter(int employeeID, String name) {
+		if (!this.allWorkers.containsKey(employeeID)){
+			Worker newWaiter = new Worker(name, this);
+			this.waiters.put(employeeID, newWaiter);
+			this.bussers.put(employeeID, newWaiter);
+			this.allWorkers.put(employeeID, newWaiter);
+			return true;
+		} 
+		return false;
 	}
 	
-	public void hireNewBusser(int employeeID, String name) {
-		Worker newBusser = new Worker(name, this);
-		this.bussers.put(employeeID, newBusser);
+	public boolean hireNewBusser(int employeeID, String name) {
+		if (!this.allWorkers.containsKey(employeeID)){
+			Worker newBusser = new Worker(name, this);
+			this.bussers.put(employeeID, newBusser);
+			this.allWorkers.put(employeeID, newBusser);
+			return true;
+		}
+		return false;
 	}
 	
 	public Worker removeWaiter(int employeeID) {
-		if ((this.waiters.get(employeeID).getNumberOfJobs() == 0) && !WorkerIsWaiterForAParty(employeeID)) {
-			Worker tempWaiter = this.waiters.remove(employeeID);
-			this.waiters.remove(employeeID);
-			return tempWaiter;
-		} else {
-			return null;
+		if (this.waiters.containsKey(employeeID)) {
+			if ((this.waiters.get(employeeID).getNumberOfJobs() == 0) && !WorkerIsWaiterForAParty(employeeID) && !isKitchenOrBar(employeeID)) {
+				this.waiters.remove(employeeID);
+				this.bussers.remove(employeeID);
+				return this.allWorkers.remove(employeeID);
+			}
 		}
+		return null;
 	}
 	
 	public Worker removeBusser(int employeeID) {
-		if (this.bussers.get(employeeID).getNumberOfJobs() == 0) {
-			return this.bussers.remove(employeeID);
-		} else {
-			return null;
+		if (this.bussers.containsKey(employeeID)) {
+			if ((this.bussers.get(employeeID).getNumberOfJobs() == 0) && !isKitchenOrBar(employeeID)) {
+				this.bussers.remove(employeeID);
+				return this.allWorkers.remove(employeeID);
+			}
 		}
+		return null;
 	}
 	
-	public void addTable(int tableNumber,int numberOfSeats) {
-		
+	public boolean addTable(int tableNumber,int numberOfSeats) {
+		if (this.tables.containsKey(tableNumber)) {
+			this.tables.put(tableNumber, new Table(numberOfSeats));
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addBarSeat(int tableNumber) {
+		if (this.tables.containsKey(tableNumber)) {
+			this.tables.put(tableNumber, new BarSeat());
+			return true;
+		}
+		return false;
 	}
 	
 	public Table removeTable(int tableNumber) {
-		
+		if (this.tables.containsKey(tableNumber)) {
+			if (!this.tables.get(tableNumber).isOccupied()) {
+				return this.tables.remove(tableNumber);
+			}
+		} 
+		return null;
 	}
 	
-	public void addMenuItem(int itemNumber){
+	public boolean addMenuItem(int itemNumber){
 		
 	}
 	
@@ -137,17 +184,7 @@ class Restaurant {
 	}
 	
 	public Worker getWorker(int employeeID) {	
-		if (employeeID == kitchenID) {
-			return kitchen;
-		} else if (employeeID == barID) {
-			return bar;
-		} else if (waiters.containsKey(employeeID)) {
-			return waiters.get(employeeID);
-		} else if (bussers.contains(employeeID)){
-			return waiters.get(employeeID);
-		} else {
-			return null;
-		}
+		return this.allWorkers.get(employeeID);
 	}
 	
 	public void collectTickets(List<Ticket>tickets){
@@ -172,8 +209,8 @@ class Restaurant {
 	}
 	
 	public int getTicketNumber () {       
-		ticket++;
-		return ticket;
+		ticketNumber++;
+		return ticketNumber;
 	};
 	
 	public List<Ticket> getTickets() {

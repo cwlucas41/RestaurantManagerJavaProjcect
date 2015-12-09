@@ -49,7 +49,7 @@ class Restaurant {
 	}
 	
 	public List<MenuItem> getMenuItems(){
-		return menu.getMenu();
+		return menu.getMenuItems();
 	}		
 	
 	public Host getHost() {

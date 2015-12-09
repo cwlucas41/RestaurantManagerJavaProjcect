@@ -4,7 +4,7 @@ import java.util.List;
 
 class Menu {
 	
-	List<MenuItem> getMenu(){
+	List<MenuItem> getMenuItems(){
 		return items;
 	}
 	

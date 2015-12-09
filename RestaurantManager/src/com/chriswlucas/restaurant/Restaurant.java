@@ -14,8 +14,6 @@ class Restaurant {
 	
 	private Hashtable<Integer, PartyManager> partyManagers;
 
-	private Manager manager;
-	private Host host;
 	private Hashtable<Integer, Worker> waiters;
 	private Hashtable<Integer, Worker> bussers;
 	
@@ -44,20 +42,67 @@ class Restaurant {
 		this.restaurantInterface = new CLInterface(this);
 	}
 	
+	private boolean WorkerIsWaiterForAParty(int employeeID) {
+		Set<Integer> keys = this.partyManagers.keySet();
+		for (int key : keys) {
+			if (partyManagers.get(key).getWaiterID() == employeeID) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void hireNewWaiter(int employeeID, String name) {
+		Worker newWaiter = new Worker(name, this);
+		this.waiters.put(employeeID, newWaiter);
+		this.bussers.put(employeeID, newWaiter);
+	}
+	
+	public void hireNewBusser(int employeeID, String name) {
+		Worker newBusser = new Worker(name, this);
+		this.bussers.put(employeeID, newBusser);
+	}
+	
+	public Worker removeWaiter(int employeeID) {
+		if ((this.waiters.get(employeeID).getNumberOfJobs() == 0) && !WorkerIsWaiterForAParty(employeeID)) {
+			Worker tempWaiter = this.waiters.remove(employeeID);
+			this.waiters.remove(employeeID);
+			return tempWaiter;
+		} else {
+			return null;
+		}
+	}
+	
+	public Worker removeBusser(int employeeID) {
+		if (this.bussers.get(employeeID).getNumberOfJobs() == 0) {
+			return this.bussers.remove(employeeID);
+		} else {
+			return null;
+		}
+	}
+	
+	public void addTable(int tableNumber,int numberOfSeats) {
+		
+	}
+	
+	public Table removeTable(int tableNumber) {
+		
+	}
+	
+	public void addMenuItem(int itemNumber){
+		
+	}
+	
+	public MenuItem removeMenuItem(int itemNumber) {
+		
+	}
+	
 	private int nextPartyID(){
 		return partyID++;
 	}	
 	
 	public Menu getMenu(){
 		return menu;
-	}
-	
-	public Host getHost() {
-		 return host;
-	}
-	
-	public Manager getManager() {
-		return this.manager;
 	}
 	
 	public Worker getKitchen(){

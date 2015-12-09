@@ -1,15 +1,20 @@
 package com.chriswlucas.restaurant;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
-class Worker extends Employee {
-	private List<Job> jobs = new LinkedList<Job>();
+class Worker {
 	
-	public Worker(String name, Restaurant restaurant){
-		super(name, restaurant);
+	private List<Job> jobs;
+	private String name;
+	private Restaurant restaurant;
+	
+	public Worker(String name, Restaurant restaurant) {
+		this.name = name;
+		this.restaurant = restaurant;
+		this.jobs = new ArrayList<Job>();
 	}
 	
 	private Comparator<Job> comp = new Comparator<Job>() {
@@ -35,5 +40,17 @@ class Worker extends Employee {
 	
 	public List<Job> getJobs() {
 		return jobs;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public Restaurant getRestaurant() {
+		return restaurant;
 	}
 }

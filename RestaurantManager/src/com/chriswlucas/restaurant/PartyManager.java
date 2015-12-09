@@ -13,24 +13,8 @@ class PartyManager {
 		this.restaurant = restaurant;
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
+		this.custNames.addAll(this.restaurant.getRestaurantInterface().getCustomerInterface().setCustomerNames());
 		this.jobs = new JobManager(this);
-	}
-	
-	/**
-	 * Gets the customer names from the customers.
-	 */
-	void setCustomerNames(){
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("How many people in your party: ");
-		numPeople = scanner.nextInt();
-		
-		for (int i = 0; i<numPeople; i++){
-			int temp = i + 1;
-			String output = "Enter customer "+temp+"(FirstName and first letter of last name without spaces): ";
-			System.out.print(output);
-			custNames.add(scanner.next());
-		}
-		scanner.close();
 	}
 	
 	/**
@@ -39,7 +23,6 @@ class PartyManager {
 	 * @param customer
 	 */
 	void addItem(MenuItem item, int customer){
-		// from temp
 		if (item.isFood()){
 			tempFood.add(new Order(item,customer));
 		}
@@ -95,91 +78,43 @@ class PartyManager {
 		jobs.assignProducingJob(temp);
 		emptyTemp();
 	}
-	
-	int getIntegerFromUser(){
-		Scanner scanner = new Scanner(System.in);
-		int data = scanner.nextInt();
-		scanner.close();
-		return data;
-	}
-	
-	void displayAddItem(){
-		List<MenuItem> menu = restaurant.getMenuItems();
-		ListIterator<MenuItem> iterator = menu.listIterator();
-		
-		int i = 0;
-		while(iterator.hasNext()){
-			String temp = i + iterator.next().toString();
-			System.out.println(temp);
-			i++;
-		}
-		System.out.println();
-		System.out.println("Choose the number of the item you want:");
-		int orderVal = getIntegerFromUser();
-		
-		System.out.println();
-		ListIterator<String> it = custNames.listIterator();
-		int j = 0;
-		while(it.hasNext()){
-			String name = j + it.next();
-			System.out.println(name);
-			j++;
-		}
-		System.out.println();
-		System.out.println("Choose the number of the customer you want:");
-		int customerNumber = getIntegerFromUser();
-		addItem(menu.get(orderVal), customerNumber);
-	}
-	
-	void displayRemoveItem(){
-		System.out.println("Choose 1 or 2 for the following choices.");
-		System.out.println("1) Remove a drink item");
-		System.out.println("2) Remove a food item");
-		int choice = getIntegerFromUser();
-		if (choice == 1){
-			ListIterator<Order> iterator = tempDrinks.listIterator();
-			int i = 0;
-			while (iterator.hasNext()){
-				Order temp = iterator.next();
-				String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
-				System.out.println(out);
-				i++;
-			}
-			Order drink = tempDrinks.get(getIntegerFromUser());
-			removeItem(drink.getItem(), drink.getCust());
-		}
-		else if (choice == 2){
-			ListIterator<Order> iterator = tempFood.listIterator();
-			int i = 0;
-			while (iterator.hasNext()){
-				Order temp = iterator.next();
-				String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
-				System.out.println(out);
-				i++;
-			}
-			Order food = tempFood.get(getIntegerFromUser());
-			removeItem(food.getItem(), food.getCust());
-		}
-		else{
-			System.out.println("Invalid option.");
-		}
-	}
-	
+
 	/**
 	 * Takes an order from the customers.
 	 */
 	void takeOrder(){
 		boolean makeTick = false;
 		while(!makeTick){
-			System.out.println("Choose 1, 2, 3, or 4 for the following choices.");
-			System.out.println("1) Add item to ticket.");
-			System.out.println("2) Remove item from ticket.");
-			System.out.println("3) Submit order");
-			System.out.println("4) Cancel order");
-			int choice = getIntegerFromUser();
+			int choice = restaurant.getRestaurantInterface().getCustomerInterface().displayCustomerChoices();
 			switch(choice){
-			case 1: displayAddItem();
-			case 2: displayRemoveItem();
+			case 1: {
+				restaurant.getRestaurantInterface().getCustomerInterface().displayAddItem();
+				int itemNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+				restaurant.getRestaurantInterface().getCustomerInterface().displayCustomers(custNames);
+				int customerNumber = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+				addItem(restaurant.getMenuItems().get(itemNumber), customerNumber);
+			}
+			case 2: {
+				restaurant.getRestaurantInterface().getCustomerInterface().displayRemoveItemMenu();
+				int foodDrinkChoice = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+				int itemToRemove;
+				Order removal;
+				if(foodDrinkChoice == 1){
+					restaurant.getRestaurantInterface().getCustomerInterface().displayItemsInList(tempFood, custNames);
+					itemToRemove = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+					removal = tempFood.get(itemToRemove);
+					removeItem(removal.getItem(), removal.getCust());
+				}
+				else if(foodDrinkChoice==2){
+					restaurant.getRestaurantInterface().getCustomerInterface().displayItemsInList(tempDrinks, custNames);
+					itemToRemove = restaurant.getRestaurantInterface().getCustomerInterface().getChoice();
+					removal = tempDrinks.get(itemToRemove);
+					removeItem(removal.getItem(), removal.getCust());
+				}
+				else{
+					restaurant.getRestaurantInterface().getCustomerInterface().displayInvalidOption();
+				}	
+			}
 			case 3: {
 				makeTick = true;
 				makeTicket();
@@ -188,7 +123,7 @@ class PartyManager {
 				makeTick = true;
 				emptyTemp();
 			}
-			default: System.out.println("Invalid option");
+			default: restaurant.getRestaurantInterface().getCustomerInterface().displayInvalidOption();
 			}
 		}
 	}
@@ -219,16 +154,21 @@ class PartyManager {
 		return restaurant;
 	}
 
-	List<String>custNames;
+	public List<String> getCustNames() {
+		return custNames;
+	}
+	
+	private List<String>custNames;
 	JobManager jobs;
     PaymentManager payments;
 	List<Order> tempDrinks;
 	List<Order> tempFood;
 	List<Ticket> tickets;
+
+
 	int total=0;
 	boolean addingItems;
 	Restaurant restaurant;
-	private int numPeople;
 	private int waiterID;
 	private List<Integer> tableNumbers;
 

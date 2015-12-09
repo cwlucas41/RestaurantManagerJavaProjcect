@@ -52,6 +52,10 @@ class Restaurant {
 		return menu.getMenuItems();
 	}		
 	
+	public Menu getMenu(){
+		return menu;
+	}
+	
 	public Host getHost() {
 		 return host;
 	}

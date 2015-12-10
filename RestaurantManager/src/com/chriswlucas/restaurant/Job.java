@@ -56,7 +56,7 @@ class Job{
 	
 		ListIterator<Object> iterator = items.listIterator();
 		while(iterator.hasNext()){
-			temp += "\t" + iterator.next().toString()+"\n";
+			temp += "\t\t" + iterator.next().toString()+"\n";
 		}
 		return temp;
 	}

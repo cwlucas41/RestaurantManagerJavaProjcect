@@ -29,6 +29,10 @@ class Restaurant implements Interfaceable{
 	
 	private RestaurantInterface restaurantInterface;
 
+	/**
+	 * Manages and modifies the internal state of the Restaurant
+	 * Holds the user interface fore the Restaurant
+	 */
 	public Restaurant() {
 		this.waiters = new Hashtable<Integer, Worker>();
 		this.bussers = new Hashtable<Integer, Worker>();

@@ -1,6 +1,6 @@
 package com.chriswlucas.restaurant;
 
-class ManagerCLI extends UserInterface implements ManagerUI {
+class ManagerCLI extends UserCLI implements ManagerUI {
 	
 	public ManagerCLI(Restaurant restaurant){
 		super(restaurant);

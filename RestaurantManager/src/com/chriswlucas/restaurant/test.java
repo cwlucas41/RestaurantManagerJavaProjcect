@@ -8,7 +8,7 @@ public class test {
 		r.getManagerInterface().hireNewWaiter(2, "Nick");
 		r.getManagerInterface().addNewTable(0, 4);
 
-		r.getHostInterface().addNewPartyToWaitlist(1, false);
+		r.getHostInterface().addNewPartyToWaitlist(2, false);
 		
 		r.getManagerInterface().addItemToMenu("Coke", 1, false);
 		r.getManagerInterface().addItemToMenu("Water", 0, false);
@@ -19,22 +19,13 @@ public class test {
 		
 		r.getCustomerInterface().initiateOrdering(0);
 		
-		r.getWorkerInterface().displayJobs(0);
-		r.getWorkerInterface().displayJobs(1);
-		r.getWorkerInterface().doJob(0, 0);
-		r.getWorkerInterface().doJob(1, 0);
-		
-		r.getWorkerInterface().displayJobs(2);
-		r.getWorkerInterface().doJob(2, 0);
-		r.getWorkerInterface().displayJobs(2);
-		r.getWorkerInterface().doJob(2, 0);
+		r.getWorkerInterface().controlWorker(0);
+		r.getWorkerInterface().controlWorker(2);
+		r.getWorkerInterface().controlWorker(1);
+		r.getWorkerInterface().controlWorker(2);
 
 		r.getCustomerInterface().displayCheckout(0);
 		
-		r.getWorkerInterface().displayJobs(2);
-		r.getWorkerInterface().doJob(2, 0);
-		
-		r.getWorkerInterface().displayJobs(2);
-		r.getWorkerInterface().doJob(2, 0);
+		r.getWorkerInterface().controlWorker(2);
 	}
 }

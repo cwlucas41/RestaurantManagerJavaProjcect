@@ -2,7 +2,7 @@ package com.chriswlucas.restaurant;
 
 import java.util.List;
 
-class HostCLI extends UserInterface implements HostUI {
+class HostCLI extends UserCLI implements HostUI {
 		
 	public HostCLI(Restaurant restaurant){
 		super(restaurant);

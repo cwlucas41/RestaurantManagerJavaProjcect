@@ -3,15 +3,11 @@ package com.chriswlucas.restaurant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Scanner;
 
-class CustomerCLI extends UserInterface implements CustomerUI {
-
-	Scanner scanner;
+class CustomerCLI extends UserCLI implements CustomerUI {
 	
 	public CustomerCLI(Restaurant restaurant){
 		super(restaurant);
-		this.scanner = new Scanner(System.in);
 	}
 	
 	public void initiateOrdering(int partyID){
@@ -28,21 +24,10 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 			int temp = i + 1;
 			String output = "Enter customer "+temp+" (first and last name): ";
 			System.out.print(output);
-			people.add(scanner.nextLine());
+			people.add(getLineFromUser());
 		}
 		System.out.println();
 		return people;
-	}
-	
-	/**
-	 * Gets an integer choice from the customer.
-	 * @return data - the user's choice.
-	 */
-	public int getIntegerFromUser(){
-		System.out.print(">>");
-		int data = scanner.nextInt();
-		System.out.println();
-		return data;
 	}
 	
 	/**

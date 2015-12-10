@@ -21,7 +21,7 @@ class MenuItem {
 	}
 	
 	public String toString(){
-		return getItemName() + " $" + getPrice();
+		return getItemName() + "\t$" + getPrice();
 	}
 	public int price;
 	public String Name;

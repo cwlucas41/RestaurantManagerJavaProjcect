@@ -46,7 +46,7 @@ class Restaurant {
 		Worker bar = new Worker("Bar", this);
 		this.barID = 1;
 		this.allWorkers.put(this.kitchenID, kitchen);
-		this.allWorkers.put(this.barID, kitchen);
+		this.allWorkers.put(this.barID, bar);
 		this.waiters.put(this.barID, bar);
 		this.bussers.put(this.barID, bar);
 		

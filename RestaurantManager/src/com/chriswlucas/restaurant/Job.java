@@ -4,6 +4,12 @@ import java.sql.Time;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Data to be moved around the restaurant.
+ * Job is either done or undone.
+ * @author Nick Anderson
+ *
+ */
 class Job implements Comparable<Job>{
 	/**
 	 * Holds a list of items/tables that need to be produced,
@@ -22,18 +28,20 @@ class Job implements Comparable<Job>{
 	/**
 	 * If the job is a producing job it needs to be changed over to a serving job.
 	 * If the job is a collecting job(payment) it needs to be changed over to a bussing job.
+	 * NOTE: No case 2 needed since a collecting job is created when the customer wants to pay.
 	 */
 	void markAsDone(){
 		switch (type) {
 		case 1: jobManager.assignServingJob(this); break; 
 		case 3: jobManager.assignBussingJob(this); break; 
-		case 4: this.jobManager.getPartyManager().getRestaurant().markTablesByNumberAs(this.jobManager.getPartyManager().getTableNumbers(), false); break;
+		case 4: jobManager.getPartyManager().getRestaurant().markTablesByNumberAs(jobManager.getPartyManager().getTableNumbers(), false); break;
 		default: break;
 		}
 		
 	}
+	
 	/**
-	 * 
+	 * Builds the first line of the toString method based on Job type.
 	 * @return a header string for output based on the type of job.
 	 */
 	private String getHeader(){
@@ -51,9 +59,7 @@ class Job implements Comparable<Job>{
 	 */
 	public String toString(){
 		String temp;
-		// make string here and print string in interface
 		temp = getHeader();
-	
 		ListIterator<Object> iterator = items.listIterator();
 		while(iterator.hasNext()){
 			temp += "\t\t" + iterator.next().toString()+"\n";
@@ -62,20 +68,27 @@ class Job implements Comparable<Job>{
 	}
 	
 	/**
-	 * 
+	 * Get's the time the job was created.
 	 * @return the time this job was created.
 	 */
 	Time getCurrent(){
 		return current;
 	}
 	
+	/**
+	 * Sets te type of this job.
+	 * @param type
+	 */
 	public void setType(int type) {
 		this.type = type;
 	}
 	
-	@Override
-	public int compareTo(Job o) {
-		return this.current.compareTo(o.current);
+	/**
+	 * Compares the time's so jobs can be sorted for a worker
+	 * @param other - another job.
+	 */
+	public int compareTo(Job other) {
+		return this.current.compareTo(other.current);
 	}
 	
 	private JobManager jobManager;

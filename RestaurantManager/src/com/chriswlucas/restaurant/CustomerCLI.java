@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Sets up a command line interface for the customers.
+ * @author Nick Anderson
+ * @author Jonathon Bundy.
+ */
 class CustomerCLI extends UserCLI implements CustomerUI {
 	
 	public CustomerCLI(Restaurant restaurant){
 		super(restaurant);
 	}
 	
+	/**
+	 * Starts the whole ordering procedure for a specific party.
+	 * @param partyID
+	 */
 	public void initiateOrdering(int partyID){
 		this.getRestaurant().getPartyManager(partyID).takeOrder();
 	}
@@ -48,14 +57,18 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	 * Display the menu to the user.
 	 * @param isFood - true for food, false for drinks.
 	 */
-	public void displayAddItem(boolean isFood){
+	public void displayMenuItems(boolean isFood){
 		System.out.println("Choose the number of the item you want:");
 		System.out.println(super.getRestaurant().getMenu().printMenu(isFood));
 	}
 	
-	public void displayInstruction(){
+	/**
+	 * Displays the remove instruction to the user.
+	 */
+	public void displayRemoveInstruction(){
 		System.out.println("Choose the number of the item you want to remove:");
 	}
+	
 	/**
 	 * Displays the customer to be chosen.
 	 * @param custNames - list of customer names.
@@ -92,7 +105,7 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	/**
 	 * Display choices to remove an item (0 for food, 1 for drink).
 	 */
-	public void displayItemMenu(){
+	public void displayFoodOrDrinkChoice(){
 		System.out.println("Choose 0 or 1 for the following choices.");
 		System.out.println("0) A food item");
 		System.out.println("1) A drink item");

@@ -34,13 +34,14 @@ class PaymentManager {
     	else {
     		for (int i = 0; i<split; i++){
     			List<Integer> checkNames = new ArrayList<Integer>();
-    			System.out.println("How many people in party " + i+1 + "?:");
+    			int temp = i++;
+    			System.out.println("How many people in party " + temp + "?:");
     			numPeople = scanner.nextInt();
     			System.out.println();
     			ListIterator<String> names = customerNames.listIterator();
     			int k = 0;
     			while(names.hasNext()){
-    				String customer = k + " " + names.next();
+    				String customer = k + ") " + names.next();
     				System.out.println(customer);
     				k++;
     			}

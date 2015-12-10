@@ -2,14 +2,17 @@ package com.chriswlucas.restaurant;
 
 import java.util.List;
 
-
+/**
+ * Ticket that holds all the food items for this particular order.
+ * @author Nick Anderson
+ *
+ */
 class Ticket {
 	/**
-	 * Ticket that holds all the food items for this particular order.
-	 * @param foodItems
-	 * @param drinkItems
-	 * @param ticketNum
-	 * @param total
+	 * @param foodItems - list of the foodItems on this ticket.
+	 * @param drinkItems - list of the drinkITems on this ticket.
+	 * @param ticketNum - the ticketNumber for this ticket.
+	 * @param total - the total price of this ticket.
 	 */
 	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, double total){
 		this.food = foodItems;
@@ -19,32 +22,32 @@ class Ticket {
 	}
 	
 	/**
-	 * 
-	 * @return the ticket number.
+	 * Returns a ticketNumber.
+	 * @return tNum - the ticket number.
 	 */
 	int getTickNum(){
-		return this.tNum;
+		return tNum;
 	}
 	
 	/**
-	 * 
-	 * @return the total for this ticket.
+	 * Returns the price of this ticket.
+	 * @return total - price for this ticket.
 	 */
 	double getTicketTotal(){
-		return this.total;
+		return total;
 	}
 	
 	/**
-	 * 
-	 * @return the food items on this ticket.
+	 * Returns a list of foodItems.
+	 * @return food - foodItems on this ticket.
 	 */
 	List<Order> getFoodOrders(){
 		return food;
 	}
 	
 	/**
-	 * 
-	 * @return the drink items on this ticket.
+	 * Returns a list of drinkItems.
+	 * @return drink - drinkItems on this ticket.
 	 */
 	List<Order> getDrinkOrders(){	
 		return drink;

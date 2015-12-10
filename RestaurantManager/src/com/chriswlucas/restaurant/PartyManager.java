@@ -10,6 +10,7 @@ class PartyManager {
 	 * @param restaurant - reference to the current restaurant.
 	 * @param waiterID - waiter assigned to this party.
 	 * @param tableNumbers - table numbers assigned to this party.
+	 * @author Nick Anderson
 	 */
 	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers, int partySize, boolean isAtBar){
 		this.restaurant = restaurant;
@@ -25,8 +26,12 @@ class PartyManager {
 		this.payments = new PaymentManager(this, custNames);
 	}
 	
+	/**
+	 * Returns the PaymentManager.
+	 * @return payments.
+	 */
 	public PaymentManager getPaymentManager() {
-		return this.payments;
+		return payments;
 	}
 	
 	/**
@@ -50,7 +55,6 @@ class PartyManager {
 	 * @param customer - customer who wants the item removed.
 	 */
 	void removeItem(Order removal){
-		//TODO remove based on item not customer
 		if(removal.getItem().isFood()){
 			tempFood.remove(removal);
 		}
@@ -91,6 +95,11 @@ class PartyManager {
 
 	/**
 	 * Takes an order from the customers.
+	 * Case 0 Takes user through adding an item to the ticket.
+	 * Case 1 Takes user through removing an item from the ticket.
+	 * Case 2 Lets user view the current ticket.
+	 * Case 3 Let the user submit their ticket.
+	 * Case 4 Lets the user cancel their current ticket.
 	 */
 	void takeOrder(){
 		boolean makeTick = false;
@@ -100,10 +109,10 @@ class PartyManager {
 			int choice = customerUI.getIntegerFromUser();
 			switch(choice){
 			case 0: {
-				customerUI.displayItemMenu();
+				customerUI.displayFoodOrDrinkChoice();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				if(foodDrinkChoice == 0){
-					customerUI.displayAddItem(true);
+					customerUI.displayMenuItems(true);
 					int itemNumber = customerUI.getIntegerFromUser();
 					if(itemNumber>restaurant.getMenu().getFoodItems().size()){
 						customerUI.displayInvalidOption();
@@ -112,7 +121,7 @@ class PartyManager {
 					item = restaurant.getMenu().getFoodItems().get(itemNumber);
 				}
 				else if(foodDrinkChoice == 1){
-					customerUI.displayAddItem(false);
+					customerUI.displayMenuItems(false);
 					int itemNumber = customerUI.getIntegerFromUser();
 					if(itemNumber>restaurant.getMenu().getFoodItems().size()){
 						customerUI.displayInvalidOption();
@@ -131,11 +140,11 @@ class PartyManager {
 				break;
 			}
 			case 1: {
-				customerUI.displayItemMenu();
+				customerUI.displayFoodOrDrinkChoice();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
 				Order removal;
-				customerUI.displayInstruction();
+				customerUI.displayRemoveInstruction();
 				if(foodDrinkChoice == 0){
 					customerUI.displayItemsInList(tempFood, custNames);
 					itemToRemove = customerUI.getIntegerFromUser();
@@ -222,12 +231,20 @@ class PartyManager {
 		return custNames;
 	}
 	
+	/**
+	 * Returns the JobManager.
+	 * @return jobs.
+	 */
 	public JobManager getJobManager() {
 		return jobs;
 	}
 	
+	/**
+	 * Tells whether this party is at the bar or not.
+	 * @return isAtBar.
+	 */
 	public boolean isAtBar() {
-		return this.isAtBar;
+		return isAtBar;
 	}
 	
 	private List<String>custNames;

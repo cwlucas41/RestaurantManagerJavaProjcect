@@ -3,6 +3,11 @@ package com.chriswlucas.restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles moving the jobs around the restaurant for a specific party.
+ * @author Nick Anderson
+ *
+ */
 class JobManager {
 	
 	/**

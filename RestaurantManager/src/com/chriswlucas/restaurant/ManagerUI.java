@@ -10,6 +10,6 @@ interface ManagerUI {
 	void addNewBarSeat(int tableNumber);
 	Table removeTableByID(int tableNumber);
 	
-	void addItemToMenu(String name, int price, boolean isFood);
+	void addItemToMenu(String name, double price, boolean isFood);
 	MenuItem removeItemFromMenu(int itemNumber, boolean isFood);
 }

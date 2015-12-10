@@ -21,7 +21,7 @@ class Menu {
 	
 	public String toString(List<MenuItem> items){
 		ListIterator<MenuItem> iterator = items.listIterator();
-		String menuString="Item\t\tPrice\n";
+		String menuString="\tPrice\tItem\n";
 		int i = 0;
 		while(iterator.hasNext()){
 			String temp = i +") " + iterator.next().toString();
@@ -40,7 +40,7 @@ class Menu {
 		}
 	}
 	
-	public void addMenuItem(String name, int price, boolean isFood){
+	public void addMenuItem(String name, double price, boolean isFood){
 		MenuItem item = new MenuItem(name, price, isFood);
 		if (isFood) {
 			foodItems.add(item);

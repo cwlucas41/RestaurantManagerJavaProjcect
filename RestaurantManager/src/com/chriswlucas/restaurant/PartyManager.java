@@ -4,21 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 class PartyManager {
+	
 	/**
 	 * Handles everything needed to run a party, from start to finish.
 	 * @param restaurant - reference to the current restaurant.
 	 * @param waiterID - waiter assigned to this party.
 	 * @param tableNumbers - table numbers assigned to this party.
 	 */
-	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers){
+	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers, int partySize, boolean isAtBar){
 		this.restaurant = restaurant;
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
 		this.customerUI = restaurant.getRestaurantInterface().getCustomerInterface();
-		this.custNames = new ArrayList<String>(customerUI.setCustomerNames());
+		this.custNames = new ArrayList<String>(customerUI.setCustomerNames(partySize));
 		this.tempDrinks = new ArrayList<Order>();
 		this.tempFood = new ArrayList<Order>();
 		this.tickets = new ArrayList<Ticket>();
+		this.isAtBar = isAtBar;
 		this.jobs = new JobManager(this);
 		this.payments = new PaymentManager(this, custNames);
 	}
@@ -220,6 +222,14 @@ class PartyManager {
 		return custNames;
 	}
 	
+	public JobManager getJobManager() {
+		return jobs;
+	}
+	
+	public boolean isAtBar() {
+		return this.isAtBar;
+	}
+	
 	private List<String>custNames;
 	private JobManager jobs;
     private PaymentManager payments;
@@ -227,11 +237,11 @@ class PartyManager {
 	private List<Order> tempFood;
 	private List<Ticket> tickets;
 	private CustomerUI customerUI;
-	private int total=0;
+	private double total=0;
 	private Restaurant restaurant;
 	private int waiterID;
 	private List<Integer> tableNumbers;
-
+	private boolean isAtBar;
 }
 
 

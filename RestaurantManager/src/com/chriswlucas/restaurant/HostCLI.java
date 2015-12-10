@@ -8,12 +8,16 @@ class HostCLI extends UserInterface implements HostUI {
 		super(restaurant);
 	}
 	
-	public void addNewPartyToWaitlist(int partySize) {
-		this.getRestaurant().addToWaitlist(partySize);
+	public void addNewPartyToWaitlist(int partySize, boolean isAtBar) {
+		this.getRestaurant().addToWaitlist(partySize, isAtBar);
 	}
 	
-	public void displayWaitlist() {
-		System.out.println(this.getRestaurant().getWaitlistString());
+	public void displayTableWaitlist() {
+		System.out.println(this.getRestaurant().getTableWaitlistString());
+	}
+	
+	public void displayBarWaitlist() {
+		System.out.println(this.getRestaurant().getBarWaitlistString());
 	}
 	
 	public void displaySeatingNotification(int partyID, int partySize, List<Integer> tableNumbers) {

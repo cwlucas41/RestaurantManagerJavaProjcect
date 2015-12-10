@@ -11,7 +11,7 @@ class Ticket {
 	 * @param ticketNum
 	 * @param total
 	 */
-	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, int total){
+	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, double total){
 		this.food = foodItems;
 		this.drink = drinkItems;
 		this.tNum = ticketNum;
@@ -30,7 +30,7 @@ class Ticket {
 	 * 
 	 * @return the total for this ticket.
 	 */
-	int getTicketTotal(){
+	double getTicketTotal(){
 		return this.total;
 	}
 	
@@ -52,5 +52,6 @@ class Ticket {
 	
 	private List<Order>food;
 	private List<Order>drink;
-	private int tNum, total;
+	private int tNum;
+	private double total;
 }

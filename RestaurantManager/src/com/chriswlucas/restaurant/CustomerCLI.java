@@ -14,19 +14,21 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		this.scanner = new Scanner(System.in);
 	}
 	
+	public void initiateOrdering(int partyID){
+		this.getRestaurant().getPartyManager(partyID).takeOrder();
+	}
+	
 	/**
 	 * Gets the customer names from the customers and stores them in a list.
 	 */
-	public List<String> setCustomerNames(){
+	public List<String> setCustomerNames(int partySize){
 		List<String>people = new ArrayList<String>();
-		System.out.print("How many people in your party: ");
-		int numPeople = scanner.nextInt();
 		
-		for (int i = 0; i<numPeople; i++){
+		for (int i = 0; i<partySize; i++){
 			int temp = i + 1;
-			String output = "Enter customer "+temp+"(FirstName and first letter of last name without spaces): ";
+			String output = "Enter customer "+temp+" (first and last name): ";
 			System.out.print(output);
-			people.add(scanner.next());
+			people.add(scanner.nextLine());
 		}
 		System.out.println();
 		return people;
@@ -109,6 +111,7 @@ class CustomerCLI extends UserInterface implements CustomerUI {
 		System.out.println("Choose 0 or 1 for the following choices.");
 		System.out.println("0) A food item");
 		System.out.println("1) A drink item");
+		System.out.println();
 	}
 	
 	/**

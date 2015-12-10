@@ -7,7 +7,9 @@ interface CustomerUI {
 	/**
 	 * Gets the customer names from the customers and stores them in a list.
 	 */
-	public List<String> setCustomerNames();
+	public List<String> setCustomerNames(int partySize);
+	
+	public void initiateOrdering(int partyID);
 	
 	/**
 	 * Display the options a user has to choose from.

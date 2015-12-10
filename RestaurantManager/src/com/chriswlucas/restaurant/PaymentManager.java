@@ -14,7 +14,6 @@ class PaymentManager {
     PaymentManager(PartyManager partyManager, List<String> customerNames){
         this.partyManager = partyManager;
         this.customerNames = customerNames;
-        this.jobs = new JobManager(this.partyManager);
         this.receipts = new ArrayList<Receipt>();
     }
     
@@ -31,7 +30,6 @@ class PaymentManager {
     			checkNames.add(i);
     		}
     		createReceipt(split - 1, checkNames, tickets);
-    		//this.checkNames.clear();
     	}
     	else {
     		for (int i = 0; i<split; i++){
@@ -53,7 +51,6 @@ class PaymentManager {
     				checkNames.add(custNumber);
     			}
     			createReceipt(i, checkNames,tickets);
-    			//this.checkNames.clear();
     		}
     	}
     }
@@ -65,7 +62,7 @@ class PaymentManager {
         Receipt receipt = new Receipt(n ,checkNames, ticks);
         receipt.sumTotal();
         receipts.add(receipt);
-        jobs.assignCollectingJob();   
+        partyManager.getJobManager().assignCollectingJob();   
         checkNames.clear();
     }
     
@@ -75,7 +72,6 @@ class PaymentManager {
     private List<Integer> checkNames;
     private int split;
     private int numPeople;
-    private JobManager jobs;
 
     
                    

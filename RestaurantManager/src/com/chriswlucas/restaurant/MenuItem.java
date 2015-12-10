@@ -2,7 +2,7 @@ package com.chriswlucas.restaurant;
 
 class MenuItem {
 
-	MenuItem(String name, int price, boolean isFood){
+	MenuItem(String name, double price, boolean isFood){
 		this.Name = name;
 		this.price = price;
 		this.isFood = isFood;
@@ -16,14 +16,14 @@ class MenuItem {
 		return Name;
 	}
 	
-	int getPrice(){
+	double getPrice(){
 		return price;
 	}
 	
 	public String toString(){
-		return getItemName() + "\t$" + getPrice();
+		return "\t$" + getPrice() + "\t" + getItemName();
 	}
-	public int price;
+	public double price;
 	public String Name;
 	public boolean isFood = false; //set to true if a food item, leave false if drink.
 }

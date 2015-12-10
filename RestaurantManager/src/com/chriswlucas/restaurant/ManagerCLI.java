@@ -66,7 +66,7 @@ class ManagerCLI extends UserInterface implements ManagerUI {
 	}
 
 	@Override
-	public void addItemToMenu(String name, int price, boolean isFood) {
+	public void addItemToMenu(String name, double price, boolean isFood) {
 		this.getRestaurant().addMenuItem(name, price, isFood);;
 	}
 

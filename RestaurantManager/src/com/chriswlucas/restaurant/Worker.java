@@ -28,10 +28,14 @@ class Worker {
 		Collections.sort(jobs, comp);
 	}
 	
-	public void doJob(int index) {
-		jobs.get(index).markAsDone();
-		jobs.remove(index);
-		Collections.sort(jobs, comp);
+	public boolean doJob(int index) {
+		if (index < this.jobs.size()) {
+			jobs.get(index).markAsDone();
+			jobs.remove(index);
+			Collections.sort(jobs, comp);
+			return true;
+		}
+		return false;
 	}
 	
 	public int getNumberOfJobs() {

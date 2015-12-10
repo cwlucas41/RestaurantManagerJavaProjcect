@@ -74,7 +74,7 @@ class Restaurant {
 		return false;
 	}
 	
-	public boolean hireNewWaiter(int employeeID, String name) {
+	public boolean addWaiter(int employeeID, String name) {
 		if (!this.allWorkers.containsKey(employeeID)){
 			Worker newWaiter = new Worker(name, this);
 			this.waiters.put(employeeID, newWaiter);
@@ -85,7 +85,7 @@ class Restaurant {
 		return false;
 	}
 	
-	public boolean hireNewBusser(int employeeID, String name) {
+	public boolean addBusser(int employeeID, String name) {
 		if (!this.allWorkers.containsKey(employeeID)){
 			Worker newBusser = new Worker(name, this);
 			this.bussers.put(employeeID, newBusser);
@@ -117,7 +117,7 @@ class Restaurant {
 	}
 	
 	public boolean addTable(int tableNumber,int numberOfSeats) {
-		if (this.tables.containsKey(tableNumber)) {
+		if (!this.tables.containsKey(tableNumber)) {
 			this.tables.put(tableNumber, new Table(numberOfSeats));
 			return true;
 		}
@@ -125,7 +125,7 @@ class Restaurant {
 	}
 	
 	public boolean addBarSeat(int tableNumber) {
-		if (this.tables.containsKey(tableNumber)) {
+		if (!this.tables.containsKey(tableNumber)) {
 			this.tables.put(tableNumber, new BarSeat());
 			return true;
 		}

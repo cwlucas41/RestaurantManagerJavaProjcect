@@ -5,16 +5,17 @@ public class test {
 	public static void main (String args[]){
 		Restaurant r = new Restaurant();
 		
-		r.hireNewWaiter(2, "Nick");
-		r.addTable(0, 4);
+		r.getRestaurantInterface().getManagerInterface().hireNewWaiter(2, "Nick");
+		r.getRestaurantInterface().getManagerInterface().addNewTable(0, 4);
 
-		r.addToWaitlist(4);
-		r.addMenuItem("Coke", 1, false);
-		r.addMenuItem("Water", 0, false);
-		r.addMenuItem("Beer", 2, false);
-		r.addMenuItem("ChezBurger", 1, true);
-		r.addMenuItem("Tomato Soup", 2, true);
-		r.addMenuItem("Pizza", 6, true);
+		r.getRestaurantInterface().getHostInterface().addNewPartyToWaitlist(4);
+		
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("Coke", 1, false);
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("Water", 0, false);
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("Beer", 2, false);
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("ChezBurger", 1, true);
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("Tomato Soup", 2, true);
+		r.getRestaurantInterface().getManagerInterface().addItemToMenu("Pizza", 6, true);
 		
 		r.getPartyManager(0).takeOrder();
 		

@@ -2,7 +2,6 @@ package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 class Worker {
@@ -17,22 +16,16 @@ class Worker {
 		this.jobs = new ArrayList<Job>();
 	}
 	
-	private Comparator<Job> comp = new Comparator<Job>() {
-		public int compare(Job j1, Job j2) {
-			return j1.getCurrent().compareTo(j2.getCurrent());
-		}
-	};
-	
 	public void assignJob(Job job) {
 		jobs.add(job);
-		Collections.sort(jobs, comp);
+		Collections.sort(jobs);
 	}
 	
 	public boolean doJob(int index) {
 		if (index < this.jobs.size()) {
 			jobs.get(index).markAsDone();
 			jobs.remove(index);
-			Collections.sort(jobs, comp);
+			Collections.sort(jobs);
 			return true;
 		}
 		return false;

@@ -22,6 +22,11 @@ class Table {
     public void setNotOccupied() {
     	this.isOccupied = false;
     }
+    
+    public String toString() {
+    	Integer i = (Integer) size;
+    	return i.toString();
+    }
 	
 	private int size;
     private boolean isOccupied; //set to true if table becomes occupied

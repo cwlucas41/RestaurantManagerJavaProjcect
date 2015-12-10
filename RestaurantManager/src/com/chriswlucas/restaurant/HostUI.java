@@ -6,5 +6,6 @@ interface HostUI {
 	public void addNewPartyToWaitlist(int partySize, boolean isAtBar);
 	public void displayTableWaitlist();
 	public void displayBarWaitlist();
-	public void displaySeatingNotification(int partyID, int partySize, List<Integer> tableNumbers);
+	public void seatCustomers(boolean isAtBar, int index, List<Integer> assignedTableNumbers);
+	public void displayFreeTables();
 }

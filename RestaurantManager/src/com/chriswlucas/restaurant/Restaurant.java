@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Queue;
 import java.util.Set;
 
 class Restaurant implements Interfaceable{
@@ -22,8 +20,8 @@ class Restaurant implements Interfaceable{
 	
 	private int ticketNumber;
 	private Menu menu;
-	private Queue<Integer> tableWaitlist;
-	private Queue<Integer> barWaitlist;
+	private List<Integer> tableWaitlist;
+	private List<Integer> barWaitlist;
 	private List<Ticket> tickets;
 	private int partyID;
 	
@@ -214,7 +212,6 @@ class Restaurant implements Interfaceable{
 		} else {
 			this.tableWaitlist.add(partySize);
 		}
-		createParty(isAtBar);
 	}
 	
 	public String getTableWaitlistString() {
@@ -234,39 +231,53 @@ class Restaurant implements Interfaceable{
 		return tickets;
 	}
 	
-	public void createParty(boolean isAtBar) {
-		Queue<Integer> waitlist = null;
-		int partySize = 0;
+	public Integer createParty(boolean isAtBar, int index, List<Integer> assignedTableNumbers) {
 		
+		List<Integer> waitlist;
+		int waiterID;
 		if (isAtBar) {
 			waitlist = this.barWaitlist;
+			waiterID = this.barID;
 		} else {
 			waitlist = this.tableWaitlist;
+			waiterID = getIDOfLeastBusyExceptBar(waiters);
 		}
 		
-		if (waitlist.isEmpty()) {
-			return;
-		} else {
-			partySize = waitlist.peek();
+		int partySize = waitlist.get(index);
+		if ((Integer) partySize == null) {
+			return null;
 		}
 		
-		List<Integer> assignedTableNumbers = new ArrayList<Integer>();
-		assignedTableNumbers.add(0);
-		// TODO get all tables greater than or equal to party size
-		//		if free table big enough exists, choose smallest
-		//		else if smaller free table exists choose largest and repeat with difference
-		//		else break with message can't seat party
+		int capacityOfAssignedTables = getCapacityOfTablesByNumber(assignedTableNumbers);
+		if (capacityOfAssignedTables < partySize) {
+			return null;
+		}
 		
-		// TODO mark tables as occupied
-		int waiterID = getIDOfLeastBusyExceptBar(waiters);
+		// can be seated
+		markTablesByNumberAs(assignedTableNumbers, true);
+		waitlist.remove(index);		
 		int partyID = this.nextPartyID();
-		waitlist.poll();
-		this.getHostInterface().displaySeatingNotification(partyID, partySize, assignedTableNumbers);
 		partyManagers.put(partyID, new PartyManager(this, waiterID, assignedTableNumbers, partySize, isAtBar));
-		
-//		if (!waitlist.isEmpty()) {
-//			createParty();
-//		}
+		return partyID;
+	}
+	
+	private int getCapacityOfTablesByNumber(List<Integer> tableNumbers) {
+		int capacity = 0;
+		for (int tableNumber : tableNumbers) {
+			capacity += this.tables.get(tableNumber).getsize();
+		}
+		return capacity;
+	}
+	
+	public void markTablesByNumberAs(List<Integer> tableNumbers, boolean isOccupied) {
+		for (int tableNumber : tableNumbers) {
+			Table table = this.tables.get(tableNumber);
+			if (isOccupied) {
+				table.setOccupied();
+			} else {
+				table.setNotOccupied();
+			}
+		}
 	}
 	
 	public List<Integer> getUnoccupiedTables() {
@@ -280,13 +291,8 @@ class Restaurant implements Interfaceable{
 		return unoccupiedTableKeys;
 	}
 	
-	public void freeTables(List<Integer> emptyTables) {
-		ListIterator<Integer> iterator = emptyTables.listIterator();
-		while (iterator.hasNext()) {
-			this.tables.get(iterator.next()).setNotOccupied();
-		}
-		createParty(true);
-		createParty(false);
+	public Table getTable(int tableNumber) {
+		return this.tables.get(tableNumber);
 	}
 
 	@Override

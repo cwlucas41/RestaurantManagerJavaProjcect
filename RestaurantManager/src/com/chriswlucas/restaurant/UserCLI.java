@@ -44,5 +44,4 @@ public class UserCLI extends UserInterface {
 	public void print(String string) {
 		System.out.print(string);
 	}
-
 }

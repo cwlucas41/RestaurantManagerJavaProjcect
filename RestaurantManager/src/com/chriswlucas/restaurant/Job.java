@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.util.List;
 import java.util.ListIterator;
 
-class Job{
+class Job implements Comparable<Job>{
 	/**
 	 * Holds a list of items/tables that need to be produced,
 	 * served, paid, or cleaned.
@@ -27,7 +27,7 @@ class Job{
 		switch (type) {
 		case 1: jobManager.assignServingJob(this); break; 
 		case 3: jobManager.assignBussingJob(this); break; 
-		case 4: this.jobManager.getPartyManager().getRestaurant().freeTables(this.jobManager.getPartyManager().getTableNumbers()); break;
+		case 4: this.jobManager.getPartyManager().getRestaurant().markTablesByNumberAs(this.jobManager.getPartyManager().getTableNumbers(), false); break;
 		default: break;
 		}
 		
@@ -73,8 +73,14 @@ class Job{
 		this.type = type;
 	}
 	
+	@Override
+	public int compareTo(Job o) {
+		return this.current.compareTo(o.current);
+	}
+	
 	private JobManager jobManager;
 	private Time current;
 	private int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
 	private List<Object>items;
+
 }

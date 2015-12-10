@@ -8,7 +8,7 @@ import java.util.ListIterator;
 import java.util.Queue;
 import java.util.Set;
 
-class Restaurant {
+class Restaurant implements Interfaceable{
 
 	private Hashtable<Integer, Table> tables;
 	private Hashtable<Integer, PartyManager> partyManagers;
@@ -257,7 +257,7 @@ class Restaurant {
 		int waiterID = getIDOfLeastBusyExceptBar(waiters);
 		int partyID = this.nextPartyID();
 		waitlist.poll();
-		this.getRestaurantInterface().getHostInterface().displaySeatingNotification(partyID, partySize, assignedTableNumbers);
+		this.getHostInterface().displaySeatingNotification(partyID, partySize, assignedTableNumbers);
 		partyManagers.put(partyID, new PartyManager(this, waiterID, assignedTableNumbers, partySize, isAtBar));
 		
 //		if (!waitlist.isEmpty()) {
@@ -284,8 +284,24 @@ class Restaurant {
 		createParty(true);
 		createParty(false);
 	}
-	
-	public RestaurantInterface getRestaurantInterface() {
-		return restaurantInterface;
+
+	@Override
+	public WorkerUI getWorkerInterface() {
+		return this.restaurantInterface.getWorkerInterface();
+	}
+
+	@Override
+	public HostUI getHostInterface() {
+		return this.restaurantInterface.getHostInterface();
+	}
+
+	@Override
+	public ManagerUI getManagerInterface() {
+		return this.restaurantInterface.getManagerInterface();
+	}
+
+	@Override
+	public CustomerUI getCustomerInterface() {
+		return this.restaurantInterface.getCustomerInterface();
 	}
 }

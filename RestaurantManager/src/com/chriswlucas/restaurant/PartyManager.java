@@ -15,7 +15,7 @@ class PartyManager {
 		this.restaurant = restaurant;
 		this.waiterID = waiterID;
 		this.tableNumbers = tableNumbers;
-		this.customerUI = restaurant.getRestaurantInterface().getCustomerInterface();
+		this.customerUI = restaurant.getCustomerInterface();
 		this.custNames = new ArrayList<String>(customerUI.setCustomerNames(partySize));
 		this.tempDrinks = new ArrayList<Order>();
 		this.tempFood = new ArrayList<Order>();

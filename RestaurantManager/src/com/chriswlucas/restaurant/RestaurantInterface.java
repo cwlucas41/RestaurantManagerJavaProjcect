@@ -1,6 +1,6 @@
 package com.chriswlucas.restaurant;
 
-class RestaurantInterface {
+class RestaurantInterface implements Interfaceable{
 	
 	private WorkerUI workerInterface;
 	private HostUI hostInterface;

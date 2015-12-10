@@ -201,6 +201,14 @@ class Restaurant {
 		createParty();
 	}
 	
+	public String getWaitlistString() {
+		return waitlist.toString();
+	}
+	
+	public int getWaitlistSize() {
+		return waitlist.size();
+	}
+	
 	public List<Table> convertTableNumbersToTables(List<Integer> tableNumbers){
 		List<Table> tablesList = new ArrayList<Table>();
 		ListIterator<Integer> iterator = tableNumbers.listIterator();
@@ -223,15 +231,19 @@ class Restaurant {
 	}
 	
 	public void createParty() {
-		int waiterID = getLeastBusy(waiters);
-		List<Integer> tableNumbers = new ArrayList<Integer>(); 
+		int partySize = this.waitlist.peek();
+		
+		List<Integer> assignedTableNumbers = new ArrayList<Integer>();
 		// TODO get all tables greater than or equal to party size
 		//		if free table big enough exists, choose smallest
 		//		else if smaller free table exists choose largest and repeat with difference
 		//		else break with message can't seat party
 		
 		// TODO mark tables as occupied
-		partyManagers.put(this.nextPartyID(), new PartyManager(this, waiterID, tableNumbers));
+		int waiterID = getLeastBusy(waiters);
+		int partyID = this.nextPartyID();
+		this.getRestaurantInterface().getHostInterface().displaySeatingNotification(partyID, partySize, assignedTableNumbers);
+		partyManagers.put(partyID, new PartyManager(this, waiterID, assignedTableNumbers));
 		
 //		if (!waitlist.isEmpty()) {
 //			createParty();

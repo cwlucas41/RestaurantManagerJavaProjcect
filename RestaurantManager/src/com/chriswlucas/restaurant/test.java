@@ -17,10 +17,12 @@ public class test {
 		r.getPartyManager(0).takeOrder();
 		
 		r.getRestaurantInterface().getWorkerInterface().displayJobs(0);
-//		r.getRestaurantInterface().getWorkerInterface().displayJobs(1);
-//		r.getRestaurantInterface().getWorkerInterface().doJob(0, 0);
-//		r.getRestaurantInterface().getWorkerInterface().displayJobs(2);
-//		r.getRestaurantInterface().getWorkerInterface().doJob(2, 0);
+		r.getRestaurantInterface().getWorkerInterface().displayJobs(1);
+		r.getRestaurantInterface().getWorkerInterface().doJob(0, 0);
+		r.getRestaurantInterface().getWorkerInterface().doJob(1, 0);
+		
+		r.getRestaurantInterface().getWorkerInterface().displayJobs(2);
+		r.getRestaurantInterface().getWorkerInterface().doJob(2, 0);
 
 		r.getRestaurantInterface().getCustomerInterface().displayCheckout(0);
 	}

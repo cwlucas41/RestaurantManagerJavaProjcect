@@ -62,6 +62,7 @@ class PaymentManager {
     		this.createReceipt(i, checkNames, tickets);
     		checkNames.clear();
     	}
+	}
 //    	for (int i = 0; i < split; i++){
 //    		int size = customerUI.setCheckNames(partyID, split).size();
 //    		for (int k = 0; k < size; k++){
@@ -70,7 +71,7 @@ class PaymentManager {
 //    		this.createReceipt(i, checkNames, tickets);
 //    		checkNames.clear();
 //    	}
-    }
+
     /**
      * Creates a receipt based on who is included in that check
      */
@@ -78,7 +79,7 @@ class PaymentManager {
         Receipt receipt = new Receipt(n ,checkNames, ticks);
         receipt.sumTotal();
         receipts.add(receipt);
-        partyManager.getJobManager().assignCollectingJob();   
+        partyManager.getJobManager().assignCollectingJob();    
     }
     
     private List<Receipt> receipts;

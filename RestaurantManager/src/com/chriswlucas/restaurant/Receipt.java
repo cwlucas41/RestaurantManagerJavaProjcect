@@ -12,7 +12,7 @@ class Receipt {
     Receipt(int checkNumber, List<Integer>checkNames, List<Ticket>tickets){
         this.checkNumber = checkNumber;
         this.checkNames = checkNames;
-        this.tickets = tickets;    
+        this.tickets = tickets;  
     }
     /**
      * Iterates through all tickets and orders associated with a table

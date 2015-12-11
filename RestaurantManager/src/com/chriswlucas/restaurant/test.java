@@ -32,7 +32,7 @@ public class test {
 		r.getWorkerInterface().controlWorker(1);
 		r.getWorkerInterface().controlWorker(2);
 
-		r.getCustomerInterface().displayCheckout(0);
+		r.getCustomerInterface().initiateCheckout(0);
 		
 		r.getWorkerInterface().controlWorker(2);
 	}

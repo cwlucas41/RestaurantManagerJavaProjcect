@@ -23,6 +23,9 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 		this.getRestaurant().getPartyManager(partyID).takeOrder();
 	}
 	
+	public void initiateCheckout(int partyID){
+		this.getRestaurant().getPartyManager(partyID).pay(partyID);
+	}
 	/**
 	 * Gets the customer names from the customers and stores them in a list.
 	 */
@@ -122,33 +125,16 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	/**
 	 * Displays the process for patrons to checkout
 	 */
-	public void displayCheckout(int partyID) {
-		PartyManager partyManager = this.getRestaurant().getPartyManager(partyID);
+	public void displayCheckout() {
 		System.out.println("Would you like to checkout?");
 		System.out.println("Choose 1 for yes or 2 for no: ");
-		int selection = this.getIntegerFromUser();
-		if (selection == 1){
-			int split = this.getSplit();
-			partyManager.pay(partyID, split);
-			System.out.println("Thank you. Please come again.");
-		}
-		else if (selection == 2){
-			System.out.println("Please pay when you are ready.");
-			this.displayCheckout(partyID);
-		}
-		else {
-			this.displayInvalidOption();
-			this.displayCheckout(partyID);
-		}
-
-		
 	}
 	
-	public List<Integer> setCheckNames(int partyID, int split) {
+	public List<Integer> setCheckNames(List<String>custNames, int split, int num) {
 		List<Integer> checkNames = new ArrayList<Integer>();
-		List<String> custNames = new ArrayList<String>();
-		custNames = this.getRestaurant().getPartyManager(partyID).getCustNames();
-		System.out.println("Hello");
+		//List<String> custNames = new ArrayList<String>();
+		//custNames = this.getRestaurant().getPartyManager(partyID).getCustNames();
+		//System.out.println("Hello");
 		if (split == 1){
 			for (int i = 0; i<custNames.size(); i++){
     			checkNames.add(i);
@@ -156,9 +142,8 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 			return checkNames;
 		}
 		else {
-			for (int i = 0; i<split; i++){
-				System.out.println("Hello");
-				int people = i+1;
+				
+				int people = num+1;
 				System.out.println("How many people in party " + people + "?: ");
 				int numPeople = this.getIntegerFromUser();
 				System.out.println();
@@ -169,10 +154,9 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 					int custNumber = this.getIntegerFromUser();
 					checkNames.add(custNumber);
 				}
-			}
-			System.out.println("Hello");
+			
+			//System.out.println("Hello");
 			return checkNames;
-
 		}
 	}
 
@@ -198,6 +182,16 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 		System.out.println("How many ways would you like to split the check?: ");
 		int split = this.getIntegerFromUser();
 		return split;
+	}
+
+
+	public void displayThanks() {
+		System.out.println("Thank you. Please come again.");
+	}
+
+	public void displayPayWhenReady() {
+		System.out.println("Please pay when you are ready.");
+		
 	}
 
 }

@@ -70,9 +70,15 @@ interface CustomerUI {
 	 * Displays the option for patrons to checkout
 	 * @param partyID
 	 */
-	public void displayCheckout(int partyID);
+	public void displayCheckout();
 	
-	public List<Integer> setCheckNames(int partyID, int split);
+	public void displayThanks();
+	
+	public void displayPayWhenReady();
+	
+	public void initiateCheckout(int partyID);
+	
+	public List<Integer> setCheckNames(List<String>custNames, int split, int num);
 	
 	/**
 	 * Displays the total for a receipt

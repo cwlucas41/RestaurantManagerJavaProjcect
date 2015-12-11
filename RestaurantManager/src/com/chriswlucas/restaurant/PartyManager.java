@@ -2,6 +2,7 @@ package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 class PartyManager {
 	
@@ -186,9 +187,9 @@ class PartyManager {
 	 * On checkout creates a Payment Manager which will handle creating
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
-    void pay(int partyID, int split){
+    void pay(int partyID){
         this.restaurant.collectTickets(tickets);
-        this.payments.checkout(tickets, partyID, split);
+        this.payments.checkout(tickets, partyID);
     }
 	
     /**
@@ -231,6 +232,16 @@ class PartyManager {
 		return custNames;
 	}
 	
+	public List<Integer> getCustIndeces(){
+		List<Integer> custInd = new ArrayList<Integer>();
+		ListIterator<String> it = custNames.listIterator();
+		int i = 0;
+		while(it.hasNext()){
+			custInd.add(i);
+			i++;
+		}
+		return custInd;
+	}
 	/**
 	 * Returns the JobManager.
 	 * @return jobs.

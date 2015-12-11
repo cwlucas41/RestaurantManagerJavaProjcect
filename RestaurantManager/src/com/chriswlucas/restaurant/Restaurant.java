@@ -5,32 +5,29 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Manages and modifies the internal state of the Restaurant
+ * Holds the user interface fore the Restaurant
+ * @author cwlucas41
+ * 
+ */
 class Restaurant implements Interfaceable{
 
 	private Hashtable<Integer, Table> tables;
 	private Hashtable<Integer, PartyManager> partyManagers;
-	
 	private Hashtable<Integer, Worker> waiters;
 	private Hashtable<Integer, Worker> bussers;
 	private Hashtable<Integer, Worker> allWorkers;
-	
 	private int kitchenID;
 	private int barID;
-	
 	private int ticketNumber;
 	private Menu menu;
 	private List<Integer> tableWaitlist;
 	private List<Integer> barWaitlist;
 	private List<Ticket> tickets;
-	private int partyID;
-	
+	private int partyID;	
 	private RestaurantInterface restaurantInterface;
 
-	/**
-	 * Manages and modifies the internal state of the Restaurant
-	 * Holds the user interface fore the Restaurant
-	 */
 	public Restaurant() {
 		this.waiters = new Hashtable<Integer, Worker>();
 		this.bussers = new Hashtable<Integer, Worker>();

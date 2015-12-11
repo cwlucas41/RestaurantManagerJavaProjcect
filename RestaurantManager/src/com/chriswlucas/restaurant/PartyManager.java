@@ -1,6 +1,7 @@
 package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -19,12 +20,28 @@ class PartyManager {
 		this.tableNumbers = tableNumbers;
 		this.customerUI = restaurant.getCustomerInterface();
 		this.custNames = new ArrayList<String>(customerUI.setCustomerNames(partySize));
-		this.tempDrinks = new ArrayList<Order>();
-		this.tempFood = new ArrayList<Order>();
+		this.tempDrinksByCustomerID = initializeHashtable();
+		this.tempFoodByCustomerID = initializeHashtable();
+		this.itemsByCustomerID = initializeHashtable();
 		this.tickets = new ArrayList<Ticket>();
 		this.isAtBar = isAtBar;
+		total = 0;
 		this.jobs = new JobManager(this);
 		this.payments = new PaymentManager(this, custNames);
+	}
+	
+	private Hashtable<Integer, List<MenuItem>> initializeHashtable() {
+		Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
+		for (int i = 0; i < custNames.size(); i++) {
+			hashtable.put(i, new ArrayList<MenuItem>());
+		}
+		return hashtable;
+	}
+	
+	private void clearTemp() {
+		this.tempDrinksByCustomerID = initializeHashtable();
+		this.tempFoodByCustomerID = initializeHashtable();
+		total = 0;
 	}
 	
 	/**
@@ -42,10 +59,10 @@ class PartyManager {
 	 */
 	void addItem(MenuItem item, int customer){
 		if (item.isFood()){
-			tempFood.add(new Order(item,customer));
+			tempFoodByCustomerID.get(customer).add(item);
 		}
 		else{
-			tempDrinks.add(new Order(item,customer));
+			tempDrinksByCustomerID.get(customer).add(item);
 		}
 		total+= item.getPrice();
 	}
@@ -55,43 +72,29 @@ class PartyManager {
 	 * @param item - a menu item.
 	 * @param customer - customer who wants the item removed.
 	 */
-	void removeItem(Order removal){
-		if(removal.getItem().isFood()){
-			tempFood.remove(removal);
+	void removeItem(MenuItem item, int customer){
+		if(item.isFood()){
+			this.tempFoodByCustomerID.get(customer).remove(item);
 		}
 		else{
-			tempDrinks.remove(removal);
+			this.tempDrinksByCustomerID.get(customer).remove(item);
 		}
-		total -= removal.getItem().getPrice();
-	}
-	
-	/**
-	 * Empty's everything from the temporary lists.
-	 */
-	void emptyTemp(){
-		tempFood.clear();
-		tempDrinks.clear();
-		total = 0;
+		total -= item.getPrice();
 	}
 	
 	/**
 	 * Creates a ticket for the current order and sends out the job.
 	 */
 	void makeTicket() {
-		List<Order> tempTempFood = new ArrayList<Order>();
-		for (Order order : tempFood){
-			tempTempFood.add(new Order(order));
-		}
-		
-		List<Order> tempTempDrinks = new ArrayList<Order>();
-		for (Order order : tempDrinks){
-			tempTempDrinks.add(new Order(order));
-		}
-		
-		Ticket temp = new Ticket(tempTempFood, tempTempDrinks, restaurant.getTicketNumber(), total);
+		Ticket temp = new Ticket(tempFoodByCustomerID, tempDrinksByCustomerID, restaurant.getTicketNumber(), total);
 		tickets.add(temp);
 		jobs.assignProducingJob(temp);
-		emptyTemp();
+		for (int key : itemsByCustomerID.keySet()) {
+			List<MenuItem> customerItems = this.itemsByCustomerID.get(key);
+			customerItems.addAll(this.tempFoodByCustomerID.get(key));
+			customerItems.addAll(this.tempDrinksByCustomerID.get(key));
+		}
+		clearTemp();
 	}
 
 	/**
@@ -144,19 +147,20 @@ class PartyManager {
 				customerUI.displayFoodOrDrinkChoice();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
-				Order removal;
 				customerUI.displayRemoveInstruction();
 				if(foodDrinkChoice == 0){
-					customerUI.displayItemsInList(tempFood, custNames);
+					customerUI.displayCustomers(custNames);
+					int customer = customerUI.getIntegerFromUser();
+					customerUI.displayItemsInList(this.tempFoodByCustomerID.get(customer));	
 					itemToRemove = customerUI.getIntegerFromUser();
-					removal = tempFood.get(itemToRemove);
-					removeItem(removal);
+					removeItem(this.tempFoodByCustomerID.get(customer).get(itemToRemove), customer);
 				}
 				else if(foodDrinkChoice==1){
-					customerUI.displayItemsInList(tempDrinks, custNames);
+					customerUI.displayCustomers(custNames);
+					int customer = customerUI.getIntegerFromUser();
+					customerUI.displayItemsInList(this.tempDrinksByCustomerID.get(customer));
 					itemToRemove = customerUI.getIntegerFromUser();
-					removal = tempDrinks.get(itemToRemove);
-					removeItem(removal);
+					removeItem(this.tempDrinksByCustomerID.get(customer).get(itemToRemove), customer);
 				}
 				else{
 					customerUI.displayInvalidOption();
@@ -164,8 +168,12 @@ class PartyManager {
 				break;
 			}
 			case 2: {
-				customerUI.displayItemsInList(tempDrinks, custNames);
-				customerUI.displayItemsInList(tempFood, custNames);
+				for (int i = 0; i < custNames.size(); i++) {
+					customerUI.display(this.custNames.get(i));
+					customerUI.displayItemsInList(this.tempDrinksByCustomerID.get(i));
+					customerUI.displayItemsInList(this.tempFoodByCustomerID.get(i));
+				}
+				
 				break;
 			}
 			case 3: {
@@ -175,7 +183,7 @@ class PartyManager {
 			}
 			case 4: {
 				makeTick = true;
-				emptyTemp();
+				clearTemp();
 				break;
 			}
 			default: customerUI.displayInvalidOption(); break;
@@ -258,14 +266,19 @@ class PartyManager {
 		return isAtBar;
 	}
 	
+	public List<MenuItem> getItemsForCustomerID(int customerID) {
+		return this.itemsByCustomerID.get(customerID);
+	}
+	
 	private List<String>custNames;
 	private JobManager jobs;
     private PaymentManager payments;
-	private List<Order> tempDrinks;
-	private List<Order> tempFood;
+	private Hashtable<Integer, List<MenuItem>> tempDrinksByCustomerID;
+	private Hashtable<Integer, List<MenuItem>> tempFoodByCustomerID;
+	private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
 	private List<Ticket> tickets;
 	private CustomerUI customerUI;
-	private double total=0;
+	private double total;
 	private Restaurant restaurant;
 	private int waiterID;
 	private List<Integer> tableNumbers;

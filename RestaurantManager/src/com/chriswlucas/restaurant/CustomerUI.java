@@ -59,7 +59,7 @@ interface CustomerUI {
 	 * @param items - items in the ticket
 	 * @param custNames - list of customer names.
 	 */
-	public void displayItemsInList(List<Order>items, List<String>custNames);
+	public void displayItemsInList(List<MenuItem> itemList);
 	
 	/**
 	 * Display invalid option.
@@ -78,17 +78,19 @@ interface CustomerUI {
 	
 	public void initiateCheckout(int partyID);
 	
+	public void display(String string);
+	
 	public List<Integer> setCheckNames(List<String>custNames, int split, int num);
 	
 	/**
 	 * Displays the total for a receipt
 	 */
-	public void displayTotal(Receipt receipt);
+	public void displayReceipt(Receipt receipt);
 	
 	/**
 	 * Displays the total receipts for a table
 	 */
-	public void displayTickets(List<Receipt>receipts);	
+	public void displayReceipts(List<Receipt>receipts);	
 	
 	public int getSplit();
 

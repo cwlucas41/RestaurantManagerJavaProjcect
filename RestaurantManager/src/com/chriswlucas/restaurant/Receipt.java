@@ -1,7 +1,9 @@
 package com.chriswlucas.restaurant;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 class Receipt {
     /**
@@ -9,50 +11,54 @@ class Receipt {
      * @param checkNumber
      * @param checkNames
      */
-    Receipt(int checkNumber, List<Integer>checkNames, List<Ticket>tickets){
+    Receipt(int checkNumber, Hashtable<Integer, List<MenuItem>> itemsByCustomerID, List<String> custNames){
         this.checkNumber = checkNumber;
-        this.checkNames = checkNames;
-        this.tickets = tickets;  
+        this.custNames = custNames;
+        this.itemsByCustomerID = itemsByCustomerID;
+        this.subTotals = computeSubTotals();
+        this.grandTotal = computeGrandTotal();
     }
+    
+
+    
     /**
      * Iterates through all tickets and orders associated with a table
      * Finds orders with customer names associated with them that are crosslisted on the receipt
      * Sums the total of the receipt for all customers involved
      */
-    void sumTotal(){
-    	total = 0;
-    	ListIterator<Ticket> allticks = tickets.listIterator();
-    	ListIterator<Integer>names = checkNames.listIterator();
-    	while(names.hasNext()){
-        	currName = names.next();
-        	while (allticks.hasNext()){
-        		currTick = allticks.next();
-        		
-        		ListIterator<Order> alldrinks = currTick.getDrinkOrders().listIterator();
-        		while(alldrinks.hasNext()){
-        			Order next = alldrinks.next();
-		    		if (currName == next.getCust()){
-		    			total += next.getItem().getPrice();
-		    		}
-        		}
-        		
-        		ListIterator<Order> allfood = currTick.getFoodOrders().listIterator();
-        		while(allfood.hasNext()){
-        			Order next = allfood.next();
-		    		if (currName == next.getCust()){
-		    			total += next.getItem().getPrice();
-		    		}
-        		}
-        	}
-        }
+    private double[] computeSubTotals(){
+    	double[] tempTotals= new double[this.itemsByCustomerID.size()];
+    	int j = 0;
+    	double sum;
+    	Set<Integer> keys = this.itemsByCustomerID.keySet();    	
+    	for (int key : keys) {
+    		sum = 0;
+    		ListIterator<MenuItem> iterator = this.itemsByCustomerID.get(key).listIterator();
+    		while (iterator.hasNext()) {
+    			sum += iterator.next().getPrice();
+    		}
+    		tempTotals[j] = sum;
+    		j++;
+    	}
+    	return tempTotals;
     }
+    
+    private double computeGrandTotal() {
+    	double sum = 0;
+    	for (int j = 0; j < this.itemsByCustomerID.size(); j++) {
+    		sum += this.subTotals[j];
+    	}
+    	return sum;
+    }
+    
     /**
      * returns the total due for a receipt
      * @return
      */
-    int getTotal(){
-    	return total;
+    double getGrandTotal(){
+    	return this.grandTotal;
     }
+    
     /**
      * returns the check number
      * @return
@@ -61,13 +67,28 @@ class Receipt {
     	return checkNumber;
     }
     
-    private List<Ticket> tickets;
- //   private PartyManager partyManager;
-    private List<Integer> checkNames;
-    private Ticket currTick;
-    public int total;
+    public String toString() {
+    	String string = "RECEIPT\n";
+    	Set<Integer> keys = this.itemsByCustomerID.keySet();    	
+    	int j = 0;
+    	for (int key : keys) {
+    		string += this.custNames.get(key) + "\n";
+    		ListIterator<MenuItem> iterator = this.itemsByCustomerID.get(key).listIterator();
+    		while (iterator.hasNext()) {
+    			string += iterator.next().toString() + "\n";
+    		}
+    		string += " Subtotal: $" + this.subTotals[j] + "\n\n";
+    		j++;
+    	}
+    	string += "\nTOTAL: $" + this.grandTotal + "\n\n";
+    	return string;
+    }
+    
+    private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
+    private double grandTotal;
+    private double[] subTotals;
     private int checkNumber;
-    private int currName;
+    private List<String> custNames;
 
 
 }

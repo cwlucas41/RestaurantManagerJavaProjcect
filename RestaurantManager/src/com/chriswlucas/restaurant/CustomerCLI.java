@@ -93,13 +93,11 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	 * @param items - items in the ticket
 	 * @param custNames - list of customer names.
 	 */
-	public void displayItemsInList(List<Order>items, List<String>custNames){
-		ListIterator<Order> iterator = items.listIterator();
+	public void displayItemsInList(List<MenuItem> items){
+		ListIterator<MenuItem> iterator = items.listIterator();
 		int i = 0;
 		while (iterator.hasNext()){
-			Order temp = iterator.next();
-			String out = i+") "+custNames.get(temp.getCust()) + ": " + temp.toString();
-			System.out.println(out);
+			printLine(i+") "+iterator.next().toString());
 			i++;
 		}
 		System.out.println();
@@ -163,18 +161,16 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	/**
 	 * Displays the total of a receipt
 	 */
-	public void displayTotal(Receipt receipt) {
-		System.out.println("The total for receipt " + receipt.getCheckNumber() + " is " + receipt.getTotal());
+	public void displayReceipt(Receipt receipt) {
+		printLine(receipt.toString());
 	}
 	/**
 	 * Displays the total amount of receipts for a table and their associated check number and total
 	 */
-	public void displayTickets(List<Receipt> receipts) {
+	public void displayReceipts(List<Receipt> receipts) {
 		ListIterator<Receipt> receiptit = receipts.listIterator();
 		while (receiptit.hasNext()){
-			System.out.println("The total amount of receipts and their check numbers are: ");
-			System.out.println(receipts.size());
-			System.out.println("Receipt " + receiptit.next().getCheckNumber() + " has total " + receiptit.next().getTotal());
+			displayReceipt(receiptit.next());
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package com.chriswlucas.restaurant;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -14,9 +16,9 @@ class Ticket {
 	 * @param ticketNum - the ticketNumber for this ticket.
 	 * @param total - the total price of this ticket.
 	 */
-	Ticket(List<Order> foodItems, List<Order>drinkItems, int ticketNum, double total){
-		this.food = foodItems;
-		this.drink = drinkItems;
+	Ticket(Hashtable<Integer, List<MenuItem>> tempFoodByCustomerID, Hashtable<Integer, List<MenuItem>> tempDrinksByCustomerID, int ticketNum, double total){
+		this.foodByCustomerID = tempFoodByCustomerID;
+		this.drinksByCustomerID = tempDrinksByCustomerID;
 		this.tNum = ticketNum;
 		this.total = total;
 	}
@@ -41,20 +43,28 @@ class Ticket {
 	 * Returns a list of foodItems.
 	 * @return food - foodItems on this ticket.
 	 */
-	List<Order> getFoodOrders(){
-		return food;
+	List<MenuItem> getFoodOrders(){
+		return this.getAllValuesAsList(foodByCustomerID);
 	}
 	
 	/**
 	 * Returns a list of drinkItems.
 	 * @return drink - drinkItems on this ticket.
 	 */
-	List<Order> getDrinkOrders(){	
-		return drink;
+	List<MenuItem> getDrinkOrders(){	
+		return this.getAllValuesAsList(drinksByCustomerID);
 	}
 	
-	private List<Order>food;
-	private List<Order>drink;
+	private List<MenuItem> getAllValuesAsList(Hashtable<Integer, List<MenuItem>> hashtable) {
+		List<MenuItem> list = new ArrayList<MenuItem>();
+		for (int key : hashtable.keySet()) {
+			list.addAll(hashtable.get(key));
+		}
+		return list;
+	}
+	
+	private Hashtable<Integer, List<MenuItem>> foodByCustomerID;
+	private Hashtable<Integer, List<MenuItem>> drinksByCustomerID;
 	private int tNum;
 	private double total;
 }

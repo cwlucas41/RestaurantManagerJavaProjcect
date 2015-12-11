@@ -24,8 +24,8 @@ class JobManager {
 	 */
 	void assignProducingJob(Ticket tick){
 		type = 1;
-		tempDrinks = tick.getDrinkOrders();
-		tempFood = tick.getFoodOrders();
+		List<MenuItem> tempDrinks = tick.getDrinkOrders();
+		List<MenuItem> tempFood = tick.getFoodOrders();
 		
 		if(!tempDrinks.isEmpty()){
 			List<Object>temp = new ArrayList<Object>(tempDrinks);
@@ -74,8 +74,6 @@ class JobManager {
 	}
 	
 	private int type = 0;
-	private List<Order> tempDrinks;
-	private List<Order> tempFood;
 	private PartyManager partyManager;
 
 }

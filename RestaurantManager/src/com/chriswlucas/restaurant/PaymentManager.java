@@ -1,7 +1,9 @@
 package com.chriswlucas.restaurant;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 
 class PaymentManager {
@@ -13,7 +15,6 @@ class PaymentManager {
     PaymentManager(PartyManager partyManager, List<String> customerNames){
         this.partyManager = partyManager;
         this.receipts = new ArrayList<Receipt>();
-        this.checkNames = new ArrayList<Integer>();
         this.customerUI = partyManager.getRestaurant().getCustomerInterface();
     }
     
@@ -29,15 +30,16 @@ class PaymentManager {
     	if (selection == 1){
     		int split = customerUI.getSplit();
     		if (split==1){
-    			createReceipt(0, customerUI.setCheckNames(custNames, split,0),tickets);
+    			createReceipt(0, customerUI.setCheckNames(custNames, split, 0), tickets);
     		}
     		else{
     	    	for (int i = 0; i < split; i++){
-    	    		checkNames = customerUI.setCheckNames(custNames, split, i);
+    	    		List<Integer> checkNames = customerUI.setCheckNames(custNames, split, i);
     	    		this.createReceipt(i, checkNames, tickets);
     	    		checkNames.clear();
     	    	}
     		}
+    		customerUI.displayReceipts(receipts);
     		customerUI.displayThanks();
             partyManager.getJobManager().assignCollectingJob(); //HAS TO GO HERE 
     	}
@@ -55,13 +57,21 @@ class PaymentManager {
      * Creates a receipt based on who is included in that check
      */
     void createReceipt(int n, List<Integer>checkNames, List<Ticket> ticks){
-        Receipt receipt = new Receipt(n ,checkNames, ticks);
-        receipt.sumTotal();
+        Receipt receipt = new Receipt(n, buildHashtableForReceipt(checkNames), this.partyManager.getCustNames());
         receipts.add(receipt);  
     }
     
+    private Hashtable<Integer, List<MenuItem>> buildHashtableForReceipt(List<Integer> customerIDs) {
+    	Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
+    	ListIterator<Integer> iterator = customerIDs.listIterator();
+    	while (iterator.hasNext()) {
+    		int customerID = iterator.next();
+    		hashtable.put(customerID, partyManager.getItemsForCustomerID(customerID));
+    	}
+    	return hashtable;
+    }
+    
     private List<Receipt> receipts;
-    private List<Integer> checkNames;
     private PartyManager partyManager;
     private CustomerUI customerUI; 
 }

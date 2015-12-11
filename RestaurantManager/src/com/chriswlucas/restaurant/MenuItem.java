@@ -23,7 +23,7 @@ class MenuItem {
 	public String toString(){
 		return "\t$" + getPrice() + "\t" + getItemName();
 	}
-	public double price;
-	public String Name;
-	public boolean isFood = false; //set to true if a food item, leave false if drink.
+	private double price;
+	private String Name;
+	private boolean isFood = false; //set to true if a food item, leave false if drink.
 }

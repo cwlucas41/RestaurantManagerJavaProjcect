@@ -14,4 +14,6 @@ abstract class UserInterface {
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
+	
+	abstract public void display(String string);
 }

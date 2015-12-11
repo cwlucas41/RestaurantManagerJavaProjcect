@@ -34,7 +34,7 @@ class PaymentManager {
     	else {
     		for (int i = 0; i<split; i++){
     			List<Integer> checkNames = new ArrayList<Integer>();
-    			int temp = i++;
+    			int temp = i + 1;
     			System.out.println("How many people in party " + temp + "?:");
     			numPeople = scanner.nextInt();
     			System.out.println();
@@ -54,6 +54,7 @@ class PaymentManager {
     			createReceipt(i, checkNames,tickets);
     		}
     	}
+    	partyManager.getJobManager().assignCollectingJob();
     }
     
     /**
@@ -62,8 +63,7 @@ class PaymentManager {
     void createReceipt(int n, List<Integer>checkNames, List<Ticket> ticks){
         Receipt receipt = new Receipt(n ,checkNames, ticks);
         receipt.sumTotal();
-        receipts.add(receipt);
-        partyManager.getJobManager().assignCollectingJob();   
+        receipts.add(receipt);   
         checkNames.clear();
     }
     

@@ -19,41 +19,7 @@ class PaymentManager {
     /**
      * Controls how people would like to pay for the bill
      */
-//    void checkout(List<Ticket>tickets, int split){
-//    	Scanner scanner = new Scanner(System.in);
-//    	System.out.println("How many ways would you like to split the check?: ");
-//    	split = scanner.nextInt();
-//    	if (split == 1){
-//    		List<Integer> checkNames = new ArrayList<Integer>();
-//    		for (int i = 0; i<customerNames.size(); i++){
-//    			checkNames.add(i);
-//    		}
-//    		createReceipt(split - 1, checkNames, tickets);
-//    	}
-//    	else {
-//    		for (int i = 0; i<split; i++){
-//    			List<Integer> checkNames = new ArrayList<Integer>();
-//    			int temp = i++;
-//    			System.out.println("How many people in party " + temp + "?:");
-//    			numPeople = scanner.nextInt();
-//    			System.out.println();
-//    			ListIterator<String> names = customerNames.listIterator();
-//    			int k = 0;
-//    			while(names.hasNext()){
-//    				String customer = k + ") " + names.next();
-//    				System.out.println(customer);
-//    				k++;
-//    			}
-//    			for (int j = 0; j<numPeople; j++){
-//    				System.out.println();
-//    				System.out.println("Choose the number of the customer to add to this receipt:");
-//    				int custNumber = scanner.nextInt();
-//    				checkNames.add(custNumber);
-//    			}
-//    			createReceipt(i, checkNames,tickets);
-//    		}
-//    	}
-//    }
+
     
     void checkout(List<Ticket>tickets, int partyID, int split){
     	
@@ -63,14 +29,6 @@ class PaymentManager {
     		checkNames.clear();
     	}
 	}
-//    	for (int i = 0; i < split; i++){
-//    		int size = customerUI.setCheckNames(partyID, split).size();
-//    		for (int k = 0; k < size; k++){
-//    			checkNames.add(customerUI.setCheckNames(partyID, split).get(k));
-//    		}
-//    		this.createReceipt(i, checkNames, tickets);
-//    		checkNames.clear();
-//    	}
 
     /**
      * Creates a receipt based on who is included in that check

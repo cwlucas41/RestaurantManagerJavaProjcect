@@ -186,9 +186,9 @@ class PartyManager {
 	 * On checkout creates a Payment Manager which will handle creating
 	 * a receipt and handle sending out jobs to clean and free the table.
 	 */
-    void pay(){
+    void pay(int partyID, int split){
         this.restaurant.collectTickets(tickets);
-        this.payments.checkout(tickets);
+        this.payments.checkout(tickets, partyID, split);
     }
 	
     /**

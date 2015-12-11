@@ -126,14 +126,56 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 		PartyManager partyManager = this.getRestaurant().getPartyManager(partyID);
 		System.out.println("Would you like to checkout?");
 		System.out.println("Choose 1 for yes or 2 for no: ");
-		if (this.getIntegerFromUser() == 1){
-			partyManager.pay();
+		int selection = this.getIntegerFromUser();
+		if (selection == 1){
+			int split = this.getSplit();
+			partyManager.pay(partyID, split);
+			System.out.println("Thank you. Please come again.");
+		}
+		else if (selection == 2){
+			System.out.println("Please pay when you are ready.");
+			this.displayCheckout(partyID);
 		}
 		else {
-			System.out.println("Please pay when you are ready.");
+			this.displayInvalidOption();
+			this.displayCheckout(partyID);
 		}
+
 		
 	}
+	
+	public List<Integer> setCheckNames(int partyID, int split) {
+		List<Integer> checkNames = new ArrayList<Integer>();
+		List<String> custNames = new ArrayList<String>();
+		custNames = this.getRestaurant().getPartyManager(partyID).getCustNames();
+		System.out.println("Hello");
+		if (split == 1){
+			for (int i = 0; i<custNames.size(); i++){
+    			checkNames.add(i);
+    		}
+			return checkNames;
+		}
+		else {
+			for (int i = 0; i<split; i++){
+				System.out.println("Hello");
+				int people = i+1;
+				System.out.println("How many people in party " + people + "?: ");
+				int numPeople = this.getIntegerFromUser();
+				System.out.println();
+				for (int j = 0; j<numPeople; j++){
+					this.displayCustomers(custNames);
+					System.out.println();
+					System.out.println("Choose the number of the customer to add to this receipt:");
+					int custNumber = this.getIntegerFromUser();
+					checkNames.add(custNumber);
+				}
+			}
+			System.out.println("Hello");
+			return checkNames;
+
+		}
+	}
+
 	/**
 	 * Displays the total of a receipt
 	 */
@@ -150,6 +192,12 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 			System.out.println(receipts.size());
 			System.out.println("Receipt " + receiptit.next().getCheckNumber() + " has total " + receiptit.next().getTotal());
 		}
+	}
+	
+	public int getSplit(){
+		System.out.println("How many ways would you like to split the check?: ");
+		int split = this.getIntegerFromUser();
+		return split;
 	}
 
 }

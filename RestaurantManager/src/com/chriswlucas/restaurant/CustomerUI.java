@@ -72,6 +72,8 @@ interface CustomerUI {
 	 */
 	public void displayCheckout(int partyID);
 	
+	public List<Integer> setCheckNames(int partyID, int split);
+	
 	/**
 	 * Displays the total for a receipt
 	 */
@@ -81,4 +83,7 @@ interface CustomerUI {
 	 * Displays the total receipts for a table
 	 */
 	public void displayTickets(List<Receipt>receipts);	
+	
+	public int getSplit();
+
 }

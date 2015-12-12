@@ -17,10 +17,7 @@ public class test {
 		r.getManagerInterface().addItemToMenu("Tomato Soup", 2, true);
 		r.getManagerInterface().addItemToMenu("Pizza", 6, true);
 
-		r.getHostInterface().addNewPartyToWaitlist(2, false);
-		r.getHostInterface().displayTableWaitlist();
-		
-		r.getHostInterface().seatCustomers(false, 0);
+		r.getHostInterface().controlHost();
 		
 		r.getCustomerInterface().initiateOrdering(0);
 		

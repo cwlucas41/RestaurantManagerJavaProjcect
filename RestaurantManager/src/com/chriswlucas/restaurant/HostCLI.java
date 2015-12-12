@@ -2,6 +2,7 @@ package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 
 class HostCLI extends UserCLI implements HostUI {
@@ -14,31 +15,75 @@ class HostCLI extends UserCLI implements HostUI {
 		boolean isFinished = false;
 		while (!isFinished){
 			printLine("Choose from the following choices:");
-			printLine("0) display unoccupied tables");
-			printLine("1) display unoccupied bar seats");
-			printLine("2) ");
-			int choice = super.getIntegerFromUser();
+			printLine("-1) exit");
+			printLine("0) Display unoccupied tables");
+			printLine("1) Display unoccupied bar seats");
+			printLine("2) Display table waitlist");
+			printLine("3) Display bar seat waitlist");
+			printLine("4) Add party to table waitlist");
+			printLine("5) Add party to bar seat waitlist");
+			printLine("6) Seat party from table waitlist");
+			printLine("7) Seat party from bar seat waitlist");
+			int choice = getIntegerFromUser();
 			switch (choice) {
+			case -1: isFinished = true; break;
 			case 0: this.displayFreeTables(false); break;
 			case 1: this.displayFreeTables(true); break;
-			case 2:
+			case 2: this.displayWaitlist(false); break;
+			case 3: this.displayWaitlist(true); break;
+			case 4: this.addNewPartyToWaitlist(false); break;
+			case 5: this.addNewPartyToWaitlist(true); break;
+			case 6: this.seatCustomers(false); break;
+			case 7: this.seatCustomers(true); break;
+			default: printLine("Invalid choice, try again"); break;
 			}
 		}
 	}
 	
-	public void addNewPartyToWaitlist(int partySize, boolean isAtBar) {
-		this.getRestaurant().addToWaitlist(partySize, isAtBar);
+	public void addNewPartyToWaitlist(boolean isAtBar) {
+		printLine("Enter party size or -1 to exit");
+		int partySize = getIntegerFromUser();
+//		try{
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			
+//		}
+		if (partySize == -1) {
+			return;
+		} else if (partySize > 0) {
+			printLine("Enter party name");
+			String partyID = super.getScanner().nextLine();
+			this.getRestaurant().addToWaitlist(partyID, partySize, isAtBar);
+		} else {
+			addNewPartyToWaitlist(isAtBar);
+		}
+		
 	}
 	
-	public void displayTableWaitlist() {
-		printLine(this.getRestaurant().getTableWaitlistString());
+	public Hashtable<String, Integer> displayWaitlist(boolean isBarWaitlist) {
+		Hashtable<String, Integer> waitlist;
+		if (isBarWaitlist) {
+			waitlist = this.getRestaurant().getBarWaitlist();
+		} else {
+			waitlist = this.getRestaurant().getTableWaitlist();
+		}
+		printLine(waitlist.toString());
+		return waitlist;
 	}
 	
-	public void displayBarWaitlist() {
-		printLine(this.getRestaurant().getBarWaitlistString());
-	}
-	
-	public void seatCustomers(boolean isAtBar, int index) {
+	public void seatCustomers(boolean isAtBar) {
+		Hashtable<String, Integer> waitlist = this.displayWaitlist(isAtBar);
+		boolean isFinished = false;
+		int index = getIntegerFromUser();
+		while (!isFinished) {
+			if (waitlist.containsKey(index)) {
+				isFinished = true;
+			} else {
+				printLine("Invald index, try again");
+				index = getIntegerFromUser();
+			}
+		}
+
 		int partyNumber = this.getRestaurant().createParty(isAtBar, index);
 		if ((Integer) partyNumber != null) {
 			printLine("Customers have party number of " + partyNumber);

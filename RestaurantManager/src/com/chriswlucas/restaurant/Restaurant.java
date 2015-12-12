@@ -2,7 +2,6 @@ package com.chriswlucas.restaurant;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 /**
@@ -22,8 +21,8 @@ class Restaurant implements Interfaceable{
 	private int barID;
 	private int ticketNumber;
 	private Menu menu;
-	private List<Integer> tableWaitlist;
-	private List<Integer> barWaitlist;
+	private Hashtable<String, Integer> tableWaitlist;
+	private Hashtable<String, Integer> barWaitlist;
 	private List<Ticket> tickets;
 	private int partyID;	
 	private RestaurantInterface restaurantInterface;
@@ -37,8 +36,8 @@ class Restaurant implements Interfaceable{
 		
 		this.ticketNumber = 0;
 		this.partyID = 0;
-		this.tableWaitlist = new LinkedList<Integer>();
-		this.barWaitlist = new LinkedList<Integer>();
+		this.tableWaitlist = new Hashtable<String, Integer>();
+		this.barWaitlist = new Hashtable<String, Integer>();
 		this.tickets = new ArrayList<Ticket>();
 		this.menu = new Menu();
 		
@@ -203,20 +202,20 @@ class Restaurant implements Interfaceable{
 		this.tickets.addAll(tickets);
 	}
 	
-	public void addToWaitlist(int partySize, boolean isAtBar) {
+	public void addToWaitlist(String parytName, int partySize, boolean isAtBar) {
 		if (isAtBar) {
-			this.barWaitlist.add(partySize);
+			this.barWaitlist.put(parytName, partySize);
 		} else {
-			this.tableWaitlist.add(partySize);
+			this.tableWaitlist.put(parytName, partySize);
 		}
 	}
 	
-	public String getTableWaitlistString() {
-		return tableWaitlist.toString();
+	public Hashtable<String, Integer> getTableWaitlist() {
+		return tableWaitlist;
 	}
 	
-	public String getBarWaitlistString() {
-		return barWaitlist.toString();
+	public Hashtable<String, Integer> getBarWaitlist() {
+		return barWaitlist;
 	}
 	
 	public int getTicketNumber () {       
@@ -230,7 +229,7 @@ class Restaurant implements Interfaceable{
 	
 	public Integer createParty(boolean isAtBar, int index) {
 		
-		List<Integer> waitlist;
+		Hashtable<String, Integer> waitlist;
 		int waiterID;
 		if (isAtBar) {
 			waitlist = this.barWaitlist;
@@ -241,7 +240,9 @@ class Restaurant implements Interfaceable{
 		}
 		
 		int partySize = waitlist.get(index);
-		if ((Integer) partySize == null) {
+		if (waitlist.containsKey(partyID)) {
+			waitlist.remove(partyID);
+		} else {
 			return null;
 		}
 		List<Integer> assignedTableNumbers = this.getHostInterface().assignTableNumbers(isAtBar, partySize);

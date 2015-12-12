@@ -277,12 +277,16 @@ class Restaurant implements Interfaceable{
 		}
 	}
 	
-	public List<Integer> getUnoccupiedTables() {
+	public List<Integer> getUnoccupiedTables(boolean barOrNormal) {
 		List<Integer> unoccupiedTableKeys = new ArrayList<Integer>();
 		Set<Integer> keys = tables.keySet();
 		for (int key : keys) {
-			if (!tables.get(key).isOccupied()) {
-				unoccupiedTableKeys.add(key);
+			Table table = this.tables.get(key);
+			if (!table.isOccupied()) {
+				boolean isBarSeat = table.getClass() == BarSeat.class;
+				if (barOrNormal != isBarSeat) {
+					unoccupiedTableKeys.add(key);
+				}
 			}
 		}
 		return unoccupiedTableKeys;

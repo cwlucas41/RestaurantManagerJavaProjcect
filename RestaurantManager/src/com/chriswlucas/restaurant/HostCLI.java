@@ -1,5 +1,6 @@
 package com.chriswlucas.restaurant;
 
+import java.util.Collections;
 import java.util.List;
 
 class HostCLI extends UserCLI implements HostUI {
@@ -7,6 +8,22 @@ class HostCLI extends UserCLI implements HostUI {
 	public HostCLI(Restaurant restaurant){
 		super(restaurant);
 	}
+	
+//	public void controlHost() {
+//		boolean isFinished = false;
+//		while (!isFinished){
+//			printLine("Choose from the following choices:");
+//			printLine("0) display unoccupied tables");
+//			printLine("1) ");
+//			printLine("2) ");
+//			int choice = super.getIntegerFromUser();
+//			switch (choice) {
+//			case 0:
+//			case 1:
+//			case 2:
+//			}
+//		}
+//	}
 	
 	public void addNewPartyToWaitlist(int partySize, boolean isAtBar) {
 		this.getRestaurant().addToWaitlist(partySize, isAtBar);
@@ -32,7 +49,16 @@ class HostCLI extends UserCLI implements HostUI {
 	public void displayFreeTables() {
 		printLine("The available tables are:");
 		printLine("\tNumber\tCapacity");
-		List<Integer> tableNumbers = this.getRestaurant().getUnoccupiedTables();
+		List<Integer> tableNumbers = this.getRestaurant().getUnoccupiedTables(true);
+		Collections.sort(tableNumbers);
+		for (int tableNumber : tableNumbers) {
+			printLine("\t" + tableNumber + "\t" + this.getRestaurant().getTable(tableNumber));
+		}
+		printLine("");
+		printLine("The available bar seats are:");
+		printLine("\tNumber\tCapacity");
+		tableNumbers = this.getRestaurant().getUnoccupiedTables(false);
+		Collections.sort(tableNumbers);
 		for (int tableNumber : tableNumbers) {
 			printLine("\t" + tableNumber + "\t" + this.getRestaurant().getTable(tableNumber));
 		}

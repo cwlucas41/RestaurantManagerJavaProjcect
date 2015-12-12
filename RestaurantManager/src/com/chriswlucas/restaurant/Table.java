@@ -1,6 +1,6 @@
 package com.chriswlucas.restaurant;
 
-class Table {
+class Table implements Comparable<Table>{
 	
 	Table(int size) {
 		this.size = size;
@@ -27,7 +27,14 @@ class Table {
     	Integer i = (Integer) size;
     	return i.toString();
     }
+    
+	@Override
+	public int compareTo(Table o) {
+		Integer size = this.size;
+		return size.compareTo(o.size);
+	}
 	
 	private int size;
     private boolean isOccupied; //set to true if table becomes occupied
+
 }

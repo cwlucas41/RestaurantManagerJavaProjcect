@@ -15,7 +15,7 @@ class WorkerCLI extends UserCLI implements WorkerUI {
 		if (worker.getNumberOfJobs() != 0) {
 			while (!isFinished){
 				displayJobs(employeeID);
-				System.out.println("Enter number of a job to mark it as complete or enter -1 to exit");
+				printLine("Enter number of a job to mark it as complete or enter -1 to exit");
 				int choice = super.getIntegerFromUser();
 				if (choice == -1) {
 					isFinished = true;
@@ -24,13 +24,13 @@ class WorkerCLI extends UserCLI implements WorkerUI {
 				}
 				if (worker.getNumberOfJobs() == 0){
 					isFinished = true;
-					System.out.println(worker.getName() + " does not have any more jobs");
-					System.out.println("\tContinuing...\n");
+					printLine(worker.getName() + " does not have any more jobs");
+					printLine("\tContinuing...\n");
 				}
 			}
 		} else {
-			System.out.println(worker.getName() + " does not have any jobs");
-			System.out.println("\tContinuing...\n");
+			printLine(worker.getName() + " does not have any jobs");
+			printLine("\tContinuing...\n");
 		}
 		
 	}
@@ -40,21 +40,21 @@ class WorkerCLI extends UserCLI implements WorkerUI {
 		if (index < worker.getNumberOfJobs()) {
 			boolean isDone = worker.doJob(index);
 			if (!isDone) {
-				System.out.println("Job number " + index + " for employee " + employeeID + " could not be completed");
+				printLine("Job number " + index + " for employee " + employeeID + " could not be completed");
 			}
 		} else {
-			System.out.println("Invalid Choice\n");
+			printLine("Invalid Choice\n");
 		}
 	}
 
 	public void displayJobs(int employeeID) {
 		Worker worker = this.getRestaurant().getWorker(employeeID);
-		System.out.println("Jobs for " + worker.getName() + ":");
+		printLine("Jobs for " + worker.getName() + ":");
 		List<Job> jobs = worker.getJobs();
 		ListIterator<Job> jobIterator = jobs.listIterator();
 		int i = 0;
 		while (jobIterator.hasNext()) {
-			System.out.println("\tJob " + i + ": " + jobIterator.next().toString());
+			printLine("\tJob " + i + ": " + jobIterator.next().toString());
 			i++;
 		}
 	}

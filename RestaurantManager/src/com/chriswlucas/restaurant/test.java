@@ -1,8 +1,5 @@
 package com.chriswlucas.restaurant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class test {
 	public static void main (String args[]){
 		Restaurant r = new Restaurant();
@@ -22,13 +19,8 @@ public class test {
 
 		r.getHostInterface().addNewPartyToWaitlist(2, false);
 		r.getHostInterface().displayTableWaitlist();
-		r.getHostInterface().displayFreeTables();
 		
-		// Temporarily necessary
-		List<Integer> tables = new ArrayList<Integer>();
-		tables.add(0);
-		
-		r.getHostInterface().seatCustomers(false, 0, tables);
+		r.getHostInterface().seatCustomers(false, 0);
 		
 		r.getCustomerInterface().initiateOrdering(0);
 		

@@ -6,6 +6,7 @@ interface HostUI {
 	public void addNewPartyToWaitlist(int partySize, boolean isAtBar);
 	public void displayTableWaitlist();
 	public void displayBarWaitlist();
-	public void seatCustomers(boolean isAtBar, int index, List<Integer> assignedTableNumbers);
-	public void displayFreeTables();
+	public void seatCustomers(boolean isAtBar, int index);
+	public List<Integer> displayFreeTables(boolean isAtBar);
+	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize);
 }

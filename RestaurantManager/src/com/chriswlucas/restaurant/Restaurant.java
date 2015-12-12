@@ -228,7 +228,7 @@ class Restaurant implements Interfaceable{
 		return tickets;
 	}
 	
-	public Integer createParty(boolean isAtBar, int index, List<Integer> assignedTableNumbers) {
+	public Integer createParty(boolean isAtBar, int index) {
 		
 		List<Integer> waitlist;
 		int waiterID;
@@ -244,14 +244,14 @@ class Restaurant implements Interfaceable{
 		if ((Integer) partySize == null) {
 			return null;
 		}
-		
+		List<Integer> assignedTableNumbers = this.getHostInterface().assignTableNumbers(isAtBar, partySize);
 		int capacityOfAssignedTables = getCapacityOfTablesByNumber(assignedTableNumbers);
 		if (capacityOfAssignedTables < partySize) {
 			return null;
 		}
 		
 		// can be seated
-		markTablesByNumberAs(assignedTableNumbers, true);
+		markTablesIsOccupiedByNumberAs(assignedTableNumbers, true);
 		waitlist.remove(index);		
 		int partyID = this.nextPartyID();
 		partyManagers.put(partyID, new PartyManager(this, waiterID, assignedTableNumbers, partySize, isAtBar));
@@ -266,7 +266,7 @@ class Restaurant implements Interfaceable{
 		return capacity;
 	}
 	
-	public void markTablesByNumberAs(List<Integer> tableNumbers, boolean isOccupied) {
+	public void markTablesIsOccupiedByNumberAs(List<Integer> tableNumbers, boolean isOccupied) {
 		for (int tableNumber : tableNumbers) {
 			Table table = this.tables.get(tableNumber);
 			if (isOccupied) {

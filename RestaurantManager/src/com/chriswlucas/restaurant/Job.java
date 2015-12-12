@@ -34,7 +34,7 @@ class Job implements Comparable<Job>{
 		switch (type) {
 		case 1: jobManager.assignServingJob(this); break; 
 		case 3: jobManager.assignBussingJob(this); break; 
-		case 4: jobManager.getPartyManager().getRestaurant().markTablesByNumberAs(jobManager.getPartyManager().getTableNumbers(), false); break;
+		case 4: jobManager.getPartyManager().getRestaurant().markTablesIsOccupiedByNumberAs(jobManager.getPartyManager().getTableNumbers(), false); break;
 		default: break;
 		}
 		

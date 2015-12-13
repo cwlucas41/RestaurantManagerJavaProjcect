@@ -289,6 +289,14 @@ class Restaurant implements Interfaceable{
 		return unoccupiedTableKeys;
 	}
 	
+	public Set<Integer> getSetOfAllEmployeeIDs() {
+		return this.allWorkers.keySet();
+	}
+	
+	public Set<Integer> getSetOfTableNumbers() {
+		return this.tables.keySet();
+	}
+	
 	public Table getTable(int tableNumber) {
 		return this.tables.get(tableNumber);
 	}

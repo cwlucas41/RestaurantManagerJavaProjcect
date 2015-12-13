@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 class HostCLI extends UserCLI implements HostUI {
 		
@@ -43,11 +44,6 @@ class HostCLI extends UserCLI implements HostUI {
 	public void addNewPartyToWaitlist(boolean isAtBar) {
 		printLine("Enter party size or -1 to exit");
 		int partySize = getIntegerFromUser();
-//		try{
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			
-//		}
 		if (partySize == -1) {
 			return;
 		} else if (partySize > 0) {
@@ -64,15 +60,22 @@ class HostCLI extends UserCLI implements HostUI {
 		Hashtable<String, Integer> waitlist;
 		if (isBarWaitlist) {
 			waitlist = this.getRestaurant().getBarWaitlist();
+			printLine("Waitlist for bar:");
 		} else {
 			waitlist = this.getRestaurant().getTableWaitlist();
+			printLine("Waitlist for tables:");
 		}
-		printLine(waitlist.toString());
+		printLine("\tName\tSize");
+		Set<String> keys = waitlist.keySet();
+		for (String key : keys) {
+			printLine("\t" + key + "\t" + waitlist.get(key).toString());
+		}
 		return waitlist;
 	}
 	
 	public void seatCustomers(boolean isAtBar) {
 		Hashtable<String, Integer> waitlist = this.displayWaitlist(isAtBar);
+		printLine("Choose party from waitlist by entering the party name");
 		boolean isFinished = false;
 		String key = getLineFromUser();
 		while (!isFinished) {

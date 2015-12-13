@@ -1,6 +1,7 @@
 package com.chriswlucas.restaurant;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class UserCLI extends UserInterface {
 
@@ -27,6 +28,14 @@ public class UserCLI extends UserInterface {
 		return data;
 	}
 	
+	public double getDoubleFromUser(){
+		prompt();
+		double data = scanner.nextDouble();
+		scanner.nextLine();
+		printLine("");
+		return data;
+	}
+	
 	public String getLineFromUser() {
 		prompt();
 		String data = scanner.nextLine();
@@ -44,6 +53,21 @@ public class UserCLI extends UserInterface {
 	
 	public void print(String string) {
 		System.out.print(string);
+	}
+	
+	public int getAndCheckIntegerIsInSet(String message, Set<Integer> set, boolean membershipOfSet){
+		printLine(message);
+		int choice = getIntegerFromUser();
+		boolean isFinished = false;
+		while (!isFinished) {
+			if (membershipOfSet == set.contains(choice)) {
+				isFinished = true;
+			} else {
+				printLine("Invalid choice, try again");
+				choice = getIntegerFromUser();
+			}
+		}
+		return choice;
 	}
 
 	@Override

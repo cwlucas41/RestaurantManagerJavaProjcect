@@ -227,7 +227,7 @@ class Restaurant implements Interfaceable{
 		return tickets;
 	}
 	
-	public Integer createParty(boolean isAtBar, int index) {
+	public Integer createParty(boolean isAtBar, String partyName) {
 		
 		Hashtable<String, Integer> waitlist;
 		int waiterID;
@@ -238,28 +238,24 @@ class Restaurant implements Interfaceable{
 			waitlist = this.tableWaitlist;
 			waiterID = getIDOfLeastBusyExceptBar(waiters);
 		}
-		
-		int partySize = waitlist.get(index);
-		if (waitlist.containsKey(partyID)) {
-			waitlist.remove(partyID);
-		} else {
+		int partySize = waitlist.get(partyName);
+		if (partySize == 0) {
 			return null;
 		}
 		List<Integer> assignedTableNumbers = this.getHostInterface().assignTableNumbers(isAtBar, partySize);
-		int capacityOfAssignedTables = getCapacityOfTablesByNumber(assignedTableNumbers);
-		if (capacityOfAssignedTables < partySize) {
+		if (assignedTableNumbers == null) {
 			return null;
 		}
 		
 		// can be seated
 		markTablesIsOccupiedByNumberAs(assignedTableNumbers, true);
-		waitlist.remove(index);		
+		waitlist.remove(partyName);		
 		int partyID = this.nextPartyID();
 		partyManagers.put(partyID, new PartyManager(this, waiterID, assignedTableNumbers, partySize, isAtBar));
 		return partyID;
 	}
 	
-	private int getCapacityOfTablesByNumber(List<Integer> tableNumbers) {
+	public int getCapacityOfTablesByNumber(List<Integer> tableNumbers) {
 		int capacity = 0;
 		for (int tableNumber : tableNumbers) {
 			capacity += this.tables.get(tableNumber).getsize();
@@ -285,7 +281,7 @@ class Restaurant implements Interfaceable{
 			Table table = this.tables.get(key);
 			if (!table.isOccupied()) {
 				boolean isBarSeat = table.getClass() == BarSeat.class;
-				if (barOrNormal != isBarSeat) {
+				if (barOrNormal == isBarSeat) {
 					unoccupiedTableKeys.add(key);
 				}
 			}

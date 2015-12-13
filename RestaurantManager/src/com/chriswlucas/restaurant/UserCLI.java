@@ -22,6 +22,7 @@ public class UserCLI extends UserInterface {
 	public int getIntegerFromUser(){
 		prompt();
 		int data = scanner.nextInt();
+		scanner.nextLine();
 		printLine("");
 		return data;
 	}

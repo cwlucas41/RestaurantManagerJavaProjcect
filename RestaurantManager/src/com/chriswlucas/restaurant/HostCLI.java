@@ -52,7 +52,7 @@ class HostCLI extends UserCLI implements HostUI {
 			return;
 		} else if (partySize > 0) {
 			printLine("Enter party name");
-			String partyID = super.getScanner().nextLine();
+			String partyID = getLineFromUser();
 			this.getRestaurant().addToWaitlist(partyID, partySize, isAtBar);
 		} else {
 			addNewPartyToWaitlist(isAtBar);
@@ -74,18 +74,17 @@ class HostCLI extends UserCLI implements HostUI {
 	public void seatCustomers(boolean isAtBar) {
 		Hashtable<String, Integer> waitlist = this.displayWaitlist(isAtBar);
 		boolean isFinished = false;
-		int index = getIntegerFromUser();
+		String key = getLineFromUser();
 		while (!isFinished) {
-			if (waitlist.containsKey(index)) {
+			if (waitlist.containsKey(key)) {
 				isFinished = true;
 			} else {
 				printLine("Invald index, try again");
-				index = getIntegerFromUser();
+				key = getLineFromUser();
 			}
 		}
-
-		int partyNumber = this.getRestaurant().createParty(isAtBar, index);
-		if ((Integer) partyNumber != null) {
+		Integer partyNumber = this.getRestaurant().createParty(isAtBar, key);
+		if (partyNumber != null) {
 			printLine("Customers have party number of " + partyNumber);
 		} else {
 			printLine("The party cannot be seated at this time");
@@ -98,8 +97,11 @@ class HostCLI extends UserCLI implements HostUI {
 		List<Integer> freeTables = this.displayFreeTables(isAtBar);
 		while (remainingToSeat > 0) {
 			printLine("Choose table number, remaining customers to seat is " + remainingToSeat);
+			printLine("Enter -1 to cancel");
 			int tableNumber = getIntegerFromUser();
-			if (freeTables.contains(tableNumber) && !assignedTables.contains(tableNumber)) {
+			if (tableNumber == -1) {
+				return null;
+			} else if (freeTables.contains(tableNumber) && !assignedTables.contains(tableNumber)) {
 				assignedTables.add(tableNumber);
 				remainingToSeat -= this.getRestaurant().getTable(tableNumber).getsize();
 			} else {

@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 interface HostUI {
+	public void displayAllActiveParties();
 	public void addNewPartyToWaitlist(boolean isAtBar);
 	public Hashtable<String, Integer> displayWaitlist(boolean isBarWaitlist);
 	public void seatCustomers(boolean isAtBar);

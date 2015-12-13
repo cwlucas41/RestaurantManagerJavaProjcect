@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 /**
  * Manages and modifies the internal state of the Restaurant
  * Holds the user interface fore the Restaurant
@@ -293,8 +294,27 @@ class Restaurant implements Interfaceable{
 		return this.allWorkers.keySet();
 	}
 	
+	public Set<Integer> getSetOFAllProducerIDs() {
+		Set<Integer> ids = new TreeSet<Integer>();
+		ids.add(this.kitchenID);
+		ids.add(this.barID);
+		return ids;
+	}
+	
+	public Set<Integer> getSetOfAllWaiterIDs() {
+		return this.waiters.keySet();
+	}
+	
+	public Set<Integer> getSetOfAllBusserIDs() {
+		return this.bussers.keySet();
+	}
+	
 	public Set<Integer> getSetOfTableNumbers() {
 		return this.tables.keySet();
+	}
+	
+	public Set<Integer> getSetOfPartyNumbers() {
+		return this.partyManagers.keySet();
 	}
 	
 	public Table getTable(int tableNumber) {

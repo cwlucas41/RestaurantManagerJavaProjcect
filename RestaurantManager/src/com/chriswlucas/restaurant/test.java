@@ -9,7 +9,7 @@ public class test {
 		r.getManagerInterface().addNewBarSeat(1);
 		r.getManagerInterface().addNewTable(2, 8);
 		r.getManagerInterface().addNewBarSeat(3);
-				
+		
 		r.getManagerInterface().addItemToMenu("Coke", 1, false);
 		r.getManagerInterface().addItemToMenu("Water", 0, false);
 		r.getManagerInterface().addItemToMenu("Beer", 2, false);

@@ -15,32 +15,62 @@ class HostCLI extends UserCLI implements HostUI {
 	public void controlHost() {
 		boolean isFinished = false;
 		while (!isFinished){
-			printLine("Choose from the following choices:");
+			printLine("\nChoose from the following choices:");
 			printLine("-1) exit");
-			printLine("0) Display unoccupied tables");
-			printLine("1) Display unoccupied bar seats");
-			printLine("2) Display table waitlist");
-			printLine("3) Display bar seat waitlist");
-			printLine("4) Add party to table waitlist");
-			printLine("5) Add party to bar seat waitlist");
-			printLine("6) Seat party from table waitlist");
-			printLine("7) Seat party from bar seat waitlist");
+			printLine(" 0) Display all seated parties");
+			printLine(" 1) Display unoccupied tables");
+			printLine(" 2) Display unoccupied bar seats");
+			printLine(" 3) Display table waitlist");
+			printLine(" 4) Display bar seat waitlist");
+			printLine(" 5) Add party to table waitlist");
+			printLine(" 6) Add party to bar seat waitlist");
+			printLine(" 7) Seat party from table waitlist");
+			printLine(" 8) Seat party from bar seat waitlist");
 			int choice = getIntegerFromUser();
 			switch (choice) {
 			case -1: isFinished = true; break;
-			case 0: this.displayFreeTables(false); break;
-			case 1: this.displayFreeTables(true); break;
-			case 2: this.displayWaitlist(false); break;
-			case 3: this.displayWaitlist(true); break;
-			case 4: this.addNewPartyToWaitlist(false); break;
-			case 5: this.addNewPartyToWaitlist(true); break;
-			case 6: this.seatCustomers(false); break;
-			case 7: this.seatCustomers(true); break;
-			default: printLine("Invalid choice, try again"); break;
+			case 0:
+				this.displayAllActiveParties();
+				break;
+			case 1: 
+				this.displayFreeTables(false); 
+				break;
+			case 2: 
+				this.displayFreeTables(true); 
+				break;
+			case 3: 
+				this.displayWaitlist(false); 
+				break;
+			case 4: 
+				this.displayWaitlist(true); 
+				break;
+			case 5: 
+				this.addNewPartyToWaitlist(false); 
+				break;
+			case 6: 
+				this.addNewPartyToWaitlist(true); 
+				break;
+			case 7: 
+				this.seatCustomers(false); 
+				break;
+			case 8: 
+				this.seatCustomers(true); 
+				break;
+			default: 
+				printLine("Invalid choice, try again"); 
+				break;
 			}
 		}
 	}
 	
+	public void displayAllActiveParties() {
+		Set<Integer> partySet = this.getRestaurant().getSetOfPartyNumbers();
+		System.out.println("\tID\tCustomer Names");
+		for (int id : partySet) {
+			System.out.println("\t" + id + "\t" + this.getRestaurant().getPartyManager(id).getCustNames());
+		}
+	}
+
 	public void addNewPartyToWaitlist(boolean isAtBar) {
 		printLine("Enter party size or -1 to exit");
 		int partySize = getIntegerFromUser();

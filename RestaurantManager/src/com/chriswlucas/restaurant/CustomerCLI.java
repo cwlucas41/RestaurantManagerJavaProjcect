@@ -18,10 +18,10 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	public void controlCustomer(int partyID) {
 		boolean isFinished = false;
 		while (!isFinished){
-			printLine("Choose from the following choices:");
+			printLine("\nChoose from the following choices:");
 			printLine("-1) exit");
-			printLine("0) Start new order");
-			printLine("1) Checkout");
+			printLine(" 0) Start new order");
+			printLine(" 1) Checkout");
 			int choice = getIntegerFromUser();
 			switch (choice) {
 			case -1: isFinished = true; break;

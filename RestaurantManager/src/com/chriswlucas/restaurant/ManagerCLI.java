@@ -1,5 +1,7 @@
 package com.chriswlucas.restaurant;
 
+import java.util.Set;
+
 class ManagerCLI extends UserCLI implements ManagerUI {
 	
 	public ManagerCLI(Restaurant restaurant){
@@ -9,36 +11,69 @@ class ManagerCLI extends UserCLI implements ManagerUI {
 	public void controlManager() {
 		boolean isFinished = false;
 		while (!isFinished){
-			printLine("Choose from the following choices:");
+			printLine("\nChoose from the following choices:");
 			printLine("-1) exit");
-			printLine("0) Hire waiter");
-			printLine("1) Hire busser");
-			printLine("2) Remove waiter");
-			printLine("3) Remove busser");
-			printLine("4) Add new table");
-			printLine("5) Add new bar seat");
-			printLine("6) Remove table or bar seat");
-			printLine("7) Add item to menu");
-//			printLine("8) Remove item from menu");
+			printLine(" 0) View list of workers");
+			printLine(" 1) Hire waiter");
+			printLine(" 2) Hire busser");
+			printLine(" 3) Remove waiter");
+			printLine(" 4) Remove busser");
+			printLine(" 5) View list of tables");
+			printLine(" 6) Add new table");
+			printLine(" 7) Add new bar seat");
+			printLine(" 8) Remove table or bar seat");
+			printLine(" 9) View menu");
+			printLine(" 10) Add item to menu");
+//			printLine(" 11) Remove item from menu");
 			int choice = getIntegerFromUser();
 			switch (choice) {
 			case -1: isFinished = true; break;
-			case 0: this.hireNewWaiter(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), false), getNameFromUser()); break;
-			case 1: this.hireNewBusser(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), false), getNameFromUser()); break;
-			case 2: this.removeWaiterByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), true)); break;
-			case 3: this.removeBusserByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), true)); break;
-			case 4: this.addNewTable(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false), getTableSize()); break;
-			case 5: this.addNewBarSeat(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false)); break;
-			case 6: this.removeTableByID(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), true)); break;
-			case 7: this.addItemToMenu(getNameFromUser(), getPriceFromUser(), getIsFoodFromUser()); break;
-//			case 8: this.removeItemFromMenu(itemNumber, isFood); break;
-			default: printLine("Invalid choice, try again"); break;
+			case 0: 
+				this.displayAllWorkers();
+				break;
+			case 1: 
+				this.hireNewWaiter(getAndCheckIntegerIsInSet("Enter unused employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), false), getNameFromUser()); 
+				break;
+			case 2:
+				this.hireNewBusser(getAndCheckIntegerIsInSet("Enter unused employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), false), getNameFromUser()); 
+				break;
+			case 3: 
+				this.removeWaiterByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), true)); 
+				break;
+			case 4: 
+				this.removeBusserByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllEmployeeIDs(), true)); 
+				break;
+			case 5:
+				displayAllTables();
+				break;
+			case 6: 
+				this.addNewTable(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false), getTableSize()); 
+				break;
+			case 7: 
+				this.addNewBarSeat(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false)); 
+				break;
+			case 8: 
+				this.removeTableByID(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), true)); 
+				break;
+			case 9:
+				printLine(this.getRestaurant().getMenu().toString());;
+				break;
+			case 10: 
+				this.addItemToMenu(getNameFromUser(), getPriceFromUser(), getIsFoodFromUser()); 
+				break;
+//			case 11: 
+//				this.removeItemFromMenu(itemNumber, isFood); 
+//				break;
+			default: 
+				printLine("Invalid choice, try again"); 
+				break;
 			}
 		}
 	}
 
 	@Override
 	public void hireNewWaiter(int employeeID, String name) {
+		displayAllProducersOrWaitersOrBussers(1);
 		boolean isHired = this.getRestaurant().addWaiter(employeeID, name);
 		if (!isHired) {
 			System.out.println("Could not hire waiter with ID " + employeeID);
@@ -47,9 +82,10 @@ class ManagerCLI extends UserCLI implements ManagerUI {
 
 	@Override
 	public void hireNewBusser(int employeeID, String name) {
+		displayAllProducersOrWaitersOrBussers(2);
 		boolean isHired = this.getRestaurant().addBusser(employeeID, name);
 		if (!isHired) {
-			System.out.println("Could not hire busser with ID " + employeeID);
+			printLine("Could not hire busser with ID " + employeeID);
 		}
 	}
 
@@ -57,9 +93,43 @@ class ManagerCLI extends UserCLI implements ManagerUI {
 	public Worker removeWaiterByID(int employeeID) {
 		Worker worker = this.getRestaurant().removeWaiter(employeeID);
 		if (worker == null){
-			System.out.println("Waiter with ID " + employeeID + " could not be removed");
+			printLine("Waiter with ID " + employeeID + " could not be removed");
 		}
 		return worker;
+	}
+	
+	public void displayAllWorkers() {
+		displayAllProducersOrWaitersOrBussers(0);
+		displayAllProducersOrWaitersOrBussers(1);
+		displayAllProducersOrWaitersOrBussers(2);
+	}
+	
+	private void displayAllProducersOrWaitersOrBussers(int choice) {
+		Set<Integer> idSet;
+		if (choice == 0) {
+			idSet = this.getRestaurant().getSetOFAllProducerIDs();
+			printLine("List of Producers:");
+		} else if (choice == 1) {
+			idSet = this.getRestaurant().getSetOfAllWaiterIDs();
+			printLine("List of Waiters:");
+		} else {
+			idSet = this.getRestaurant().getSetOfAllBusserIDs();
+			printLine("List of Bussers:");
+		}
+		
+		printLine("\tID\t# of Jobs\tName");
+		for (int id : idSet) {
+			printLine("\t" + id + "\t" + this.getRestaurant().getWorker(id).getNumberOfJobs() + "\t\t" + this.getRestaurant().getWorker(id).getName());
+		}
+	}
+	
+	private void displayAllTables() {
+		Set<Integer> keys = this.getRestaurant().getSetOfTableNumbers();
+		printLine("List of Tables:");
+		printLine("\tNumber\tSize\tOccupied");
+		for (int key : keys) {
+			printLine("\t" + key + "\t" + this.getRestaurant().getTable(key).getsize() + "\t" + this.getRestaurant().getTable(key).isOccupied());
+		}
 	}
 
 	@Override

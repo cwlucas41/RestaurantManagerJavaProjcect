@@ -3,6 +3,7 @@ package com.chriswlucas.restaurant;
 interface ManagerUI {
 	public void controlManager();
 	
+	public void displayAllWorkers();
 	public void hireNewWaiter(int employeeID, String name);
 	public void hireNewBusser(int employeeID, String name);
 	public Worker removeWaiterByID(int employeeID);

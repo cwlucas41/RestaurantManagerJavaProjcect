@@ -109,7 +109,7 @@ class PartyManager {
 		boolean makeTick = false;
 		while(!makeTick){
 			MenuItem item;
-			customerUI.displayCustomerChoices();
+			customerUI.displayOrderingChoices();
 			int choice = customerUI.getIntegerFromUser();
 			switch(choice){
 			case 0: {

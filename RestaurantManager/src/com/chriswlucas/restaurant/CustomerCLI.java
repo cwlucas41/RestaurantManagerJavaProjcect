@@ -15,6 +15,23 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 		super(restaurant);
 	}
 	
+	public void controlCustomer(int partyID) {
+		boolean isFinished = false;
+		while (!isFinished){
+			printLine("Choose from the following choices:");
+			printLine("-1) exit");
+			printLine("0) Start new order");
+			printLine("1) Checkout");
+			int choice = getIntegerFromUser();
+			switch (choice) {
+			case -1: isFinished = true; break;
+			case 0: this.initiateOrdering(partyID); break;
+			case 1: this.initiateCheckout(partyID); break;
+			default: printLine("Invalid choice, try again"); break;
+			}
+		}
+	}
+	
 	/**
 	 * Starts the whole ordering procedure for a specific party.
 	 * @param partyID
@@ -45,7 +62,7 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	/**
 	 * Display the options a user has to choose from.
 	 */
-	public void displayCustomerChoices(){
+	public void displayOrderingChoices(){
 		System.out.println("Choose 0, 1, 2, 3, or 4 for the following choices.");
 		System.out.println("0) Add item to ticket.");
 		System.out.println("1) Remove item from ticket.");
@@ -124,7 +141,7 @@ class CustomerCLI extends UserCLI implements CustomerUI {
 	 * Displays the process for patrons to checkout
 	 */
 	public void displayCheckout() {
-		System.out.println("Would you like to checkout?");
+		System.out.println("Are you sure you want to checkout?");
 		System.out.println("Choose 1 for yes or 2 for no: ");
 	}
 	

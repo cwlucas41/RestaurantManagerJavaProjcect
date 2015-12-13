@@ -19,13 +19,13 @@ public class test {
 
 		r.getHostInterface().controlHost();
 		
-		r.getCustomerInterface().initiateOrdering(0);
+		r.getCustomerInterface().controlCustomer(0);
 		
 		r.getWorkerInterface().controlWorker(0);
 		r.getWorkerInterface().controlWorker(1);
 		r.getWorkerInterface().controlWorker(2);
 
-		r.getCustomerInterface().initiateCheckout(0);
+		r.getCustomerInterface().controlCustomer(0);
 		
 		r.getWorkerInterface().controlWorker(2);
 	}

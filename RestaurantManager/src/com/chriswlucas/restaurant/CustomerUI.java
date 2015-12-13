@@ -10,6 +10,8 @@ import java.util.List;
  */
 interface CustomerUI {
 	
+	public void controlCustomer(int partyID);
+	
 	/**
 	 * Gets the customer names from the customers and stores them in a list.
 	 */
@@ -24,7 +26,7 @@ interface CustomerUI {
 	/**
 	 * Display the options a user has to choose from.
 	 */
-	public void displayCustomerChoices();
+	public void displayOrderingChoices();
 	
 	/**
 	 * Display the menu to the user.

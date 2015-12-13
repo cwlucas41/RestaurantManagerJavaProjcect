@@ -3,12 +3,22 @@ package com.chriswlucas.restaurant;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Worker Command Line Interface
+ * @author cwlucas41
+ *
+ */
 class WorkerCLI extends UserCLI implements WorkerUI {
 	
+	/**
+	 * Constructs an new WorkerCLI
+	 * @param restaurant
+	 */
 	public WorkerCLI(Restaurant restaurant){
 		super(restaurant);
 	}
 	
+	@Override
 	public void controlWorker(int employeeID) {
 		boolean isFinished = false;
 		Worker worker = this.getRestaurant().getWorker(employeeID);
@@ -35,6 +45,7 @@ class WorkerCLI extends UserCLI implements WorkerUI {
 		
 	}
 
+	@Override
 	public void doJob(int employeeID, int index) {
 		Worker worker = this.getRestaurant().getWorker(employeeID);
 		if (index < worker.getNumberOfJobs()) {
@@ -47,6 +58,7 @@ class WorkerCLI extends UserCLI implements WorkerUI {
 		}
 	}
 
+	@Override
 	public void displayJobs(int employeeID) {
 		Worker worker = this.getRestaurant().getWorker(employeeID);
 		printLine("Jobs for " + worker.getName() + ":");

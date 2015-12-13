@@ -10,6 +10,10 @@ import java.util.List;
  */
 interface CustomerUI {
 	
+	/**
+	 * starts event loop for ordering and paying
+	 * @param partyID
+	 */
 	public void controlCustomer(int partyID);
 	
 	/**
@@ -74,14 +78,35 @@ interface CustomerUI {
 	 */
 	public void displayCheckout();
 	
+	/**
+	 * Displays thank you message
+	 */
 	public void displayThanks();
 	
+	/**
+	 * Displays payment choice
+	 */
 	public void displayPayWhenReady();
 	
+	/**
+	 * starts the checkout process
+	 * @param partyID
+	 */
 	public void initiateCheckout(int partyID);
 	
+	/**
+	 * displays the given string
+	 * @param string
+	 */
 	public void display(String string);
 	
+	/**
+	 * Propts user for splitting the check
+	 * @param custNames
+	 * @param split
+	 * @param num
+	 * @return customerIDs for receipt
+	 */
 	public List<Integer> setCheckNames(List<String>custNames, int split, int num);
 	
 	/**
@@ -94,6 +119,10 @@ interface CustomerUI {
 	 */
 	public void displayReceipts(List<Receipt>receipts);	
 	
+	/**
+	 * Gets how many ways the check should be split
+	 * @return number of splits
+	 */
 	public int getSplit();
 
 }

@@ -55,6 +55,11 @@ class Ticket {
 		return this.getAllValuesAsList(drinksByCustomerID);
 	}
 	
+	/**
+	 * Gets the list resulting from all lists stored as values in the supplied hashtable being appended together.
+	 * @param hashtable
+	 * @return
+	 */
 	private List<MenuItem> getAllValuesAsList(Hashtable<Integer, List<MenuItem>> hashtable) {
 		List<MenuItem> list = new ArrayList<MenuItem>();
 		for (int key : hashtable.keySet()) {

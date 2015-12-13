@@ -5,13 +5,21 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Host Command Line Interface
+ * @author cwlucas41
+ *
+ */
 class HostCLI extends UserCLI implements HostUI {
-		
+	
+	/**
+	 * Constructs new Host Command Line Interface
+	 */
 	public HostCLI(Restaurant restaurant){
 		super(restaurant);
 	}
 	
+	@Override
 	public void controlHost() {
 		boolean isFinished = false;
 		while (!isFinished){
@@ -63,6 +71,7 @@ class HostCLI extends UserCLI implements HostUI {
 		}
 	}
 	
+	@Override
 	public void displayAllActiveParties() {
 		Set<Integer> partySet = this.getRestaurant().getSetOfPartyNumbers();
 		System.out.println("\tID\tCustomer Names");
@@ -71,6 +80,7 @@ class HostCLI extends UserCLI implements HostUI {
 		}
 	}
 
+	@Override
 	public void addNewPartyToWaitlist(boolean isAtBar) {
 		printLine("Enter party size or -1 to exit");
 		int partySize = getIntegerFromUser();
@@ -86,6 +96,7 @@ class HostCLI extends UserCLI implements HostUI {
 		
 	}
 	
+	@Override
 	public Hashtable<String, Integer> displayWaitlist(boolean isBarWaitlist) {
 		Hashtable<String, Integer> waitlist;
 		if (isBarWaitlist) {
@@ -103,6 +114,7 @@ class HostCLI extends UserCLI implements HostUI {
 		return waitlist;
 	}
 	
+	@Override
 	public void seatCustomers(boolean isAtBar) {
 		Hashtable<String, Integer> waitlist = this.displayWaitlist(isAtBar);
 		printLine("Choose party from waitlist by entering the party name");
@@ -124,6 +136,7 @@ class HostCLI extends UserCLI implements HostUI {
 		}
 	}
 	
+	@Override
 	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize) {
 		List<Integer> assignedTables = new ArrayList<Integer>();
 		int remainingToSeat = partySize;
@@ -144,6 +157,7 @@ class HostCLI extends UserCLI implements HostUI {
 		return assignedTables;
 	}
 	
+	@Override
 	public List<Integer> displayFreeTables(boolean isAtBar) {
 		if (isAtBar) {
 			printLine("The available bar seats are:");

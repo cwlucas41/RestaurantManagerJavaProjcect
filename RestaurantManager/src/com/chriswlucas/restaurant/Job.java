@@ -20,7 +20,7 @@ class Job implements Comparable<Job>{
 	 */
 	public Job(List<Object>inItems, int aType, JobManager jobManager){
 		this.jobManager = jobManager;
-		this.items= (List<Object>)inItems;
+		this.items= inItems;
 		this.type=aType;
 		this.current=new Time(0);
 	}
@@ -57,6 +57,7 @@ class Job implements Comparable<Job>{
 	/**
 	 * Displays the current list of items in the job.
 	 */
+	@Override
 	public String toString(){
 		String temp;
 		temp = getHeader();
@@ -76,7 +77,7 @@ class Job implements Comparable<Job>{
 	}
 	
 	/**
-	 * Sets te type of this job.
+	 * Sets the type of this job.
 	 * @param type
 	 */
 	public void setType(int type) {
@@ -87,6 +88,7 @@ class Job implements Comparable<Job>{
 	 * Compares the time's so jobs can be sorted for a worker
 	 * @param other - another job.
 	 */
+	@Override
 	public int compareTo(Job other) {
 		return this.current.compareTo(other.current);
 	}

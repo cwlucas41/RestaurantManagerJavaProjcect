@@ -19,12 +19,9 @@ class Receipt {
         this.grandTotal = computeGrandTotal();
     }
     
-
-    
     /**
-     * Iterates through all tickets and orders associated with a table
-     * Finds orders with customer names associated with them that are crosslisted on the receipt
-     * Sums the total of the receipt for all customers involved
+     * computes the total for each customer on the receipt
+     * @return array of subtotals - used only internally
      */
     private double[] computeSubTotals(){
     	double[] tempTotals= new double[this.itemsByCustomerID.size()];
@@ -43,6 +40,10 @@ class Receipt {
     	return tempTotals;
     }
     
+    /**
+     * sums subtotals to get grand total
+     * @return grand total
+     */
     private double computeGrandTotal() {
     	double sum = 0;
     	for (int j = 0; j < this.itemsByCustomerID.size(); j++) {
@@ -67,7 +68,8 @@ class Receipt {
     	return checkNumber;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
     	String string = "RECEIPT\n";
     	Set<Integer> keys = this.itemsByCustomerID.keySet();    	
     	int j = 0;

@@ -3,13 +3,24 @@ package com.chriswlucas.restaurant;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Test environment that allows for automatic initialization of restaurant, then enters event loop to switch between
+ * Restaurant personal.
+ * @author cwlucas41
+ *
+ */
 public class SimulateRestaurant {
 	
 	private static Scanner scanner = new Scanner(System.in);
 
+	/**
+	 * main method
+	 * sets up restaurant then enters event loop
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		Restaurant r = initializeRestaurant();
 		System.out.println("Simulation started");
+		Restaurant r = initializeRestaurant();
 		boolean isFinished = false;
 		while (!isFinished) {
 			System.out.println("\nChoose next type of person to control in the restaurant");
@@ -32,7 +43,7 @@ public class SimulateRestaurant {
 			case 2:
 				r.getManagerInterface().displayAllWorkers();
 				System.out.println("Choose a worker by entering their ID");
-				r.getWorkerInterface().controlWorker(getIntegerFromUserThatIsInSet(r.getSetOfAllEmployeeIDs()));
+				r.getWorkerInterface().controlWorker(getIntegerFromUserThatIsInSet(r.getSetOfAllWorkersIDs()));
 				break;
 			case 3:
 				r.getHostInterface().displayAllActiveParties();
@@ -44,6 +55,11 @@ public class SimulateRestaurant {
 		System.out.println("Simulation ended");
 	}
 	
+	/**
+	 * method for handling initialization of restaurant
+	 * more could be added here to change initial state
+	 * @return setup Restaurant object
+	 */
 	private static Restaurant initializeRestaurant() {
 		Restaurant r = new Restaurant();
 		
@@ -74,6 +90,10 @@ public class SimulateRestaurant {
 		return r;
 	}
 	
+	/**
+	 * convenience method to prompt the user and get an integer
+	 * @return integer from user
+	 */
 	private static int getIntegerFromUser(){
 		System.out.print(">> ");
 		int data = scanner.nextInt();
@@ -82,6 +102,13 @@ public class SimulateRestaurant {
 		return data;
 	}
 	
+	/**
+	 * convenience method
+	 * gets an integer from user and checks for integer's membership in a set
+	 * keeps prompting the user until a valid integer is entered
+	 * @param set
+	 * @return integer that is member of set
+	 */
 	private static int getIntegerFromUserThatIsInSet(Set<Integer> set) {
 		int choice = getIntegerFromUser();
 		boolean isFinished = false;

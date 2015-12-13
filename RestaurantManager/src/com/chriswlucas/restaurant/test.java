@@ -1,6 +1,14 @@
 package com.chriswlucas.restaurant;
-
+/**
+ * General scriptable system test
+ * @author Nick Anderson
+ *
+ */
 public class test {
+	/**
+	 * main method of test
+	 * @param args
+	 */
 	public static void main (String args[]){
 		Restaurant r = new Restaurant();
 		

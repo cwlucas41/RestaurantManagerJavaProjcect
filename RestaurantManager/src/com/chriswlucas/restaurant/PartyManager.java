@@ -30,6 +30,10 @@ class PartyManager {
 		this.payments = new PaymentManager(this, custNames);
 	}
 	
+	/**
+	 * re-initializes a given hashtable with a empty list as the value for each customer
+	 * @return initialized hashtable
+	 */
 	private Hashtable<Integer, List<MenuItem>> initializeHashtable() {
 		Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
 		for (int i = 0; i < custNames.size(); i++) {
@@ -38,6 +42,9 @@ class PartyManager {
 		return hashtable;
 	}
 	
+	/**
+	 * re-initializes temporary order hashtables and resets the total
+	 */
 	private void clearTemp() {
 		this.tempDrinksByCustomerID = initializeHashtable();
 		this.tempFoodByCustomerID = initializeHashtable();
@@ -240,7 +247,11 @@ class PartyManager {
 		return custNames;
 	}
 	
-	public List<Integer> getCustIndeces(){
+	/**
+	 * Gets the indices for customers
+	 * @return list of indices
+	 */
+	public List<Integer> getCustIndices(){
 		List<Integer> custInd = new ArrayList<Integer>();
 		ListIterator<String> it = custNames.listIterator();
 		int i = 0;
@@ -266,6 +277,11 @@ class PartyManager {
 		return isAtBar;
 	}
 	
+	/**
+	 * Gets the items a particular customer ordered
+	 * @param customerID
+	 * @return ordered menu items
+	 */
 	public List<MenuItem> getItemsForCustomerID(int customerID) {
 		return this.itemsByCustomerID.get(customerID);
 	}

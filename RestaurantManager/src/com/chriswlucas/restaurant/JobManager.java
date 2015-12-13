@@ -69,6 +69,10 @@ class JobManager {
 		partyManager.getRestaurant().getBusser(this.partyManager.isAtBar()).assignJob(job);
 	}
 	
+	/**
+	 * Gets the containing party manager for the job manager
+	 * @return partyManager
+	 */
 	public PartyManager getPartyManager() {
 		return partyManager;
 	}

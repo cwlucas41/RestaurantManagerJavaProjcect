@@ -5,8 +5,13 @@ import java.util.ListIterator;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
+/**
+ * Payment Manager handles payments, splitting, and receipt generation
+ * @author Jonathan Bundy
+ *
+ */
 class PaymentManager {
+	
     /**
      * Handles all aspects of payments including if the customer would like to split into multiple receipts
      * @param partyManager - reference to current partyManager
@@ -21,8 +26,6 @@ class PaymentManager {
     /**
      * Controls how people would like to pay for the bill
      */
-
-    
     void checkout(List<Ticket>tickets, int partyID){
     	customerUI.displayCheckout();
     	int selection = customerUI.getIntegerFromUser();
@@ -61,6 +64,11 @@ class PaymentManager {
         receipts.add(receipt);  
     }
     
+    /**
+     * Builds the hashtable of customer ID to a list of menu items for the creation of receipts
+     * @param customerIDs
+     * @return hashtable for customers and Lists of menu items
+     */
     private Hashtable<Integer, List<MenuItem>> buildHashtableForReceipt(List<Integer> customerIDs) {
     	Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
     	ListIterator<Integer> iterator = customerIDs.listIterator();

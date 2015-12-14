@@ -154,10 +154,10 @@ public class PartyManager {
 				customerUI.displayFoodOrDrinkChoice();
 				int foodDrinkChoice = customerUI.getIntegerFromUser();
 				int itemToRemove;
-				customerUI.displayRemoveInstruction();
 				if(foodDrinkChoice == 0){
 					customerUI.displayCustomers(custNames);
 					int customer = customerUI.getIntegerFromUser();
+					customerUI.displayRemoveInstruction();
 					customerUI.displayItemsInList(this.tempFoodByCustomerID.get(customer));	
 					itemToRemove = customerUI.getIntegerFromUser();
 					removeItem(this.tempFoodByCustomerID.get(customer).get(itemToRemove), customer);
@@ -165,6 +165,7 @@ public class PartyManager {
 				else if(foodDrinkChoice==1){
 					customerUI.displayCustomers(custNames);
 					int customer = customerUI.getIntegerFromUser();
+					customerUI.displayRemoveInstruction();
 					customerUI.displayItemsInList(this.tempDrinksByCustomerID.get(customer));
 					itemToRemove = customerUI.getIntegerFromUser();
 					removeItem(this.tempDrinksByCustomerID.get(customer).get(itemToRemove), customer);

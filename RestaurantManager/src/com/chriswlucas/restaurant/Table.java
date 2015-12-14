@@ -5,7 +5,7 @@ package com.chriswlucas.restaurant;
  * @author Jonathan Bundy
  *
  */
-class Table implements Comparable<Table>{
+public class Table implements Comparable<Table>{
 	
 	/**
 	 * Constructs table with all fields initialized

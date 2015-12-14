@@ -5,7 +5,7 @@ package com.chriswlucas.restaurant;
  * @author cwlucas41
  *
  */
-interface ManagerUI {
+public interface ManagerUI {
 	/**
 	 * enters manager event loop
 	 */

@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * @author cwlucas41
  * 
  */
-class Restaurant implements Interfaceable{
+public class Restaurant implements Interfaceable{
 
 	private Hashtable<Integer, Table> tables;
 	private Hashtable<Integer, PartyManager> partyManagers;

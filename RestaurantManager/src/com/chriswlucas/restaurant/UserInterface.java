@@ -6,7 +6,7 @@ package com.chriswlucas.restaurant;
  * @author cwlucas41
  *
  */
-abstract class UserInterface {
+public abstract class UserInterface {
 	
 	private Restaurant restaurant;
 	

@@ -8,7 +8,7 @@ import java.util.ListIterator;
  * @author cwlucas41
  *
  */
-class WorkerCLI extends UserCLI implements WorkerUI {
+public class WorkerCLI extends UserCLI implements WorkerUI {
 	
 	/**
 	 * Constructs an new WorkerCLI

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-class Receipt {
+public class Receipt {
     /**
      * Handles the creation of the receipt
      * @param checkNumber

@@ -11,7 +11,7 @@ import java.util.List;
  * @author cwlucas41
  *
  */
-class Worker {
+public class Worker {
 	
 	private List<Job> jobs;
 	private String name;

@@ -10,7 +10,7 @@ import java.util.Set;
  * @author cwlucas41
  *
  */
-class HostCLI extends UserCLI implements HostUI {
+public class HostCLI extends UserCLI implements HostUI {
 	
 	/**
 	 * Constructs new Host Command Line Interface

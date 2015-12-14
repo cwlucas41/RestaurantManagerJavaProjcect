@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
-class PartyManager {
+public class PartyManager {
 	
 	/**
 	 * Handles everything needed to run a party, from start to finish.

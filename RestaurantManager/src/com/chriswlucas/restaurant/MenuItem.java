@@ -5,7 +5,7 @@ package com.chriswlucas.restaurant;
  * @author Jonathan Bundy
  *
  */
-class MenuItem {
+public class MenuItem {
 
 	/**
 	 * Constructs a menuItem and fully initializes it

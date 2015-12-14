@@ -5,7 +5,7 @@ package com.chriswlucas.restaurant;
  * @author cwlucas41
  *
  */
-interface WorkerUI {
+public interface WorkerUI {
 	
 	/**
 	 * starts event loop for specified worker

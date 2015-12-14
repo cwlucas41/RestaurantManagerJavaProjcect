@@ -9,7 +9,7 @@ import java.util.ListIterator;
  * @author Nick Anderson
  * @author Jonathon Bundy.
  */
-class CustomerCLI extends UserCLI implements CustomerUI {
+public class CustomerCLI extends UserCLI implements CustomerUI {
 	
 	public CustomerCLI(Restaurant restaurant){
 		super(restaurant);

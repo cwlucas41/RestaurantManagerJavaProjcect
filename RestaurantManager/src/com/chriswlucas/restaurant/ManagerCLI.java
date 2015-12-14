@@ -8,7 +8,7 @@ import java.util.Set;
  * @author cwlucas41
  *
  */
-class ManagerCLI extends UserCLI implements ManagerUI {
+public class ManagerCLI extends UserCLI implements ManagerUI {
 	
 	/**
 	 * Constructs a managerCLI

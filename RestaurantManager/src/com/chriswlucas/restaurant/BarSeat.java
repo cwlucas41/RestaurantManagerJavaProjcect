@@ -7,7 +7,7 @@ package com.chriswlucas.restaurant;
  * @author Jonathan Bundy
  *
  */
-class BarSeat extends Table {
+public class BarSeat extends Table {
 	
 	/**
 	 * constructs a new bar seat as a table with one seat

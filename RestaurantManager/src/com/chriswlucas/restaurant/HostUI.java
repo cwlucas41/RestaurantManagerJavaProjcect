@@ -7,7 +7,7 @@ import java.util.List;
  * @author cwlucas41
  *
  */
-interface HostUI {
+public interface HostUI {
 	
 	/**
 	 * Enters into host event loop

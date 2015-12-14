@@ -8,7 +8,7 @@ import java.util.List;
  * @author Nick Anderson
  *
  */
-class JobManager {
+public class JobManager {
 	
 	/**
 	 * Converts the ticket to a job and then moves it around.

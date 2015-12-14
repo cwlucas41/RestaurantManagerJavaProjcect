@@ -8,7 +8,7 @@ import java.util.List;
  * @author Nick Anderson 
  * @author Jonathon Bundy
  */
-interface CustomerUI {
+public interface CustomerUI {
 	
 	/**
 	 * starts event loop for ordering and paying

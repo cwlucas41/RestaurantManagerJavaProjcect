@@ -6,7 +6,7 @@ package com.chriswlucas.restaurant;
  * @author cwlucas41
  *
  */
-class CLInterface extends RestaurantInterface {
+public class CLInterface extends RestaurantInterface {
 	
 	/**
 	 * Creates a new RestaurantInterface as a CLInterface

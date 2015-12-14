@@ -10,7 +10,7 @@ import java.util.Hashtable;
  * @author Jonathan Bundy
  *
  */
-class PaymentManager {
+public class PaymentManager {
 	
     /**
      * Handles all aspects of payments including if the customer would like to split into multiple receipts

@@ -9,7 +9,7 @@ import java.util.ListIterator;
  * @author Jonathan Bundy
  *
  */
-class Menu {
+public class Menu {
 	
 	/**
 	 * Constructs a menu and initializes all fields

@@ -9,7 +9,7 @@ import java.util.List;
  * @author Nick Anderson
  *
  */
-class Ticket {
+public class Ticket {
 	/**
 	 * @param foodItems - list of the foodItems on this ticket.
 	 * @param drinkItems - list of the drinkITems on this ticket.

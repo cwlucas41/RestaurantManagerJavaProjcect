@@ -5,7 +5,7 @@ package com.chriswlucas.restaurant;
  * @author cwlucas41
  *
  */
-class RestaurantInterface implements Interfaceable{
+public class RestaurantInterface implements Interfaceable{
 	
 	private WorkerUI workerInterface;
 	private HostUI hostInterface;

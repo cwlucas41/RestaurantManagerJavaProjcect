@@ -10,7 +10,7 @@ import java.util.ListIterator;
  * @author Nick Anderson
  *
  */
-class Job implements Comparable<Job>{
+public class Job implements Comparable<Job>{
 	/**
 	 * Holds a list of items/tables that need to be produced,
 	 * served, paid, or cleaned.

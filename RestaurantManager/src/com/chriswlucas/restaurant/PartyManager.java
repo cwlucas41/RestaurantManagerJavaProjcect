@@ -5,14 +5,18 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Handles everything needed to run a party, from start to finish.
+ * @author Nick Anderson
+ */
+
 public class PartyManager {
-	
 	/**
-	 * Handles everything needed to run a party, from start to finish.
-	 * @param restaurant - reference to the current restaurant.
-	 * @param waiterID - waiter assigned to this party.
-	 * @param tableNumbers - table numbers assigned to this party.
-	 * @author Nick Anderson
+	 * @param restaurant - reference back to restaurant
+	 * @param waiterID - waiter for this party
+	 * @param tableNumbers - table numbers for this party
+	 * @param partySize - size of this party
+	 * @param isAtBar - is this party at the bar.
 	 */
 	PartyManager(Restaurant restaurant, int waiterID, List<Integer> tableNumbers, int partySize, boolean isAtBar){
 		this.restaurant = restaurant;
@@ -80,6 +84,7 @@ public class PartyManager {
 	 * @param customer - customer who wants the item removed.
 	 */
 	void removeItem(MenuItem item, int customer){
+		
 		if(item.isFood()){
 			this.tempFoodByCustomerID.get(customer).remove(item);
 		}
@@ -134,7 +139,7 @@ public class PartyManager {
 				else if(foodDrinkChoice == 1){
 					customerUI.displayMenuItems(false);
 					int itemNumber = customerUI.getIntegerFromUser();
-					if(itemNumber>restaurant.getMenu().getFoodItems().size()){
+					if(itemNumber>restaurant.getMenu().getDrinkItems().size()){
 						customerUI.displayInvalidOption();
 						break;
 					}

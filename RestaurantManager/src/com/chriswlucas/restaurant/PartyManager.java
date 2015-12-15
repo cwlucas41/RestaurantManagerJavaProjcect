@@ -285,7 +285,7 @@ public class PartyManager {
 	
 	/**
 	 * Gets the items a particular customer ordered
-	 * @param customerID
+	 * @param customerID - number of customer
 	 * @return ordered menu items
 	 */
 	public List<MenuItem> getItemsForCustomerID(int customerID) {

@@ -4,7 +4,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
+/**
+ * Receipt handles the creation and displaying of total to customers
+ * @author jonbundy93
+ *
+ */
 public class Receipt {
     /**
      * Handles the creation of the receipt

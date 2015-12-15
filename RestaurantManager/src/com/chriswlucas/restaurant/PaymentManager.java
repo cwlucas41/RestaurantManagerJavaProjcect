@@ -51,7 +51,16 @@ public class PaymentManager {
     	int selection = customerUI.getIntegerFromUser();
     	List<String>custNames = partyManager.getCustNames();
     	if (selection == 1){
-    		int split = customerUI.getSplit();
+    		int split = customerUI.getIntegerFromUser();
+    		boolean isFinished = false;
+    		while (!isFinished) {
+    			if (split > 0) {
+    				isFinished = true;
+    			} else {
+    				this.customerUI.displayInvalidOption();
+    				split = customerUI.getIntegerFromUser();
+    			}
+    		}
     		if (split==1){
     			createReceipt(0, customerUI.setCheckNames(custNames, split, 0), tickets);
     		}

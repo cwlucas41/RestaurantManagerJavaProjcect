@@ -69,27 +69,34 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 				this.displayAllWorkers();
 				break;
 			case 1: 
+				displayAllProducersOrWaitersOrBussers(1);
 				this.hireNewWaiter(getAndCheckIntegerIsInSet("Enter unused employeeID", this.getRestaurant().getSetOfAllWorkersIDs(), false), getNameFromUser()); 
 				break;
 			case 2:
+				displayAllProducersOrWaitersOrBussers(2);
 				this.hireNewBusser(getAndCheckIntegerIsInSet("Enter unused employeeID", this.getRestaurant().getSetOfAllWorkersIDs(), false), getNameFromUser()); 
 				break;
 			case 3: 
+				displayAllProducersOrWaitersOrBussers(1);
 				this.removeWaiterByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllWorkersIDs(), true)); 
 				break;
 			case 4: 
+				displayAllProducersOrWaitersOrBussers(3);
 				this.removeBusserByID(getAndCheckIntegerIsInSet("Enter employeeID", this.getRestaurant().getSetOfAllWorkersIDs(), true)); 
 				break;
 			case 5:
 				displayAllTables();
 				break;
 			case 6: 
+				displayAllTables();
 				this.addNewTable(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false), getTableSize()); 
 				break;
 			case 7: 
+				displayAllTables();
 				this.addNewBarSeat(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), false)); 
 				break;
 			case 8: 
+				displayAllTables();
 				this.removeTableByID(getAndCheckIntegerIsInSet("Enter table number", this.getRestaurant().getSetOfTableNumbers(), true)); 
 				break;
 			case 9:
@@ -226,7 +233,6 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 
 	@Override
 	public void hireNewBusser(int employeeID, String name) {
-		displayAllProducersOrWaitersOrBussers(2);
 		boolean isHired = this.getRestaurant().addBusser(employeeID, name);
 		if (!isHired) {
 			printLine("Could not hire busser with ID " + employeeID);
@@ -244,7 +250,6 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 	
 	@Override
 	public void hireNewWaiter(int employeeID, String name) {
-		displayAllProducersOrWaitersOrBussers(1);
 		boolean isHired = this.getRestaurant().addWaiter(employeeID, name);
 		if (!isHired) {
 			System.out.println("Could not hire waiter with ID " + employeeID);

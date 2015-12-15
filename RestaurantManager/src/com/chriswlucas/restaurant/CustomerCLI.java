@@ -165,7 +165,16 @@ public class CustomerCLI extends UserCLI implements CustomerUI {
 	@Override
 	public int getSplit(){
 		System.out.println("How many ways would you like to split the check?: ");
-		int split = this.getIntegerFromUser();
+		int split = getIntegerFromUser();
+		boolean isFinished = false;
+		while (!isFinished) {
+			if (split > 0) {
+				isFinished = true;
+			} else {
+				this.displayInvalidOption();
+				split = getIntegerFromUser();
+			}
+		}
 		return split;
 	}
 	

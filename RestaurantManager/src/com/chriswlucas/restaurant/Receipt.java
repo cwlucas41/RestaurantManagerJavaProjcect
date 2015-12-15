@@ -12,8 +12,8 @@ import java.util.Set;
 public class Receipt {
     /**
      * Handles the creation of the receipt
-     * @param checkNumber
-     * @param checkNames
+     * @param checkNumber - the number of the check item
+     * @param checkNames - the names associated with a check
      */
     Receipt(int checkNumber, Hashtable<Integer, List<MenuItem>> itemsByCustomerID, List<String> custNames){
         this.checkNumber = checkNumber;
@@ -72,7 +72,6 @@ public class Receipt {
     	return checkNumber;
     }
     
-    @Override
 	public String toString() {
     	String string = "RECEIPT\n";
     	Set<Integer> keys = this.itemsByCustomerID.keySet();    	

@@ -84,7 +84,7 @@ public class PartyManager {
 	 * @param customer - customer who wants the item removed.
 	 */
 	void removeItem(MenuItem item, int customer){
-		
+			
 		if(item.isFood()){
 			this.tempFoodByCustomerID.get(customer).remove(item);
 		}
@@ -162,18 +162,28 @@ public class PartyManager {
 				if(foodDrinkChoice == 0){
 					customerUI.displayCustomers(custNames);
 					int customer = customerUI.getIntegerFromUser();
-					customerUI.displayRemoveInstruction();
-					customerUI.displayItemsInList(this.tempFoodByCustomerID.get(customer));	
-					itemToRemove = customerUI.getIntegerFromUser();
-					removeItem(this.tempFoodByCustomerID.get(customer).get(itemToRemove), customer);
+					if (this.tempFoodByCustomerID.get(customer).isEmpty()){
+						customerUI.displayInvalidOption();
+					}
+					else {
+						customerUI.displayRemoveInstruction();
+						customerUI.displayItemsInList(this.tempFoodByCustomerID.get(customer));	
+						itemToRemove = customerUI.getIntegerFromUser();
+						removeItem(this.tempFoodByCustomerID.get(customer).get(itemToRemove), customer);
+					}
 				}
 				else if(foodDrinkChoice==1){
 					customerUI.displayCustomers(custNames);
 					int customer = customerUI.getIntegerFromUser();
-					customerUI.displayRemoveInstruction();
-					customerUI.displayItemsInList(this.tempDrinksByCustomerID.get(customer));
-					itemToRemove = customerUI.getIntegerFromUser();
-					removeItem(this.tempDrinksByCustomerID.get(customer).get(itemToRemove), customer);
+					if (this.tempDrinksByCustomerID.get(customer).isEmpty()){
+						customerUI.displayInvalidOption();
+					}
+					else{
+						customerUI.displayRemoveInstruction();
+						customerUI.displayItemsInList(this.tempDrinksByCustomerID.get(customer));
+						itemToRemove = customerUI.getIntegerFromUser();
+						removeItem(this.tempDrinksByCustomerID.get(customer).get(itemToRemove), customer);
+					}
 				}
 				else{
 					customerUI.displayInvalidOption();

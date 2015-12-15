@@ -10,7 +10,17 @@ import java.util.Set;
  *
  */
 public class Receipt {
-    /**
+    private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
+    
+    private double grandTotal;
+    
+    private double[] subTotals;
+    
+    private int checkNumber;
+    
+    private List<String> custNames;
+    
+	/**
      * Handles the creation of the receipt
      * @param checkNumber - the number of the check item
      * @param checkNames - the names associated with a check
@@ -23,6 +33,17 @@ public class Receipt {
         this.grandTotal = computeGrandTotal();
     }
     
+    /**
+     * sums subtotals to get grand total
+     * @return grand total
+     */
+    private double computeGrandTotal() {
+    	double sum = 0;
+    	for (int j = 0; j < this.itemsByCustomerID.size(); j++) {
+    		sum += this.subTotals[j];
+    	}
+    	return sum;
+    }
     /**
      * computes the total for each customer on the receipt
      * @return array of subtotals - used only internally
@@ -43,27 +64,6 @@ public class Receipt {
     	}
     	return tempTotals;
     }
-    
-    /**
-     * sums subtotals to get grand total
-     * @return grand total
-     */
-    private double computeGrandTotal() {
-    	double sum = 0;
-    	for (int j = 0; j < this.itemsByCustomerID.size(); j++) {
-    		sum += this.subTotals[j];
-    	}
-    	return sum;
-    }
-    
-    /**
-     * returns the total due for a receipt
-     * @return
-     */
-    double getGrandTotal(){
-    	return this.grandTotal;
-    }
-    
     /**
      * returns the check number
      * @return
@@ -71,8 +71,14 @@ public class Receipt {
     int getCheckNumber(){
     	return checkNumber;
     }
-    
-	public String toString() {
+    /**
+     * returns the total due for a receipt
+     * @return
+     */
+    double getGrandTotal(){
+    	return this.grandTotal;
+    }
+    public String toString() {
     	String string = "RECEIPT\n";
     	Set<Integer> keys = this.itemsByCustomerID.keySet();    	
     	int j = 0;
@@ -88,12 +94,6 @@ public class Receipt {
     	string += "\nTOTAL: $" + this.grandTotal + "\n\n";
     	return string;
     }
-    
-    private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
-    private double grandTotal;
-    private double[] subTotals;
-    private int checkNumber;
-    private List<String> custNames;
 
 
 }

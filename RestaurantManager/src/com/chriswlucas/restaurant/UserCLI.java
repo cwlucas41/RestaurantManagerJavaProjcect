@@ -22,70 +22,9 @@ public class UserCLI extends UserInterface {
 		this.scanner = new Scanner(System.in);
 	}
 	
-	/**
-	 * provides getter for common scanner
-	 * @return scanner
-	 */
-	public Scanner getScanner() {
-		return scanner;
-	}
-	
-	/**
-	 * Gets an integer choice from the user.
-	 * @return data - the user's choice.
-	 */
-	public int getIntegerFromUser(){
-		prompt();
-		int data = scanner.nextInt();
-		scanner.nextLine();
-		printLine("");
-		return data;
-	}
-	
-	/**
-	 * Gets a double choice from the user
-	 * @return double
-	 */
-	public double getDoubleFromUser(){
-		prompt();
-		double data = scanner.nextDouble();
-		scanner.nextLine();
-		printLine("");
-		return data;
-	}
-	
-	/**
-	 * Gets a string from the user
-	 * @return string
-	 */
-	public String getLineFromUser() {
-		prompt();
-		String data = scanner.nextLine();
-		printLine("");
-		return data;
-	}
-	
-	/**
-	 * prints common prompt
-	 */
-	private void prompt() {
-		this.print(">> ");
-	}
-	
-	/**
-	 * wrapper for println
-	 * @param string
-	 */
-	public void printLine(String string) {
-		System.out.println(string);
-	}
-	
-	/**
-	 * wrapper for print
-	 * @param string
-	 */
-	public void print(String string) {
-		System.out.print(string);
+	@Override
+	public void display(String string) {
+		printLine(string);
 	}
 	
 	/**
@@ -110,9 +49,70 @@ public class UserCLI extends UserInterface {
 		}
 		return choice;
 	}
+	
+	/**
+	 * Gets a double choice from the user
+	 * @return double
+	 */
+	public double getDoubleFromUser(){
+		prompt();
+		double data = scanner.nextDouble();
+		scanner.nextLine();
+		printLine("");
+		return data;
+	}
+	
+	/**
+	 * Gets an integer choice from the user.
+	 * @return data - the user's choice.
+	 */
+	public int getIntegerFromUser(){
+		prompt();
+		int data = scanner.nextInt();
+		scanner.nextLine();
+		printLine("");
+		return data;
+	}
+	
+	/**
+	 * Gets a string from the user
+	 * @return string
+	 */
+	public String getLineFromUser() {
+		prompt();
+		String data = scanner.nextLine();
+		printLine("");
+		return data;
+	}
+	
+	/**
+	 * provides getter for common scanner
+	 * @return scanner
+	 */
+	public Scanner getScanner() {
+		return scanner;
+	}
+	
+	/**
+	 * wrapper for print
+	 * @param string
+	 */
+	public void print(String string) {
+		System.out.print(string);
+	}
+	
+	/**
+	 * wrapper for println
+	 * @param string
+	 */
+	public void printLine(String string) {
+		System.out.println(string);
+	}
 
-	@Override
-	public void display(String string) {
-		printLine(string);
+	/**
+	 * prints common prompt
+	 */
+	private void prompt() {
+		this.print(">> ");
 	}
 }

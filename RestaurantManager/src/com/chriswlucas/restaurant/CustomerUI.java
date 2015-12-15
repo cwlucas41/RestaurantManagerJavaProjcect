@@ -17,26 +17,16 @@ public interface CustomerUI {
 	public void controlCustomer(int partyID);
 	
 	/**
-	 * Gets the customer names from the customers and stores them in a list.
+	 * displays the given string
+	 * @param string
 	 */
-	public List<String> setCustomerNames(int partySize);
+	public void display(String string);
 	
 	/**
-	 * Starts the whole ordering procedure for a specific party.
+	 * Displays the option for patrons to checkout
 	 * @param partyID
 	 */
-	public void initiateOrdering(int partyID);
-	
-	/**
-	 * Display the options a user has to choose from.
-	 */
-	public void displayOrderingChoices();
-	
-	/**
-	 * Display the menu to the user.
-	 * @param isFood - true for food, false for drinks.
-	 */
-	public void displayMenuItems(boolean isFood);
+	public void displayCheckout();
 	
 	/**
 	 * Displays the customer to be chosen.
@@ -45,20 +35,14 @@ public interface CustomerUI {
 	public void displayCustomers(List<String>custNames);
 	
 	/**
-	 * Gets an integer choice from the customer.
-	 * @return data - the user's choice.
-	 */
-	public int getIntegerFromUser();
-	
-	/**
-	 * Displays the remove instruction to the user.
-	 */
-	public void displayRemoveInstruction();
-	
-	/**
 	 * Display choices for items (0 for food, 1 for drink).
 	 */
 	public void displayFoodOrDrinkChoice();
+	
+	/**
+	 * Display invalid option.
+	 */
+	public void displayInvalidOption();
 	
 	/**
 	 * Displays the items that are in the ticket currently being made.
@@ -68,46 +52,20 @@ public interface CustomerUI {
 	public void displayItemsInList(List<MenuItem> itemList);
 	
 	/**
-	 * Display invalid option.
+	 * Display the menu to the user.
+	 * @param isFood - true for food, false for drinks.
 	 */
-	public void displayInvalidOption();
+	public void displayMenuItems(boolean isFood);
 	
 	/**
-	 * Displays the option for patrons to checkout
-	 * @param partyID
+	 * Display the options a user has to choose from.
 	 */
-	public void displayCheckout();
-	
-	/**
-	 * Displays thank you message
-	 */
-	public void displayThanks();
+	public void displayOrderingChoices();
 	
 	/**
 	 * Displays payment choice
 	 */
 	public void displayPayWhenReady();
-	
-	/**
-	 * starts the checkout process
-	 * @param partyID
-	 */
-	public void initiateCheckout(int partyID);
-	
-	/**
-	 * displays the given string
-	 * @param string
-	 */
-	public void display(String string);
-	
-	/**
-	 * Propts user for splitting the check
-	 * @param custNames
-	 * @param split
-	 * @param num
-	 * @return customerIDs for receipt
-	 */
-	public List<Integer> setCheckNames(List<String>custNames, int split, int num);
 	
 	/**
 	 * Displays the total for a receipt
@@ -117,12 +75,54 @@ public interface CustomerUI {
 	/**
 	 * Displays the total receipts for a table
 	 */
-	public void displayReceipts(List<Receipt>receipts);	
+	public void displayReceipts(List<Receipt>receipts);
+	
+	/**
+	 * Displays the remove instruction to the user.
+	 */
+	public void displayRemoveInstruction();
+	
+	/**
+	 * Displays thank you message
+	 */
+	public void displayThanks();
+	
+	/**
+	 * Gets an integer choice from the customer.
+	 * @return data - the user's choice.
+	 */
+	public int getIntegerFromUser();
 	
 	/**
 	 * Gets how many ways the check should be split
 	 * @return number of splits
 	 */
 	public int getSplit();
+	
+	/**
+	 * starts the checkout process
+	 * @param partyID
+	 */
+	public void initiateCheckout(int partyID);
+	
+	/**
+	 * Starts the whole ordering procedure for a specific party.
+	 * @param partyID
+	 */
+	public void initiateOrdering(int partyID);
+	
+	/**
+	 * Propts user for splitting the check
+	 * @param custNames
+	 * @param split
+	 * @param num
+	 * @return customerIDs for receipt
+	 */
+	public List<Integer> setCheckNames(List<String>custNames, int split, int num);	
+	
+	/**
+	 * Gets the customer names from the customers and stores them in a list.
+	 */
+	public List<String> setCustomerNames(int partySize);
 
 }

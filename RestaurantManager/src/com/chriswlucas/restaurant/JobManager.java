@@ -10,12 +10,37 @@ import java.util.List;
  */
 public class JobManager {
 	
+	private int type = 0;
+	
+	private PartyManager partyManager;
+
 	/**
 	 * Converts the ticket to a job and then moves it around.
 	 * @param partyManager reference back to its containing class.
 	 */
 	JobManager (PartyManager partyManager){
 		this.partyManager = partyManager;
+	}
+	
+	/**
+	 * When the patrons have checked out the tables are added to the busser's queue
+	 * of jobs to be cleaned. (Can be added to a waiter if the busser is busy.)
+	 * @param tables list of tables that need to be cleaned.
+	 */
+	void assignBussingJob(Job job){
+		type = 4;
+		job.setType(type);
+		partyManager.getRestaurant().getBusser(this.partyManager.isAtBar()).assignJob(job);
+	}
+	
+	/**
+	 * When customer wants to pay a collecting job is created.
+	 * The tables that need to be collected are added to the waiters queue of jobs.
+	 */
+	void assignCollectingJob(){
+		type = 3;
+		List<Object>temp = new ArrayList<Object>(this.partyManager.getTableNumbers());
+		partyManager.getRestaurant().getWaiter(this.partyManager).assignJob(new Job (temp, type, this));
 	}
 	
 	/**
@@ -37,7 +62,7 @@ public class JobManager {
 			partyManager.getRestaurant().getKitchen().assignJob(new Job (temp1, type, this));		
 		}
 	}
-
+	
 	/**
 	 * Places the items on the waiters list of jobs to be served.
 	 * @param items list of items that have been produced by the bar or kitchen.
@@ -47,28 +72,6 @@ public class JobManager {
 		job.setType(type);
 		partyManager.getRestaurant().getWaiter(this.partyManager).assignJob(job);
 	}
-	
-	/**
-	 * When customer wants to pay a collecting job is created.
-	 * The tables that need to be collected are added to the waiters queue of jobs.
-	 */
-	void assignCollectingJob(){
-		type = 3;
-		List<Object>temp = new ArrayList<Object>(this.partyManager.getTableNumbers());
-		partyManager.getRestaurant().getWaiter(this.partyManager).assignJob(new Job (temp, type, this));
-	}
-	
-	/**
-	 * When the patrons have checked out the tables are added to the busser's queue
-	 * of jobs to be cleaned. (Can be added to a waiter if the busser is busy.)
-	 * @param tables list of tables that need to be cleaned.
-	 */
-	void assignBussingJob(Job job){
-		type = 4;
-		job.setType(type);
-		partyManager.getRestaurant().getBusser(this.partyManager.isAtBar()).assignJob(job);
-	}
-	
 	/**
 	 * Gets the containing party manager for the job manager
 	 * @return partyManager
@@ -76,8 +79,5 @@ public class JobManager {
 	public PartyManager getPartyManager() {
 		return partyManager;
 	}
-	
-	private int type = 0;
-	private PartyManager partyManager;
 
 }

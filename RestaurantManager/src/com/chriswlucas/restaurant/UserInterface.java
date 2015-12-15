@@ -19,16 +19,16 @@ public abstract class UserInterface {
 	}
 	
 	/**
+	 * General display method
+	 * @param string
+	 */
+	abstract public void display(String string);
+	
+	/**
 	 * Returns the restaurant to the customer interface.
 	 * @return restaurant.
 	 */
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
-	
-	/**
-	 * General display method
-	 * @param string
-	 */
-	abstract public void display(String string);
 }

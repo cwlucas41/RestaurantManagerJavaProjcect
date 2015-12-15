@@ -20,6 +20,43 @@ public class HostCLI extends UserCLI implements HostUI {
 	}
 	
 	@Override
+	public void addNewPartyToWaitlist(boolean isAtBar) {
+		printLine("Enter party size or -1 to exit");
+		int partySize = getIntegerFromUser();
+		if (partySize == -1) {
+			return;
+		} else if (partySize > 0) {
+			printLine("Enter party name");
+			String partyID = getLineFromUser();
+			this.getRestaurant().addToWaitlist(partyID, partySize, isAtBar);
+		} else {
+			addNewPartyToWaitlist(isAtBar);
+		}
+		
+	}
+	
+	@Override
+	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize) {
+		List<Integer> assignedTables = new ArrayList<Integer>();
+		int remainingToSeat = partySize;
+		List<Integer> freeTables = this.displayFreeTables(isAtBar);
+		while (remainingToSeat > 0) {
+			printLine("Choose table number, remaining customers to seat is " + remainingToSeat);
+			printLine("Enter -1 to cancel");
+			int tableNumber = getIntegerFromUser();
+			if (tableNumber == -1) {
+				return null;
+			} else if (freeTables.contains(tableNumber) && !assignedTables.contains(tableNumber)) {
+				assignedTables.add(tableNumber);
+				remainingToSeat -= this.getRestaurant().getTable(tableNumber).getsize();
+			} else {
+				printLine("Invalid choice, please try again");
+			}
+		}
+		return assignedTables;
+	}
+
+	@Override
 	public void controlHost() {
 		boolean isFinished = false;
 		while (!isFinished){
@@ -79,21 +116,22 @@ public class HostCLI extends UserCLI implements HostUI {
 			System.out.println("\t" + id + "\t" + this.getRestaurant().getPartyManager(id).getCustNames());
 		}
 	}
-
+	
 	@Override
-	public void addNewPartyToWaitlist(boolean isAtBar) {
-		printLine("Enter party size or -1 to exit");
-		int partySize = getIntegerFromUser();
-		if (partySize == -1) {
-			return;
-		} else if (partySize > 0) {
-			printLine("Enter party name");
-			String partyID = getLineFromUser();
-			this.getRestaurant().addToWaitlist(partyID, partySize, isAtBar);
+	public List<Integer> displayFreeTables(boolean isAtBar) {
+		if (isAtBar) {
+			printLine("The available bar seats are:");
 		} else {
-			addNewPartyToWaitlist(isAtBar);
+			printLine("The available tables are:");
 		}
-		
+		printLine("\tNumber\tCapacity");
+		List<Integer> tableNumbers = this.getRestaurant().getUnoccupiedTables(isAtBar);
+		Collections.sort(tableNumbers);
+		for (int tableNumber : tableNumbers) {
+			printLine("\t" + tableNumber + "\t" + this.getRestaurant().getTable(tableNumber));
+		}
+		printLine("");
+		return tableNumbers;
 	}
 	
 	@Override
@@ -134,43 +172,5 @@ public class HostCLI extends UserCLI implements HostUI {
 		} else {
 			printLine("The party cannot be seated at this time");
 		}
-	}
-	
-	@Override
-	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize) {
-		List<Integer> assignedTables = new ArrayList<Integer>();
-		int remainingToSeat = partySize;
-		List<Integer> freeTables = this.displayFreeTables(isAtBar);
-		while (remainingToSeat > 0) {
-			printLine("Choose table number, remaining customers to seat is " + remainingToSeat);
-			printLine("Enter -1 to cancel");
-			int tableNumber = getIntegerFromUser();
-			if (tableNumber == -1) {
-				return null;
-			} else if (freeTables.contains(tableNumber) && !assignedTables.contains(tableNumber)) {
-				assignedTables.add(tableNumber);
-				remainingToSeat -= this.getRestaurant().getTable(tableNumber).getsize();
-			} else {
-				printLine("Invalid choice, please try again");
-			}
-		}
-		return assignedTables;
-	}
-	
-	@Override
-	public List<Integer> displayFreeTables(boolean isAtBar) {
-		if (isAtBar) {
-			printLine("The available bar seats are:");
-		} else {
-			printLine("The available tables are:");
-		}
-		printLine("\tNumber\tCapacity");
-		List<Integer> tableNumbers = this.getRestaurant().getUnoccupiedTables(isAtBar);
-		Collections.sort(tableNumbers);
-		for (int tableNumber : tableNumbers) {
-			printLine("\t" + tableNumber + "\t" + this.getRestaurant().getTable(tableNumber));
-		}
-		printLine("");
-		return tableNumbers;
 	}
 }

@@ -11,59 +11,16 @@ import java.util.ListIterator;
  */
 public class Menu {
 	
+	private List<MenuItem> foodItems;
+	
+	private List<MenuItem> drinkItems;
+	
 	/**
 	 * Constructs a menu and initializes all fields
 	 */
 	public Menu() {
 		this.foodItems = new ArrayList<MenuItem>();
 		this.drinkItems = new ArrayList<MenuItem>();
-	}
-	
-	/**
-	 * Gets list of food items
-	 * @return list of food items
-	 */
-	public List<MenuItem> getFoodItems(){
-		return foodItems;
-	}
-	
-	/**
-	 * Gets list of drink items
-	 * @return list of drink items
-	 */
-	public List<MenuItem> getDrinkItems(){
-		return drinkItems;
-	}
-	
-	/**
-	 * returns a string that is a nice formatting of the menu
-	 * @param items
-	 * @return displayable string
-	 */
-	public String toString(List<MenuItem> items){
-		ListIterator<MenuItem> iterator = items.listIterator();
-		String menuString="\tPrice\tItem\n";
-		int i = 0;
-		while(iterator.hasNext()){
-			String temp = i +") " + iterator.next().toString();
-			menuString+=(temp +"\n");
-			i++;
-		}
-		return menuString;
-	}
-	
-	/**
-	 * Returns sub-menu for food or drinks as a string
-	 * @param isFood
-	 * @return
-	 */
-	public String displayMenu(boolean isFood){
-		if(isFood){
-			return "Food Items:\n" + toString(foodItems);
-		}
-		else{
-			return "Drink Items:\n" + toString(drinkItems);
-		}
 	}
 	
 	/**
@@ -81,6 +38,28 @@ public class Menu {
 		}
 	}
 	
+	/**
+	 * Returns sub-menu for food or drinks as a string
+	 * @param isFood
+	 * @return
+	 */
+	public String displayMenu(boolean isFood){
+		if(isFood){
+			return "Food Items:\n" + toString(foodItems);
+		}
+		else{
+			return "Drink Items:\n" + toString(drinkItems);
+		}
+	}
+	
+	/**
+	 * Gets list of drink items
+	 * @return list of drink items
+	 */
+	public List<MenuItem> getDrinkItems(){
+		return drinkItems;
+	}
+	
 //	/**
 //	 * Removes a specified menu item from the menu
 //	 * @param itemNumber
@@ -95,7 +74,28 @@ public class Menu {
 //		}
 //	}
 	
-	private List<MenuItem> foodItems;
-	private List<MenuItem> drinkItems;
+	/**
+	 * Gets list of food items
+	 * @return list of food items
+	 */
+	public List<MenuItem> getFoodItems(){
+		return foodItems;
+	}
+	/**
+	 * returns a string that is a nice formatting of the menu
+	 * @param items
+	 * @return displayable string
+	 */
+	public String toString(List<MenuItem> items){
+		ListIterator<MenuItem> iterator = items.listIterator();
+		String menuString="\tPrice\tItem\n";
+		int i = 0;
+		while(iterator.hasNext()){
+			String temp = i +") " + iterator.next().toString();
+			menuString+=(temp +"\n");
+			i++;
+		}
+		return menuString;
+	}
 
 }

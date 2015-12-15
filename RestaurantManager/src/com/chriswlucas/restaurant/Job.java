@@ -11,6 +11,14 @@ import java.util.ListIterator;
  *
  */
 public class Job implements Comparable<Job>{
+	private JobManager jobManager;
+	
+	private Time current;
+	
+	private int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
+	
+	private List<Object>items;
+	
 	/**
 	 * Holds a list of items/tables that need to be produced,
 	 * served, paid, or cleaned.
@@ -26,18 +34,20 @@ public class Job implements Comparable<Job>{
 	}
 	
 	/**
-	 * If the job is a producing job it needs to be changed over to a serving job.
-	 * If the job is a collecting job(payment) it needs to be changed over to a bussing job.
-	 * NOTE: No case 2 needed since a collecting job is created when the customer wants to pay.
+	 * Compares the time's so jobs can be sorted for a worker
+	 * @param other - another job.
 	 */
-	void markAsDone(){
-		switch (type) {
-		case 1: jobManager.assignServingJob(this); break; 
-		case 3: jobManager.assignBussingJob(this); break; 
-		case 4: jobManager.getPartyManager().getRestaurant().markTablesIsOccupiedByNumberAs(jobManager.getPartyManager().getTableNumbers(), false); break;
-		default: break;
-		}
-		
+	@Override
+	public int compareTo(Job other) {
+		return this.current.compareTo(other.current);
+	}
+	
+	/**
+	 * Get's the time the job was created.
+	 * @return the time this job was created.
+	 */
+	Time getCurrent(){
+		return current;
 	}
 	
 	/**
@@ -53,7 +63,27 @@ public class Job implements Comparable<Job>{
 		default: return "Invalid Job type:\n";
 		}
 	}
-	
+	/**
+	 * If the job is a producing job it needs to be changed over to a serving job.
+	 * If the job is a collecting job(payment) it needs to be changed over to a bussing job.
+	 * NOTE: No case 2 needed since a collecting job is created when the customer wants to pay.
+	 */
+	void markAsDone(){
+		switch (type) {
+		case 1: jobManager.assignServingJob(this); break; 
+		case 3: jobManager.assignBussingJob(this); break; 
+		case 4: jobManager.getPartyManager().getRestaurant().markTablesIsOccupiedByNumberAs(jobManager.getPartyManager().getTableNumbers(), false); break;
+		default: break;
+		}
+		
+	}
+	/**
+	 * Sets the type of this job.
+	 * @param type
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
 	/**
 	 * Displays the current list of items in the job.
 	 */
@@ -67,35 +97,5 @@ public class Job implements Comparable<Job>{
 		}
 		return temp;
 	}
-	
-	/**
-	 * Get's the time the job was created.
-	 * @return the time this job was created.
-	 */
-	Time getCurrent(){
-		return current;
-	}
-	
-	/**
-	 * Sets the type of this job.
-	 * @param type
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	/**
-	 * Compares the time's so jobs can be sorted for a worker
-	 * @param other - another job.
-	 */
-	@Override
-	public int compareTo(Job other) {
-		return this.current.compareTo(other.current);
-	}
-	
-	private JobManager jobManager;
-	private Time current;
-	private int type; //(1 is producing, 2 is serving, 3 is collecting, 4 is bussing)
-	private List<Object>items;
 
 }

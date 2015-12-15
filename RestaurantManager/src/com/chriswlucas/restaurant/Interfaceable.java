@@ -6,9 +6,9 @@ package com.chriswlucas.restaurant;
   */
 public interface Interfaceable {
 	/**
-	 * Gets the interface for workers
+	 * Gets the interface for customers
 	 */
-	public WorkerUI getWorkerInterface();
+	public CustomerUI getCustomerInterface();
 	
 	/**
 	 * Gets the interface for the host
@@ -21,7 +21,7 @@ public interface Interfaceable {
 	public ManagerUI getManagerInterface();
 
 	/**
-	 * Gets the interface for customers
+	 * Gets the interface for workers
 	 */
-	public CustomerUI getCustomerInterface();
+	public WorkerUI getWorkerInterface();
 }

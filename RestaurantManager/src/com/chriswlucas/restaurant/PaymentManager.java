@@ -12,6 +12,12 @@ import java.util.Hashtable;
  */
 public class PaymentManager {
 	
+    private List<Receipt> receipts;
+    
+    private PartyManager partyManager;
+
+    private CustomerUI customerUI;
+    
     /**
      * Handles all aspects of payments including if the customer would like to split into multiple receipts
      * @param partyManager - reference to current partyManager
@@ -23,6 +29,20 @@ public class PaymentManager {
         this.customerUI = partyManager.getRestaurant().getCustomerInterface();
     }
     
+    /**
+     * Builds the hashtable of customer ID to a list of menu items for the creation of receipts
+     * @param customerIDs
+     * @return hashtable for customers and Lists of menu items
+     */
+    private Hashtable<Integer, List<MenuItem>> buildHashtableForReceipt(List<Integer> customerIDs) {
+    	Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
+    	ListIterator<Integer> iterator = customerIDs.listIterator();
+    	while (iterator.hasNext()) {
+    		int customerID = iterator.next();
+    		hashtable.put(customerID, partyManager.getItemsForCustomerID(customerID));
+    	}
+    	return hashtable;
+    }
     /**
      * Controls how people would like to pay for the bill
      */
@@ -55,31 +75,11 @@ public class PaymentManager {
     		customerUI.displayInvalidOption();
     	}
     }
-
     /**
      * Creates a receipt based on who is included in that check
      */
     void createReceipt(int n, List<Integer>checkNames, List<Ticket> ticks){
         Receipt receipt = new Receipt(n, buildHashtableForReceipt(checkNames), this.partyManager.getCustNames());
         receipts.add(receipt);  
-    }
-    
-    /**
-     * Builds the hashtable of customer ID to a list of menu items for the creation of receipts
-     * @param customerIDs
-     * @return hashtable for customers and Lists of menu items
-     */
-    private Hashtable<Integer, List<MenuItem>> buildHashtableForReceipt(List<Integer> customerIDs) {
-    	Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
-    	ListIterator<Integer> iterator = customerIDs.listIterator();
-    	while (iterator.hasNext()) {
-    		int customerID = iterator.next();
-    		hashtable.put(customerID, partyManager.getItemsForCustomerID(customerID));
-    	}
-    	return hashtable;
-    }
-    
-    private List<Receipt> receipts;
-    private PartyManager partyManager;
-    private CustomerUI customerUI; 
+    } 
 }

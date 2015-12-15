@@ -7,6 +7,27 @@ package com.chriswlucas.restaurant;
  */
 public interface ManagerUI {
 	/**
+	 * Adds a menu item to the menu with the specified information
+	 * @param name
+	 * @param price
+	 * @param isFood
+	 */
+	public void addItemToMenu(String name, double price, boolean isFood);
+	
+	/**
+	 * Adds a new bar seat to the restaurant
+	 * @param tableNumber
+	 */
+	public void addNewBarSeat(int tableNumber);
+	
+	/**
+	 * Adds a new table to the restaurant
+	 * @param tableNumber
+	 * @param numberOfSeats
+	 */
+	public void addNewTable(int tableNumber,int numberOfSeats);
+	
+	/**
 	 * enters manager event loop
 	 */
 	public void controlManager();
@@ -17,13 +38,6 @@ public interface ManagerUI {
 	public void displayAllWorkers();
 	
 	/**
-	 * Adds a new waiter to the restaurant
-	 * @param employeeID
-	 * @param name
-	 */
-	public void hireNewWaiter(int employeeID, String name);
-	
-	/**
 	 * Adds a new busser to the restaurant
 	 * @param employeeID
 	 * @param name
@@ -31,11 +45,11 @@ public interface ManagerUI {
 	public void hireNewBusser(int employeeID, String name);
 	
 	/**
-	 * Removes the specified waiter from the restaurant
+	 * Adds a new waiter to the restaurant
 	 * @param employeeID
-	 * @return removed waiter
+	 * @param name
 	 */
-	public Worker removeWaiterByID(int employeeID);
+	public void hireNewWaiter(int employeeID, String name);
 	
 	/**
 	 * Removes the specified busser from the restaurant
@@ -45,19 +59,6 @@ public interface ManagerUI {
 	public Worker removeBusserByID(int employeeID);
 	
 	/**
-	 * Adds a new table to the restaurant
-	 * @param tableNumber
-	 * @param numberOfSeats
-	 */
-	public void addNewTable(int tableNumber,int numberOfSeats);
-	
-	/**
-	 * Adds a new bar seat to the restaurant
-	 * @param tableNumber
-	 */
-	public void addNewBarSeat(int tableNumber);
-	
-	/**
 	 * Removes the specified table from the restaurant
 	 * @param tableNumber
 	 * @return
@@ -65,12 +66,11 @@ public interface ManagerUI {
 	public Table removeTableByID(int tableNumber);
 	
 	/**
-	 * Adds a menu item to the menu with the specified information
-	 * @param name
-	 * @param price
-	 * @param isFood
+	 * Removes the specified waiter from the restaurant
+	 * @param employeeID
+	 * @return removed waiter
 	 */
-	public void addItemToMenu(String name, double price, boolean isFood);
+	public Worker removeWaiterByID(int employeeID);
 	
 //	/**
 //	 * Removes the specified menu item from the menu

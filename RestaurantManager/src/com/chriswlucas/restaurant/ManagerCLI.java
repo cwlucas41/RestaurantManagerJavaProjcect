@@ -18,6 +18,28 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 		super(restaurant);
 	}
 	
+	@Override
+	public void addItemToMenu(String name, double price, boolean isFood) {
+		this.getRestaurant().addMenuItem(name, price, isFood);;
+	}
+
+	@Override
+	public void addNewBarSeat(int tableNumber) {
+		boolean isAdded = this.getRestaurant().addBarSeat(tableNumber);
+		if (!isAdded) {
+			System.out.println("Could not add bar seat with number " + tableNumber);
+		}
+	}
+
+	@Override
+	public void addNewTable(int tableNumber, int numberOfSeats) {
+		boolean isAdded = this.getRestaurant().addTable(tableNumber, numberOfSeats);
+		if (!isAdded) {
+			System.out.println("Could not add table with number " + tableNumber);
+		}
+	}
+
+	
 	/**
 	 * enters a CLI event loop
 	 * main interface for the manager
@@ -86,44 +108,6 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 			}
 		}
 	}
-
-	@Override
-	public void hireNewWaiter(int employeeID, String name) {
-		displayAllProducersOrWaitersOrBussers(1);
-		boolean isHired = this.getRestaurant().addWaiter(employeeID, name);
-		if (!isHired) {
-			System.out.println("Could not hire waiter with ID " + employeeID);
-		}
-	}
-
-	@Override
-	public void hireNewBusser(int employeeID, String name) {
-		displayAllProducersOrWaitersOrBussers(2);
-		boolean isHired = this.getRestaurant().addBusser(employeeID, name);
-		if (!isHired) {
-			printLine("Could not hire busser with ID " + employeeID);
-		}
-	}
-
-	
-	@Override
-	public Worker removeWaiterByID(int employeeID) {
-		Worker worker = this.getRestaurant().removeWaiter(employeeID);
-		if (worker == null){
-			printLine("Waiter with ID " + employeeID + " could not be removed");
-		}
-		return worker;
-	}
-	
-	/**
-	 * prints all of the worker's information
-	 */
-	@Override
-	public void displayAllWorkers() {
-		displayAllProducersOrWaitersOrBussers(0);
-		displayAllProducersOrWaitersOrBussers(1);
-		displayAllProducersOrWaitersOrBussers(2);
-	}
 	
 	/**
 	 * prints all of the producer's waiter's or busser's informatino
@@ -159,102 +143,17 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 			printLine("\t" + key + "\t" + this.getRestaurant().getTable(key).getsize() + "\t" + this.getRestaurant().getTable(key).isOccupied());
 		}
 	}
-
-	@Override
-	public Worker removeBusserByID(int employeeID) {
-		Worker worker = this.getRestaurant().removeBusser(employeeID);
-		if (worker == null){
-			System.out.println("Busser with ID " + employeeID + " could not be removed");
-		}
-		return worker;
-	}
-
-	@Override
-	public void addNewTable(int tableNumber, int numberOfSeats) {
-		boolean isAdded = this.getRestaurant().addTable(tableNumber, numberOfSeats);
-		if (!isAdded) {
-			System.out.println("Could not add table with number " + tableNumber);
-		}
-	}
-
-	@Override
-	public void addNewBarSeat(int tableNumber) {
-		boolean isAdded = this.getRestaurant().addBarSeat(tableNumber);
-		if (!isAdded) {
-			System.out.println("Could not add bar seat with number " + tableNumber);
-		}
-	}
-
-	@Override
-	public Table removeTableByID(int tableNumber) {
-		Table table = this.getRestaurant().removeTable(tableNumber);
-		if (table == null){
-			System.out.println("Table with number " + tableNumber + " could not be removed");
-		}
-		return table;
-	}
-
-	@Override
-	public void addItemToMenu(String name, double price, boolean isFood) {
-		this.getRestaurant().addMenuItem(name, price, isFood);;
-	}
-
-//	@Override
-//	public MenuItem removeItemFromMenu(int itemNumber, boolean isFood) {
-//		MenuItem item = this.getRestaurant().removeMenuItem(itemNumber, isFood);
-//		if (item == null){
-//			System.out.println("Item with number " + itemNumber + " could not be removed");
-//		}
-//		return item;
-//	}
 	
 	/**
-	 * convenience method that prompts for name
-	 * @return name string
+	 * prints all of the worker's information
 	 */
-	private String getNameFromUser() {
-		printLine("Enter name");
-		return getLineFromUser();
+	@Override
+	public void displayAllWorkers() {
+		displayAllProducersOrWaitersOrBussers(0);
+		displayAllProducersOrWaitersOrBussers(1);
+		displayAllProducersOrWaitersOrBussers(2);
 	}
-	
-	/**
-	 * convenience method that prompts for table size
-	 * @return table size
-	 */
-	private int getTableSize() {
-		printLine("Enter size of table");
-		int choice = getIntegerFromUser();
-		boolean isFinished = false;
-		while (!isFinished) {
-			if (choice > 0) {
-				isFinished = true;
-			} else {
-				printLine("Invalid choice, try again");
-				choice = getIntegerFromUser();
-			}
-		}
-		return choice;
-	}
-	
-	/**
-	 * convenience method that prompts for price
-	 * @return price as double
-	 */
-	private double getPriceFromUser() {
-		printLine("Enter price of item");
-		double choice = getDoubleFromUser();
-		boolean isFinished = false;
-		while (!isFinished) {
-			if (choice >= 0) {
-				isFinished = true;
-			} else {
-				printLine("Invalid choice, try again");
-				choice = getIntegerFromUser();
-			}
-		}
-		return choice;
-	}
-	
+
 	/**
 	 * convenience method that decides if an item is food or drink
 	 * @return true if food, false if drink
@@ -276,5 +175,106 @@ public class ManagerCLI extends UserCLI implements ManagerUI {
 			}
 		}
 		return isFood;
+	}
+
+	/**
+	 * convenience method that prompts for name
+	 * @return name string
+	 */
+	private String getNameFromUser() {
+		printLine("Enter name");
+		return getLineFromUser();
+	}
+
+	/**
+	 * convenience method that prompts for price
+	 * @return price as double
+	 */
+	private double getPriceFromUser() {
+		printLine("Enter price of item");
+		double choice = getDoubleFromUser();
+		boolean isFinished = false;
+		while (!isFinished) {
+			if (choice >= 0) {
+				isFinished = true;
+			} else {
+				printLine("Invalid choice, try again");
+				choice = getIntegerFromUser();
+			}
+		}
+		return choice;
+	}
+
+	/**
+	 * convenience method that prompts for table size
+	 * @return table size
+	 */
+	private int getTableSize() {
+		printLine("Enter size of table");
+		int choice = getIntegerFromUser();
+		boolean isFinished = false;
+		while (!isFinished) {
+			if (choice > 0) {
+				isFinished = true;
+			} else {
+				printLine("Invalid choice, try again");
+				choice = getIntegerFromUser();
+			}
+		}
+		return choice;
+	}
+
+	@Override
+	public void hireNewBusser(int employeeID, String name) {
+		displayAllProducersOrWaitersOrBussers(2);
+		boolean isHired = this.getRestaurant().addBusser(employeeID, name);
+		if (!isHired) {
+			printLine("Could not hire busser with ID " + employeeID);
+		}
+	}
+
+//	@Override
+//	public MenuItem removeItemFromMenu(int itemNumber, boolean isFood) {
+//		MenuItem item = this.getRestaurant().removeMenuItem(itemNumber, isFood);
+//		if (item == null){
+//			System.out.println("Item with number " + itemNumber + " could not be removed");
+//		}
+//		return item;
+//	}
+	
+	@Override
+	public void hireNewWaiter(int employeeID, String name) {
+		displayAllProducersOrWaitersOrBussers(1);
+		boolean isHired = this.getRestaurant().addWaiter(employeeID, name);
+		if (!isHired) {
+			System.out.println("Could not hire waiter with ID " + employeeID);
+		}
+	}
+	
+	@Override
+	public Worker removeBusserByID(int employeeID) {
+		Worker worker = this.getRestaurant().removeBusser(employeeID);
+		if (worker == null){
+			System.out.println("Busser with ID " + employeeID + " could not be removed");
+		}
+		return worker;
+	}
+	
+	@Override
+	public Table removeTableByID(int tableNumber) {
+		Table table = this.getRestaurant().removeTable(tableNumber);
+		if (table == null){
+			System.out.println("Table with number " + tableNumber + " could not be removed");
+		}
+		return table;
+	}
+	
+	@Override
+	public Worker removeWaiterByID(int employeeID) {
+		Worker worker = this.getRestaurant().removeWaiter(employeeID);
+		if (worker == null){
+			printLine("Waiter with ID " + employeeID + " could not be removed");
+		}
+		return worker;
 	}
 }

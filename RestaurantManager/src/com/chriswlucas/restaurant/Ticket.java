@@ -10,6 +10,14 @@ import java.util.List;
  *
  */
 public class Ticket {
+	private Hashtable<Integer, List<MenuItem>> foodByCustomerID;
+	
+	private Hashtable<Integer, List<MenuItem>> drinksByCustomerID;
+	
+	private int tNum;
+	
+	private double total;
+	
 	/**
 	 * @param foodItems - list of the foodItems on this ticket.
 	 * @param drinkItems - list of the drinkITems on this ticket.
@@ -21,38 +29,6 @@ public class Ticket {
 		this.drinksByCustomerID = tempDrinksByCustomerID;
 		this.tNum = ticketNum;
 		this.total = total;
-	}
-	
-	/**
-	 * Returns a ticketNumber.
-	 * @return tNum - the ticket number.
-	 */
-	int getTickNum(){
-		return tNum;
-	}
-	
-	/**
-	 * Returns the price of this ticket.
-	 * @return total - price for this ticket.
-	 */
-	double getTicketTotal(){
-		return total;
-	}
-	
-	/**
-	 * Returns a list of foodItems.
-	 * @return food - foodItems on this ticket.
-	 */
-	List<MenuItem> getFoodOrders(){
-		return this.getAllValuesAsList(foodByCustomerID);
-	}
-	
-	/**
-	 * Returns a list of drinkItems.
-	 * @return drink - drinkItems on this ticket.
-	 */
-	List<MenuItem> getDrinkOrders(){	
-		return this.getAllValuesAsList(drinksByCustomerID);
 	}
 	
 	/**
@@ -68,8 +44,32 @@ public class Ticket {
 		return list;
 	}
 	
-	private Hashtable<Integer, List<MenuItem>> foodByCustomerID;
-	private Hashtable<Integer, List<MenuItem>> drinksByCustomerID;
-	private int tNum;
-	private double total;
+	/**
+	 * Returns a list of drinkItems.
+	 * @return drink - drinkItems on this ticket.
+	 */
+	List<MenuItem> getDrinkOrders(){	
+		return this.getAllValuesAsList(drinksByCustomerID);
+	}
+	/**
+	 * Returns a list of foodItems.
+	 * @return food - foodItems on this ticket.
+	 */
+	List<MenuItem> getFoodOrders(){
+		return this.getAllValuesAsList(foodByCustomerID);
+	}
+	/**
+	 * Returns the price of this ticket.
+	 * @return total - price for this ticket.
+	 */
+	double getTicketTotal(){
+		return total;
+	}
+	/**
+	 * Returns a ticketNumber.
+	 * @return tNum - the ticket number.
+	 */
+	int getTickNum(){
+		return tNum;
+	}
 }

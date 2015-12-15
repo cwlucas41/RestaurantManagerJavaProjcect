@@ -54,14 +54,6 @@ public class Worker {
 	}
 	
 	/**
-	 * gets the number of jobs the worker currently is assigned
-	 * @return number of jobs
-	 */
-	public int getNumberOfJobs() {
-		return jobs.size();
-	}
-	
-	/**
 	 * Gets the list of all jobs for the worker
 	 * @return job list
 	 */
@@ -78,11 +70,11 @@ public class Worker {
 	}
 	
 	/**
-	 * Sets the name of the worker
-	 * @param name
+	 * gets the number of jobs the worker currently is assigned
+	 * @return number of jobs
 	 */
-	public void setName(String name){
-		this.name = name;
+	public int getNumberOfJobs() {
+		return jobs.size();
 	}
 	
 	/**
@@ -91,5 +83,13 @@ public class Worker {
 	 */
 	public Restaurant getRestaurant() {
 		return restaurant;
+	}
+	
+	/**
+	 * Sets the name of the worker
+	 * @param name
+	 */
+	public void setName(String name){
+		this.name = name;
 	}
 }

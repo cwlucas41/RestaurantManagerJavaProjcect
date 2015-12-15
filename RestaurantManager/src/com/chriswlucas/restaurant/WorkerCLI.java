@@ -46,19 +46,6 @@ public class WorkerCLI extends UserCLI implements WorkerUI {
 	}
 
 	@Override
-	public void doJob(int employeeID, int index) {
-		Worker worker = this.getRestaurant().getWorker(employeeID);
-		if (index < worker.getNumberOfJobs()) {
-			boolean isDone = worker.doJob(index);
-			if (!isDone) {
-				printLine("Job number " + index + " for employee " + employeeID + " could not be completed");
-			}
-		} else {
-			printLine("Invalid Choice\n");
-		}
-	}
-
-	@Override
 	public void displayJobs(int employeeID) {
 		Worker worker = this.getRestaurant().getWorker(employeeID);
 		printLine("Jobs for " + worker.getName() + ":");
@@ -68,6 +55,19 @@ public class WorkerCLI extends UserCLI implements WorkerUI {
 		while (jobIterator.hasNext()) {
 			printLine("\tJob " + i + ": " + jobIterator.next().toString());
 			i++;
+		}
+	}
+
+	@Override
+	public void doJob(int employeeID, int index) {
+		Worker worker = this.getRestaurant().getWorker(employeeID);
+		if (index < worker.getNumberOfJobs()) {
+			boolean isDone = worker.doJob(index);
+			if (!isDone) {
+				printLine("Job number " + index + " for employee " + employeeID + " could not be completed");
+			}
+		} else {
+			printLine("Invalid Choice\n");
 		}
 	}
 }

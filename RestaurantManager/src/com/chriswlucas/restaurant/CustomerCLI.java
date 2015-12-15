@@ -33,68 +33,19 @@ public class CustomerCLI extends UserCLI implements CustomerUI {
 		}
 	}
 	
-	/**
-	 * Starts the whole ordering procedure for a specific party.
-	 * @param partyID
-	 */
 	@Override
-	public void initiateOrdering(int partyID){
-		this.getRestaurant().getPartyManager(partyID).takeOrder();
-	}
-	
-	@Override
-	public void initiateCheckout(int partyID){
-		this.getRestaurant().getPartyManager(partyID).pay(partyID);
-	}
-	
-	/**
-	 * Gets the customer names from the customers and stores them in a list.
-	 */
-	@Override
-	public List<String> setCustomerNames(int partySize){
-		List<String>people = new ArrayList<String>();
+	public void display(String string) {
+		// TODO Auto-generated method stub
 		
-		for (int i = 0; i<partySize; i++){
-			int temp = i + 1;
-			String output = "Enter customer "+temp+" (first and last name): ";
-			System.out.print(output);
-			people.add(getLineFromUser());
-		}
-		System.out.println();
-		return people;
 	}
 	
 	/**
-	 * Display the options a user has to choose from.
+	 * Displays the process for patrons to checkout
 	 */
 	@Override
-	public void displayOrderingChoices(){
-		System.out.println("Choose 0, 1, 2, 3, or 4 for the following choices.");
-		System.out.println("0) Add item to ticket.");
-		System.out.println("1) Remove item from ticket.");
-		System.out.println("2) View your ticket.");
-		System.out.println("3) Submit order");
-		System.out.println("4) Cancel order");
-		System.out.println();
-		return;
-	}
-	
-	/**
-	 * Display the menu to the user.
-	 * @param isFood - true for food, false for drinks.
-	 */
-	@Override
-	public void displayMenuItems(boolean isFood){
-		System.out.println("Choose the number of the item you want:");
-		System.out.println(super.getRestaurant().getMenu().displayMenu(isFood));
-	}
-	
-	/**
-	 * Displays the remove instruction to the user.
-	 */
-	@Override
-	public void displayRemoveInstruction(){
-		System.out.println("Choose the number of the item you want to remove:");
+	public void displayCheckout() {
+		System.out.println("Are you sure you want to checkout?");
+		System.out.println("Choose 1 for yes or 2 for no: ");
 	}
 	
 	/**
@@ -110,22 +61,6 @@ public class CustomerCLI extends UserCLI implements CustomerUI {
 			String name = j +") " + it.next();
 			System.out.println(name);
 			j++;
-		}
-		System.out.println();
-	}
-	
-	/**
-	 * Displays the items that are in the ticket currently being made.
-	 * @param items - items in the ticket
-	 * @param custNames - list of customer names.
-	 */
-	@Override
-	public void displayItemsInList(List<MenuItem> items){
-		ListIterator<MenuItem> iterator = items.listIterator();
-		int i = 0;
-		while (iterator.hasNext()){
-			printLine(i+") "+iterator.next().toString());
-			i++;
 		}
 		System.out.println();
 	}
@@ -149,15 +84,106 @@ public class CustomerCLI extends UserCLI implements CustomerUI {
 		System.out.println("Invalid option.");
 		System.out.println();
 	}
+	
 	/**
-	 * Displays the process for patrons to checkout
+	 * Displays the items that are in the ticket currently being made.
+	 * @param items - items in the ticket
+	 * @param custNames - list of customer names.
 	 */
 	@Override
-	public void displayCheckout() {
-		System.out.println("Are you sure you want to checkout?");
-		System.out.println("Choose 1 for yes or 2 for no: ");
+	public void displayItemsInList(List<MenuItem> items){
+		ListIterator<MenuItem> iterator = items.listIterator();
+		int i = 0;
+		while (iterator.hasNext()){
+			printLine(i+") "+iterator.next().toString());
+			i++;
+		}
+		System.out.println();
 	}
 	
+	/**
+	 * Display the menu to the user.
+	 * @param isFood - true for food, false for drinks.
+	 */
+	@Override
+	public void displayMenuItems(boolean isFood){
+		System.out.println("Choose the number of the item you want:");
+		System.out.println(super.getRestaurant().getMenu().displayMenu(isFood));
+	}
+	
+	/**
+	 * Display the options a user has to choose from.
+	 */
+	@Override
+	public void displayOrderingChoices(){
+		System.out.println("Choose 0, 1, 2, 3, or 4 for the following choices.");
+		System.out.println("0) Add item to ticket.");
+		System.out.println("1) Remove item from ticket.");
+		System.out.println("2) View your ticket.");
+		System.out.println("3) Submit order");
+		System.out.println("4) Cancel order");
+		System.out.println();
+		return;
+	}
+	
+	@Override
+	public void displayPayWhenReady() {
+		System.out.println("Please pay when you are ready.");
+		
+	}
+	
+	/**
+	 * Displays the total of a receipt
+	 */
+	@Override
+	public void displayReceipt(Receipt receipt) {
+		printLine(receipt.toString());
+	}
+	/**
+	 * Displays the total amount of receipts for a table and their associated check number and total
+	 */
+	@Override
+	public void displayReceipts(List<Receipt> receipts) {
+		ListIterator<Receipt> receiptit = receipts.listIterator();
+		while (receiptit.hasNext()){
+			displayReceipt(receiptit.next());
+		}
+	}
+	
+	/**
+	 * Displays the remove instruction to the user.
+	 */
+	@Override
+	public void displayRemoveInstruction(){
+		System.out.println("Choose the number of the item you want to remove:");
+	}
+
+	@Override
+	public void displayThanks() {
+		System.out.println("Thank you. Please come again.");
+	}
+	@Override
+	public int getSplit(){
+		System.out.println("How many ways would you like to split the check?: ");
+		int split = this.getIntegerFromUser();
+		return split;
+	}
+	
+	@Override
+	public void initiateCheckout(int partyID){
+		this.getRestaurant().getPartyManager(partyID).pay(partyID);
+	}
+
+
+	/**
+	 * Starts the whole ordering procedure for a specific party.
+	 * @param partyID
+	 */
+	@Override
+	public void initiateOrdering(int partyID){
+		this.getRestaurant().getPartyManager(partyID).takeOrder();
+	}
+
 	@Override
 	public List<Integer> setCheckNames(List<String>custNames, int split, int num) {
 		List<Integer> checkNames = new ArrayList<Integer>();
@@ -185,46 +211,20 @@ public class CustomerCLI extends UserCLI implements CustomerUI {
 	}
 
 	/**
-	 * Displays the total of a receipt
+	 * Gets the customer names from the customers and stores them in a list.
 	 */
 	@Override
-	public void displayReceipt(Receipt receipt) {
-		printLine(receipt.toString());
-	}
-	/**
-	 * Displays the total amount of receipts for a table and their associated check number and total
-	 */
-	@Override
-	public void displayReceipts(List<Receipt> receipts) {
-		ListIterator<Receipt> receiptit = receipts.listIterator();
-		while (receiptit.hasNext()){
-			displayReceipt(receiptit.next());
+	public List<String> setCustomerNames(int partySize){
+		List<String>people = new ArrayList<String>();
+		
+		for (int i = 0; i<partySize; i++){
+			int temp = i + 1;
+			String output = "Enter customer "+temp+" (first and last name): ";
+			System.out.print(output);
+			people.add(getLineFromUser());
 		}
-	}
-	
-	@Override
-	public int getSplit(){
-		System.out.println("How many ways would you like to split the check?: ");
-		int split = this.getIntegerFromUser();
-		return split;
-	}
-
-
-	@Override
-	public void displayThanks() {
-		System.out.println("Thank you. Please come again.");
-	}
-
-	@Override
-	public void displayPayWhenReady() {
-		System.out.println("Please pay when you are ready.");
-		
-	}
-
-	@Override
-	public void display(String string) {
-		// TODO Auto-generated method stub
-		
+		System.out.println();
+		return people;
 	}
 
 }

@@ -11,6 +11,32 @@ import java.util.ListIterator;
  */
 
 public class PartyManager {
+	private List<String>custNames;
+	
+	private JobManager jobs;
+	
+	private PaymentManager payments;
+	
+	private Hashtable<Integer, List<MenuItem>> tempDrinksByCustomerID;
+	
+	private Hashtable<Integer, List<MenuItem>> tempFoodByCustomerID;
+	
+	private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
+	
+	private List<Ticket> tickets;
+
+	private CustomerUI customerUI;
+    
+	private double total;
+	
+    private Restaurant restaurant;
+    
+    private int waiterID;
+
+	private List<Integer> tableNumbers;
+	
+	private boolean isAtBar;
+
 	/**
 	 * @param restaurant - reference back to restaurant
 	 * @param waiterID - waiter for this party
@@ -35,35 +61,6 @@ public class PartyManager {
 	}
 	
 	/**
-	 * re-initializes a given hashtable with a empty list as the value for each customer
-	 * @return initialized hashtable
-	 */
-	private Hashtable<Integer, List<MenuItem>> initializeHashtable() {
-		Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
-		for (int i = 0; i < custNames.size(); i++) {
-			hashtable.put(i, new ArrayList<MenuItem>());
-		}
-		return hashtable;
-	}
-	
-	/**
-	 * re-initializes temporary order hashtables and resets the total
-	 */
-	private void clearTemp() {
-		this.tempDrinksByCustomerID = initializeHashtable();
-		this.tempFoodByCustomerID = initializeHashtable();
-		total = 0;
-	}
-	
-	/**
-	 * Returns the PaymentManager.
-	 * @return payments.
-	 */
-	public PaymentManager getPaymentManager() {
-		return payments;
-	}
-	
-	/**
 	 * Adds an item to the appropriate list(food or drink).
 	 * @param item - a menu item.
 	 * @param customer - customer who ordered the item.
@@ -77,7 +74,128 @@ public class PartyManager {
 		}
 		total+= item.getPrice();
 	}
+	/**
+	 * re-initializes temporary order hashtables and resets the total
+	 */
+	private void clearTemp() {
+		this.tempDrinksByCustomerID = initializeHashtable();
+		this.tempFoodByCustomerID = initializeHashtable();
+		total = 0;
+	}
 	
+	/**
+	 * Gets the indices for customers
+	 * @return list of indices
+	 */
+	public List<Integer> getCustIndices(){
+		List<Integer> custInd = new ArrayList<Integer>();
+		ListIterator<String> it = custNames.listIterator();
+		int i = 0;
+		while(it.hasNext()){
+			custInd.add(i);
+			i++;
+		}
+		return custInd;
+	}
+	
+	/**
+	 * Returns the list of customer names in this party.
+	 * @return custNames.
+	 */
+	public List<String> getCustNames() {
+		return custNames;
+	}
+	
+	/**
+	 * Gets the items a particular customer ordered
+	 * @param customerID - number of customer
+	 * @return ordered menu items
+	 */
+	public List<MenuItem> getItemsForCustomerID(int customerID) {
+		return this.itemsByCustomerID.get(customerID);
+	}
+	/**
+	 * Returns the JobManager.
+	 * @return jobs.
+	 */
+	public JobManager getJobManager() {
+		return jobs;
+	}
+    /**
+	 * Returns the PaymentManager.
+	 * @return payments.
+	 */
+	public PaymentManager getPaymentManager() {
+		return payments;
+	}
+	/**
+	 * Returns the restaurant.
+	 * @return restaurant.
+	 */
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+	/**
+     * Returns the tables associated with this party manager.
+     * @return - tableNumbers.
+     */
+	public List<Integer> getTableNumbers() {
+		return tableNumbers;
+	}
+	/**
+     * Returns the all the tickets this party manager has handled.
+     * @return tickets
+     */
+    List<Ticket>getTickets(){
+    	return tickets;
+    }
+	/**
+	 * Returns the waiterID for this table.
+	 * @return - waiterID.
+	 */
+	public int getWaiterID() {
+		return waiterID;
+	}
+	/**
+	 * re-initializes a given hashtable with a empty list as the value for each customer
+	 * @return initialized hashtable
+	 */
+	private Hashtable<Integer, List<MenuItem>> initializeHashtable() {
+		Hashtable<Integer, List<MenuItem>> hashtable = new Hashtable<Integer, List<MenuItem>>();
+		for (int i = 0; i < custNames.size(); i++) {
+			hashtable.put(i, new ArrayList<MenuItem>());
+		}
+		return hashtable;
+	}
+	/**
+	 * Tells whether this party is at the bar or not.
+	 * @return isAtBar.
+	 */
+	public boolean isAtBar() {
+		return isAtBar;
+	}
+	/**
+	 * Creates a ticket for the current order and sends out the job.
+	 */
+	void makeTicket() {
+		Ticket temp = new Ticket(tempFoodByCustomerID, tempDrinksByCustomerID, restaurant.getTicketNumber(), total);
+		tickets.add(temp);
+		jobs.assignProducingJob(temp);
+		for (int key : itemsByCustomerID.keySet()) {
+			List<MenuItem> customerItems = this.itemsByCustomerID.get(key);
+			customerItems.addAll(this.tempFoodByCustomerID.get(key));
+			customerItems.addAll(this.tempDrinksByCustomerID.get(key));
+		}
+		clearTemp();
+	}
+	/**
+	 * On checkout creates a Payment Manager which will handle creating
+	 * a receipt and handle sending out jobs to clean and free the table.
+	 */
+    void pay(int partyID){
+        this.restaurant.collectTickets(tickets);
+        this.payments.checkout(tickets, partyID);
+    }
 	/**
 	 * Removes an item from the appropriate list (food or drink).
 	 * @param item - a menu item.
@@ -93,22 +211,6 @@ public class PartyManager {
 		}
 		total -= item.getPrice();
 	}
-	
-	/**
-	 * Creates a ticket for the current order and sends out the job.
-	 */
-	void makeTicket() {
-		Ticket temp = new Ticket(tempFoodByCustomerID, tempDrinksByCustomerID, restaurant.getTicketNumber(), total);
-		tickets.add(temp);
-		jobs.assignProducingJob(temp);
-		for (int key : itemsByCustomerID.keySet()) {
-			List<MenuItem> customerItems = this.itemsByCustomerID.get(key);
-			customerItems.addAll(this.tempFoodByCustomerID.get(key));
-			customerItems.addAll(this.tempDrinksByCustomerID.get(key));
-		}
-		clearTemp();
-	}
-
 	/**
 	 * Takes an order from the customers.
 	 * Case 0 Takes user through adding an item to the ticket.
@@ -213,108 +315,6 @@ public class PartyManager {
 			}
 		}
 	}
-    
-	/**
-	 * On checkout creates a Payment Manager which will handle creating
-	 * a receipt and handle sending out jobs to clean and free the table.
-	 */
-    void pay(int partyID){
-        this.restaurant.collectTickets(tickets);
-        this.payments.checkout(tickets, partyID);
-    }
-	
-    /**
-     * Returns the all the tickets this party manager has handled.
-     * @return tickets
-     */
-    List<Ticket>getTickets(){
-    	return tickets;
-    }
-    
-    /**
-     * Returns the tables associated with this party manager.
-     * @return - tableNumbers.
-     */
-	public List<Integer> getTableNumbers() {
-		return tableNumbers;
-	}
-
-	/**
-	 * Returns the waiterID for this table.
-	 * @return - waiterID.
-	 */
-	public int getWaiterID() {
-		return waiterID;
-	}
-	
-	/**
-	 * Returns the restaurant.
-	 * @return restaurant.
-	 */
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	/**
-	 * Returns the list of customer names in this party.
-	 * @return custNames.
-	 */
-	public List<String> getCustNames() {
-		return custNames;
-	}
-	
-	/**
-	 * Gets the indices for customers
-	 * @return list of indices
-	 */
-	public List<Integer> getCustIndices(){
-		List<Integer> custInd = new ArrayList<Integer>();
-		ListIterator<String> it = custNames.listIterator();
-		int i = 0;
-		while(it.hasNext()){
-			custInd.add(i);
-			i++;
-		}
-		return custInd;
-	}
-	/**
-	 * Returns the JobManager.
-	 * @return jobs.
-	 */
-	public JobManager getJobManager() {
-		return jobs;
-	}
-	
-	/**
-	 * Tells whether this party is at the bar or not.
-	 * @return isAtBar.
-	 */
-	public boolean isAtBar() {
-		return isAtBar;
-	}
-	
-	/**
-	 * Gets the items a particular customer ordered
-	 * @param customerID - number of customer
-	 * @return ordered menu items
-	 */
-	public List<MenuItem> getItemsForCustomerID(int customerID) {
-		return this.itemsByCustomerID.get(customerID);
-	}
-	
-	private List<String>custNames;
-	private JobManager jobs;
-    private PaymentManager payments;
-	private Hashtable<Integer, List<MenuItem>> tempDrinksByCustomerID;
-	private Hashtable<Integer, List<MenuItem>> tempFoodByCustomerID;
-	private Hashtable<Integer, List<MenuItem>> itemsByCustomerID;
-	private List<Ticket> tickets;
-	private CustomerUI customerUI;
-	private double total;
-	private Restaurant restaurant;
-	private int waiterID;
-	private List<Integer> tableNumbers;
-	private boolean isAtBar;
 }
 
 

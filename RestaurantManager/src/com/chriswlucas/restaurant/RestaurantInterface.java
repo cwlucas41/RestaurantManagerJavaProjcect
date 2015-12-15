@@ -28,8 +28,8 @@ public class RestaurantInterface implements Interfaceable{
 	
 	
 	@Override
-	public WorkerUI getWorkerInterface() {
-		return workerInterface;
+	public CustomerUI getCustomerInterface() {
+		return customerInterface;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class RestaurantInterface implements Interfaceable{
 	}
 
 	@Override
-	public CustomerUI getCustomerInterface() {
-		return customerInterface;
+	public WorkerUI getWorkerInterface() {
+		return workerInterface;
 	}
 }

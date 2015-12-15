@@ -58,40 +58,71 @@ public class Restaurant implements Interfaceable{
 	}
 	
 	/**
-	 * Gets the party manager with the specified ID
-	 * @param partyID is the ID of a party
-	 * @return PartyManager matching partyID
+	 * Creates a new bar seat and adds it to the restaurant
+	 * @param tableNumber
+	 * @return boolean indicating if operation was successful
 	 */
-	public PartyManager getPartyManager(int partyID) {
-		return this.partyManagers.get(partyID);
+	public boolean addBarSeat(int tableNumber) {
+		if (!this.tables.containsKey(tableNumber)) {
+			this.tables.put(tableNumber, new BarSeat());
+			return true;
+		}
+		return false;
 	}
 	
 	
 	/**
-	 * Decided if an employeeID represents the kitchen or bar
-	 * @param employeeID
-	 * @return boolean indicating if the kitchen or bar is represented by the id
+	 * Adds a new busser to the Restaurant
+	 * @param employeeID to be added
+	 * @param name of employee
+	 * @return boolean indicating if operation was successful
 	 */
-	private boolean isKitchenOrBar(int employeeID){
-		if ((employeeID == this.kitchenID) || (employeeID == this.barID)) {
+	public boolean addBusser(int employeeID, String name) {
+		if (!this.allWorkers.containsKey(employeeID)){
+			Worker newBusser = new Worker(name, this);
+			this.bussers.put(employeeID, newBusser);
+			this.allWorkers.put(employeeID, newBusser);
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * checks if a worker represented by an ID is currently the waiter for a partyManager
-	 * @param employeeID
-	 * @return boolean indicating the the worker is a waiter for a partyManager
+	 * Passes menu item information to menu to add the item
+	 * @param name
+	 * @param price
+	 * @param isFood
 	 */
-	private boolean WorkerIsWaiterForAParty(int employeeID) {
-		Set<Integer> keys = this.partyManagers.keySet();
-		for (int key : keys) {
-			if (partyManagers.get(key).getWaiterID() == employeeID) {
-				return true;
-			}
+	public void addMenuItem(String name, double price, boolean isFood) {
+		this.menu.addMenuItem(name, price, isFood);
+	}
+	
+	/**
+	 * Creates a new table and adds it to the restaurant
+	 * @param tableNumber
+	 * @param numberOfSeats
+	 * @return boolean indication if operation was successful
+	 */
+	public boolean addTable(int tableNumber,int numberOfSeats) {
+		if (!this.tables.containsKey(tableNumber)) {
+			this.tables.put(tableNumber, new Table(numberOfSeats));
+			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Adds a party to a waitlist
+	 * @param parytName identifier for party
+	 * @param partySize size of party
+	 * @param isAtBar if asserted, party will be added to bar waitlist, otherwise to normal waitlist
+	 */
+	public void addToWaitlist(String parytName, int partySize, boolean isAtBar) {
+		if (isAtBar) {
+			this.barWaitlist.put(parytName, partySize);
+		} else {
+			this.tableWaitlist.put(parytName, partySize);
+		}
 	}
 	
 	/**
@@ -112,250 +143,8 @@ public class Restaurant implements Interfaceable{
 		return false;
 	}
 	
-	/**
-	 * Adds a new busser to the Restaurant
-	 * @param employeeID to be added
-	 * @param name of employee
-	 * @return boolean indicating if operation was successful
-	 */
-	public boolean addBusser(int employeeID, String name) {
-		if (!this.allWorkers.containsKey(employeeID)){
-			Worker newBusser = new Worker(name, this);
-			this.bussers.put(employeeID, newBusser);
-			this.allWorkers.put(employeeID, newBusser);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Removes a waiter from the restaurant
-	 * @param employeeID 
-	 * @return removed waiter
-	 */
-	public Worker removeWaiter(int employeeID) {
-		if (this.waiters.containsKey(employeeID)) {
-			if ((this.waiters.get(employeeID).getNumberOfJobs() == 0) && !WorkerIsWaiterForAParty(employeeID) && !isKitchenOrBar(employeeID)) {
-				this.waiters.remove(employeeID);
-				this.bussers.remove(employeeID);
-				return this.allWorkers.remove(employeeID);
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Removes a busser from the restaurant
-	 * @param employeeID
-	 * @return removed busser
-	 */
-	public Worker removeBusser(int employeeID) {
-		if (this.bussers.containsKey(employeeID)) {
-			if ((this.bussers.get(employeeID).getNumberOfJobs() == 0) && !isKitchenOrBar(employeeID)) {
-				this.bussers.remove(employeeID);
-				return this.allWorkers.remove(employeeID);
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Creates a new table and adds it to the restaurant
-	 * @param tableNumber
-	 * @param numberOfSeats
-	 * @return boolean indication if operation was successful
-	 */
-	public boolean addTable(int tableNumber,int numberOfSeats) {
-		if (!this.tables.containsKey(tableNumber)) {
-			this.tables.put(tableNumber, new Table(numberOfSeats));
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Creates a new bar seat and adds it to the restaurant
-	 * @param tableNumber
-	 * @return boolean indicating if operation was successful
-	 */
-	public boolean addBarSeat(int tableNumber) {
-		if (!this.tables.containsKey(tableNumber)) {
-			this.tables.put(tableNumber, new BarSeat());
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Removes and returns a table from the restaurant
-	 * @param tableNumber
-	 * @return removed table
-	 */
-	public Table removeTable(int tableNumber) {
-		if (this.tables.containsKey(tableNumber)) {
-			if (!this.tables.get(tableNumber).isOccupied()) {
-				return this.tables.remove(tableNumber);
-			}
-		} 
-		return null;
-	}
-	
-	/**
-	 * Passes menu item information to menu to add the item
-	 * @param name
-	 * @param price
-	 * @param isFood
-	 */
-	public void addMenuItem(String name, double price, boolean isFood) {
-		this.menu.addMenuItem(name, price, isFood);
-	}
-	
-//	 /**
-//	  * Removes an item from the menu and returns it
-//	  * @param itemNumber
-//	  * @param isFood
-//	  * @return removed menu item
-//	  */
-//	public MenuItem removeMenuItem(int itemNumber, boolean isFood) {
-//		return this.menu.removeMenuItem(itemNumber, isFood);
-//	}
-	
-	/**
-	 * generates next partyID so IDs don't conflict and have consistent pattern
-	 * @return next party ID as int
-	 */
-	private int nextPartyID(){
-		return partyID++;
-	}	
-	
-	/**
-	 * Gets the menu
-	 * @return menu
-	 */
-	public Menu getMenu(){
-		return menu;
-	}
-	
-	/**
-	 * Gets the kitchen worker
-	 * @return kitchen
-	 */
-	public Worker getKitchen(){
-		return this.allWorkers.get(this.kitchenID);
-	}
-	
-	/**
-	 * Gets the bar worker
-	 * @return bar
-	 */
-	public Worker getBar(){
-		return this.allWorkers.get(this.barID);
-	}
-	
-	/**
-	 * Gets the waiter for a particular partyManager
-	 * @param partyManager
-	 * @return waiter for partyManager
-	 */
-	public Worker getWaiter(PartyManager partyManager){
-		return this.getWorker(partyManager.getWaiterID());
-	}
-	
-	/**
-	 * Finds an appropriate busser to be assigned a job
-	 * if isBar is asserted, the bar is returned because the bar busses parties seated at the bar
-	 * @param isBar
-	 * @return busser
-	 */
-	public Worker getBusser(boolean isBar){
-		if (isBar) {
-			return this.bussers.get(this.barID);
-		} else {
-			return bussers.get(getIDOfLeastBusyExceptBar(bussers));
-		}
-	}
-	
-	/**
-	 * Gets the ID of the least busy worker in a hashtable of workers
-	 * The bar is excluded from consideration and will not be returned
-	 * @param hashTable of workers
-	 * @return workerID
-	 */
-	private int getIDOfLeastBusyExceptBar(Hashtable<Integer, Worker> hashTable) {
-		Set<Integer> keys = hashTable.keySet();
-		int leastToDoSoFar = Integer.MAX_VALUE;
-		int workerID = 0;
-		for (Integer key : keys) {
-			if (key != this.barID) {
-				Worker worker = hashTable.get(key);
-				int numberOfJobs = worker.getNumberOfJobs();
-				if (numberOfJobs < leastToDoSoFar) {
-					workerID = key;
-					leastToDoSoFar = numberOfJobs;
-				}
-			}
-		}
-		return workerID;
-	}
-	
-	/**
-	 * Gets the worker represented by the given ID
-	 * @param employeeID
-	 * @return worker with specified ID
-	 */
-	public Worker getWorker(int employeeID) {	
-		return this.allWorkers.get(employeeID);
-	}
-	
 	public void collectTickets(List<Ticket>tickets){
 		this.tickets.addAll(tickets);
-	}
-	
-	/**
-	 * Adds a party to a waitlist
-	 * @param parytName identifier for party
-	 * @param partySize size of party
-	 * @param isAtBar if asserted, party will be added to bar waitlist, otherwise to normal waitlist
-	 */
-	public void addToWaitlist(String parytName, int partySize, boolean isAtBar) {
-		if (isAtBar) {
-			this.barWaitlist.put(parytName, partySize);
-		} else {
-			this.tableWaitlist.put(parytName, partySize);
-		}
-	}
-	
-	/**
-	 * Gets the waitlist for normal tables
-	 * @return waitlist hashtable
-	 */
-	public Hashtable<String, Integer> getTableWaitlist() {
-		return tableWaitlist;
-	}
-	
-	/**
-	 * Gets the waitlist for the bar
-	 * @return waitlist hashtable
-	 */
-	public Hashtable<String, Integer> getBarWaitlist() {
-		return barWaitlist;
-	}
-	
-	/**
-	 * Gets the next ticket number to ensure uniqueness and a simple pattern
-	 * @return ticket number int
-	 */
-	public int getTicketNumber () {       
-		ticketNumber++;
-		return ticketNumber;
-	}
-	
-	/**
-	 * gets all of the stored tickets
-	 * @return a list of tickets
-	 */
-	public List<Ticket> getTickets() {
-		return tickets;
 	}
 	
 	/**
@@ -393,19 +182,191 @@ public class Restaurant implements Interfaceable{
 	}
 	
 	/**
-	 * Marks a list of table numbers as either occupied or not occupied
-	 * @param tableNumbers list
-	 * @param isOccupied selector
+	 * Gets the bar worker
+	 * @return bar
 	 */
-	public void markTablesIsOccupiedByNumberAs(List<Integer> tableNumbers, boolean isOccupied) {
-		for (int tableNumber : tableNumbers) {
-			Table table = this.tables.get(tableNumber);
-			if (isOccupied) {
-				table.setOccupied();
-			} else {
-				table.setNotOccupied();
+	public Worker getBar(){
+		return this.allWorkers.get(this.barID);
+	}
+	
+	/**
+	 * Gets the waitlist for the bar
+	 * @return waitlist hashtable
+	 */
+	public Hashtable<String, Integer> getBarWaitlist() {
+		return barWaitlist;
+	}
+	
+	/**
+	 * Finds an appropriate busser to be assigned a job
+	 * if isBar is asserted, the bar is returned because the bar busses parties seated at the bar
+	 * @param isBar
+	 * @return busser
+	 */
+	public Worker getBusser(boolean isBar){
+		if (isBar) {
+			return this.bussers.get(this.barID);
+		} else {
+			return bussers.get(getIDOfLeastBusyExceptBar(bussers));
+		}
+	}
+	
+//	 /**
+//	  * Removes an item from the menu and returns it
+//	  * @param itemNumber
+//	  * @param isFood
+//	  * @return removed menu item
+//	  */
+//	public MenuItem removeMenuItem(int itemNumber, boolean isFood) {
+//		return this.menu.removeMenuItem(itemNumber, isFood);
+//	}
+	
+	@Override
+	public CustomerUI getCustomerInterface() {
+		return this.restaurantInterface.getCustomerInterface();
+	}	
+	
+	@Override
+	public HostUI getHostInterface() {
+		return this.restaurantInterface.getHostInterface();
+	}
+	
+	/**
+	 * Gets the ID of the least busy worker in a hashtable of workers
+	 * The bar is excluded from consideration and will not be returned
+	 * @param hashTable of workers
+	 * @return workerID
+	 */
+	private int getIDOfLeastBusyExceptBar(Hashtable<Integer, Worker> hashTable) {
+		Set<Integer> keys = hashTable.keySet();
+		int leastToDoSoFar = Integer.MAX_VALUE;
+		int workerID = 0;
+		for (Integer key : keys) {
+			if (key != this.barID) {
+				Worker worker = hashTable.get(key);
+				int numberOfJobs = worker.getNumberOfJobs();
+				if (numberOfJobs < leastToDoSoFar) {
+					workerID = key;
+					leastToDoSoFar = numberOfJobs;
+				}
 			}
 		}
+		return workerID;
+	}
+	
+	/**
+	 * Gets the kitchen worker
+	 * @return kitchen
+	 */
+	public Worker getKitchen(){
+		return this.allWorkers.get(this.kitchenID);
+	}
+	
+	@Override
+	public ManagerUI getManagerInterface() {
+		return this.restaurantInterface.getManagerInterface();
+	}
+	
+	/**
+	 * Gets the menu
+	 * @return menu
+	 */
+	public Menu getMenu(){
+		return menu;
+	}
+	
+	/**
+	 * Gets the party manager with the specified ID
+	 * @param partyID is the ID of a party
+	 * @return PartyManager matching partyID
+	 */
+	public PartyManager getPartyManager(int partyID) {
+		return this.partyManagers.get(partyID);
+	}
+	
+	/**
+	 * Returns key set of all Bussers
+	 * @return key set
+	 */
+	public Set<Integer> getSetOfAllBusserIDs() {
+		return this.bussers.keySet();
+	}
+	
+	/**
+	 * Returns key set of all Producers
+	 * @return key set
+	 */
+	public Set<Integer> getSetOFAllProducerIDs() {
+		Set<Integer> ids = new TreeSet<Integer>();
+		ids.add(this.kitchenID);
+		ids.add(this.barID);
+		return ids;
+	}
+	
+	/**
+	 * Returns key set of all Waiters
+	 * @return key set
+	 */
+	public Set<Integer> getSetOfAllWaiterIDs() {
+		return this.waiters.keySet();
+	}
+	
+	/**
+	 * Returns key set of all Workers
+	 * @return key set
+	 */
+	public Set<Integer> getSetOfAllWorkersIDs() {
+		return this.allWorkers.keySet();
+	}
+	
+	/**
+	 * Returns key set of all partyManagers
+	 * @return key set
+	 */
+	public Set<Integer> getSetOfPartyNumbers() {
+		return this.partyManagers.keySet();
+	}
+	
+	/**
+	 * Returns key set of all Tables
+	 * @return key set
+	 */
+	public Set<Integer> getSetOfTableNumbers() {
+		return this.tables.keySet();
+	}
+	
+	/**
+	 * gets the table with the provided number
+	 * @param tableNumber
+	 * @return table with given number
+	 */
+	public Table getTable(int tableNumber) {
+		return this.tables.get(tableNumber);
+	}
+	
+	/**
+	 * Gets the waitlist for normal tables
+	 * @return waitlist hashtable
+	 */
+	public Hashtable<String, Integer> getTableWaitlist() {
+		return tableWaitlist;
+	}
+	
+	/**
+	 * Gets the next ticket number to ensure uniqueness and a simple pattern
+	 * @return ticket number int
+	 */
+	public int getTicketNumber () {       
+		ticketNumber++;
+		return ticketNumber;
+	}
+	
+	/**
+	 * gets all of the stored tickets
+	 * @return a list of tickets
+	 */
+	public List<Ticket> getTickets() {
+		return tickets;
 	}
 	
 	/**
@@ -429,82 +390,121 @@ public class Restaurant implements Interfaceable{
 	}
 	
 	/**
-	 * Returns key set of all Workers
-	 * @return key set
+	 * Gets the waiter for a particular partyManager
+	 * @param partyManager
+	 * @return waiter for partyManager
 	 */
-	public Set<Integer> getSetOfAllWorkersIDs() {
-		return this.allWorkers.keySet();
+	public Worker getWaiter(PartyManager partyManager){
+		return this.getWorker(partyManager.getWaiterID());
 	}
 	
 	/**
-	 * Returns key set of all Producers
-	 * @return key set
+	 * Gets the worker represented by the given ID
+	 * @param employeeID
+	 * @return worker with specified ID
 	 */
-	public Set<Integer> getSetOFAllProducerIDs() {
-		Set<Integer> ids = new TreeSet<Integer>();
-		ids.add(this.kitchenID);
-		ids.add(this.barID);
-		return ids;
+	public Worker getWorker(int employeeID) {	
+		return this.allWorkers.get(employeeID);
 	}
 	
-	/**
-	 * Returns key set of all Waiters
-	 * @return key set
-	 */
-	public Set<Integer> getSetOfAllWaiterIDs() {
-		return this.waiters.keySet();
-	}
-	
-	/**
-	 * Returns key set of all Bussers
-	 * @return key set
-	 */
-	public Set<Integer> getSetOfAllBusserIDs() {
-		return this.bussers.keySet();
-	}
-	
-	/**
-	 * Returns key set of all Tables
-	 * @return key set
-	 */
-	public Set<Integer> getSetOfTableNumbers() {
-		return this.tables.keySet();
-	}
-	
-	/**
-	 * Returns key set of all partyManagers
-	 * @return key set
-	 */
-	public Set<Integer> getSetOfPartyNumbers() {
-		return this.partyManagers.keySet();
-	}
-	
-	/**
-	 * gets the table with the provided number
-	 * @param tableNumber
-	 * @return table with given number
-	 */
-	public Table getTable(int tableNumber) {
-		return this.tables.get(tableNumber);
-	}
-
 	@Override
 	public WorkerUI getWorkerInterface() {
 		return this.restaurantInterface.getWorkerInterface();
 	}
-
-	@Override
-	public HostUI getHostInterface() {
-		return this.restaurantInterface.getHostInterface();
-	}
-
-	@Override
-	public ManagerUI getManagerInterface() {
-		return this.restaurantInterface.getManagerInterface();
+	
+	/**
+	 * Decided if an employeeID represents the kitchen or bar
+	 * @param employeeID
+	 * @return boolean indicating if the kitchen or bar is represented by the id
+	 */
+	private boolean isKitchenOrBar(int employeeID){
+		if ((employeeID == this.kitchenID) || (employeeID == this.barID)) {
+			return true;
+		}
+		return false;
 	}
 	
-	@Override
-	public CustomerUI getCustomerInterface() {
-		return this.restaurantInterface.getCustomerInterface();
+	/**
+	 * Marks a list of table numbers as either occupied or not occupied
+	 * @param tableNumbers list
+	 * @param isOccupied selector
+	 */
+	public void markTablesIsOccupiedByNumberAs(List<Integer> tableNumbers, boolean isOccupied) {
+		for (int tableNumber : tableNumbers) {
+			Table table = this.tables.get(tableNumber);
+			if (isOccupied) {
+				table.setOccupied();
+			} else {
+				table.setNotOccupied();
+			}
+		}
+	}
+	
+	/**
+	 * generates next partyID so IDs don't conflict and have consistent pattern
+	 * @return next party ID as int
+	 */
+	private int nextPartyID(){
+		return partyID++;
+	}
+
+	/**
+	 * Removes a busser from the restaurant
+	 * @param employeeID
+	 * @return removed busser
+	 */
+	public Worker removeBusser(int employeeID) {
+		if (this.bussers.containsKey(employeeID)) {
+			if ((this.bussers.get(employeeID).getNumberOfJobs() == 0) && !isKitchenOrBar(employeeID)) {
+				this.bussers.remove(employeeID);
+				return this.allWorkers.remove(employeeID);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Removes and returns a table from the restaurant
+	 * @param tableNumber
+	 * @return removed table
+	 */
+	public Table removeTable(int tableNumber) {
+		if (this.tables.containsKey(tableNumber)) {
+			if (!this.tables.get(tableNumber).isOccupied()) {
+				return this.tables.remove(tableNumber);
+			}
+		} 
+		return null;
+	}
+
+	/**
+	 * Removes a waiter from the restaurant
+	 * @param employeeID 
+	 * @return removed waiter
+	 */
+	public Worker removeWaiter(int employeeID) {
+		if (this.waiters.containsKey(employeeID)) {
+			if ((this.waiters.get(employeeID).getNumberOfJobs() == 0) && !WorkerIsWaiterForAParty(employeeID) && !isKitchenOrBar(employeeID)) {
+				this.waiters.remove(employeeID);
+				this.bussers.remove(employeeID);
+				return this.allWorkers.remove(employeeID);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * checks if a worker represented by an ID is currently the waiter for a partyManager
+	 * @param employeeID
+	 * @return boolean indicating the the worker is a waiter for a partyManager
+	 */
+	private boolean WorkerIsWaiterForAParty(int employeeID) {
+		Set<Integer> keys = this.partyManagers.keySet();
+		for (int key : keys) {
+			if (partyManagers.get(key).getWaiterID() == employeeID) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

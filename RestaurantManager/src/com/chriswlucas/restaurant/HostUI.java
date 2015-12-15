@@ -10,6 +10,20 @@ import java.util.List;
 public interface HostUI {
 	
 	/**
+	 * Adds new party to waitlist
+	 * @param isAtBar - controls which waitlist party is added to
+	 */
+	public void addNewPartyToWaitlist(boolean isAtBar);
+	
+	/**
+	 * Interface for assigning subset of free tables to a party of a particular size
+	 * @param isAtBar - controls which tables are available to choose from
+	 * @param partySize
+	 * @return keys for assigned tables
+	 */
+	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize);
+	
+	/**
 	 * Enters into host event loop
 	 */
 	public void controlHost();
@@ -20,10 +34,11 @@ public interface HostUI {
 	public void displayAllActiveParties();
 	
 	/**
-	 * Adds new party to waitlist
-	 * @param isAtBar - controls which waitlist party is added to
+	 * Displays the unoccupied tables to the host
+	 * @param isAtBar - controls which table, normal or bar seats, are displayed
+	 * @return keys of free tables
 	 */
-	public void addNewPartyToWaitlist(boolean isAtBar);
+	public List<Integer> displayFreeTables(boolean isAtBar);
 	
 	/**
 	 * Displays a waitlist
@@ -37,19 +52,4 @@ public interface HostUI {
 	 * @param isAtBar - controls which waitlist is pulled from, and where party is seated
 	 */
 	public void seatCustomers(boolean isAtBar);
-	
-	/**
-	 * Displays the unoccupied tables to the host
-	 * @param isAtBar - controls which table, normal or bar seats, are displayed
-	 * @return keys of free tables
-	 */
-	public List<Integer> displayFreeTables(boolean isAtBar);
-	
-	/**
-	 * Interface for assigning subset of free tables to a party of a particular size
-	 * @param isAtBar - controls which tables are available to choose from
-	 * @param partySize
-	 * @return keys for assigned tables
-	 */
-	public List<Integer> assignTableNumbers(boolean isAtBar, int partySize);
 }

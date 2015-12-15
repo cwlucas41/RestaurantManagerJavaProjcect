@@ -14,45 +14,36 @@ public class SimulateRestaurant {
 	private static Scanner scanner = new Scanner(System.in);
 
 	/**
-	 * main method
-	 * sets up restaurant then enters event loop
-	 * @param args
+	 * convenience method to prompt the user and get an integer
+	 * @return integer from user
 	 */
-	public static void main(String[] args) {
-		System.out.println("Simulation started");
-		Restaurant r = initializeRestaurant();
+	private static int getIntegerFromUser(){
+		System.out.print(">> ");
+		int data = scanner.nextInt();
+		scanner.nextLine();
+		System.out.println();
+		return data;
+	}
+	
+	/**
+	 * convenience method
+	 * gets an integer from user and checks for integer's membership in a set
+	 * keeps prompting the user until a valid integer is entered
+	 * @param set
+	 * @return integer that is member of set
+	 */
+	private static int getIntegerFromUserThatIsInSet(Set<Integer> set) {
+		int choice = getIntegerFromUser();
 		boolean isFinished = false;
 		while (!isFinished) {
-			System.out.println("\nChoose next type of person to control in the restaurant");
-			System.out.println("-1) End simulation");
-			System.out.println("0) Manager");
-			System.out.println("1) Host");
-			System.out.println("2) Worker");
-			System.out.println("3) Customer");
-			int choice = getIntegerFromUser();
-			switch (choice) {
-			case -1:
+			if (set.contains(choice)) {
 				isFinished = true;
-				break;
-			case 0:
-				r.getManagerInterface().controlManager();
-				break;
-			case 1:
-				r.getHostInterface().controlHost();
-				break;
-			case 2:
-				r.getManagerInterface().displayAllWorkers();
-				System.out.println("Choose a worker by entering their ID");
-				r.getWorkerInterface().controlWorker(getIntegerFromUserThatIsInSet(r.getSetOfAllWorkersIDs()));
-				break;
-			case 3:
-				r.getHostInterface().displayAllActiveParties();
-				System.out.println("Choose a party by entering its ID");
-				r.getCustomerInterface().controlCustomer(getIntegerFromUserThatIsInSet(r.getSetOfPartyNumbers()));
-				break;
+			} else {
+				System.out.println("Invalid choice, try again");
+				choice = getIntegerFromUser();
 			}
 		}
-		System.out.println("Simulation ended");
+		return choice;
 	}
 	
 	/**
@@ -91,35 +82,50 @@ public class SimulateRestaurant {
 	}
 	
 	/**
-	 * convenience method to prompt the user and get an integer
-	 * @return integer from user
+	 * main method
+	 * sets up restaurant then enters event loop
+	 * @param args
 	 */
-	private static int getIntegerFromUser(){
-		System.out.print(">> ");
-		int data = scanner.nextInt();
-		scanner.nextLine();
-		System.out.println();
-		return data;
-	}
-	
-	/**
-	 * convenience method
-	 * gets an integer from user and checks for integer's membership in a set
-	 * keeps prompting the user until a valid integer is entered
-	 * @param set
-	 * @return integer that is member of set
-	 */
-	private static int getIntegerFromUserThatIsInSet(Set<Integer> set) {
-		int choice = getIntegerFromUser();
+	public static void main(String[] args) {
+		System.out.println("Simulation started");
+		Restaurant r = initializeRestaurant();
 		boolean isFinished = false;
 		while (!isFinished) {
-			if (set.contains(choice)) {
+			System.out.println("\nChoose next type of person to control in the restaurant");
+			System.out.println("-1) End simulation");
+			System.out.println("0) Manager");
+			System.out.println("1) Host");
+			System.out.println("2) Worker");
+			System.out.println("3) Customer");
+			int choice = getIntegerFromUser();
+			switch (choice) {
+			case -1:
 				isFinished = true;
-			} else {
-				System.out.println("Invalid choice, try again");
-				choice = getIntegerFromUser();
+				break;
+			case 0:
+				r.getManagerInterface().controlManager();
+				break;
+			case 1:
+				r.getHostInterface().controlHost();
+				break;
+			case 2:
+				r.getManagerInterface().displayAllWorkers();
+				System.out.println("Choose a worker by entering their ID, -1 to exit");
+				Integer employeeID = getIntegerFromUserThatIsInSet(r.getSetOfAllWorkersIDs());
+				if (employeeID != null) {
+					r.getWorkerInterface().controlWorker(employeeID);
+				}
+				break;
+			case 3:
+				r.getHostInterface().displayAllActiveParties();
+				System.out.println("Choose a party by entering its ID, -1 to exit");
+				Integer partyID = getIntegerFromUserThatIsInSet(r.getSetOfAllWorkersIDs());
+				if (partyID != null) {
+					r.getCustomerInterface().controlCustomer(partyID);
+				}
+				break;
 			}
 		}
-		return choice;
+		System.out.println("Simulation ended");
 	}
 }
